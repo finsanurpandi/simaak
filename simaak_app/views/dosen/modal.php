@@ -7,12 +7,13 @@
         <h4 class="modal-title" id="myModalLabel">Edit Profile Picture</h4>
       </div>
       <div class="modal-body">
-        <form method="post" action="<?=base_url()?>mahasiswa/editPicture" enctype="multipart/form-data">
+        <form method="post" action="<?=base_url()?>dosen/editPicture" enctype="multipart/form-data">
 		    <div class="form-group">
 		      	<label for="gambar">Image</label>
 		      	<input class="form-control" type="file" name="gambar">
             <br/>
             <p class="text-danger">*Max size 1Mb</p>
+            <p class="text-danger">*Disarankan ratio image 1:1 atau <em>square</em></p>
 		    </div>
             
       </div>
@@ -36,19 +37,26 @@
         <h4 class="modal-title" id="myModalLabel">Ganti Password</h4>
       </div>
       <div class="modal-body">
-        <form method="post" action="<?=base_url()?>mahasiswa/ubahPassword">
-        <div class="form-group">
+        <form method="post" action="<?=base_url()?>dosen/ubahPassword">
+        
+        <div class="form-group has-feedback" id="formPassNow">
             <label for="gambar">Password Sekarang</label>
             <input class="form-control" type="password" name="current_pass" id="current_pass">
+            <span id="feedbackPassNowTrue" class="glyphicon glyphicon-ok form-control-feedback text-success" aria-hidden="true"></span>
+            <span id="feedbackPassNowFalse" class="glyphicon glyphicon-remove form-control-feedback text-danger" aria-hidden="true"></span>
             <div id="status_current" class=""></div>
         </div>
-        <div class="form-group">
+        <div class="form-group has-feedback" id="formPassNew">
             <label for="gambar">Password Baru</label>
             <input class="form-control" type="password" name="new_pass" id="new_pass">
+            <span id="feedbackPassNewTrue" class="glyphicon glyphicon-ok form-control-feedback text-success" aria-hidden="true"></span>
+            <span id="feedbackPassNewFalse" class="glyphicon glyphicon-remove form-control-feedback text-danger" aria-hidden="true"></span>
         </div>
-        <div class="form-group">
+        <div class="form-group has-feedback" id="formPassCurr">
             <label for="gambar">Konfirmasi Password Baru</label>
             <input class="form-control" type="password" name="confirm_pass" id="confirm_pass">
+            <span id="feedbackPassCurrTrue" class="glyphicon glyphicon-ok form-control-feedback text-success" aria-hidden="true"></span>
+            <span id="feedbackPassCurrFalse" class="glyphicon glyphicon-remove form-control-feedback text-danger" aria-hidden="true"></span>
             <div id="status_new" class=""></div>
         </div>
         
@@ -67,4 +75,5 @@
 
 <script>
   var pass = "<?=$this->session->pass?>";
+  var baseurl = "<?=base_url()?>";
 </script>

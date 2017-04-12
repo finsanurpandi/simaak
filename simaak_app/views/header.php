@@ -20,7 +20,7 @@
   <!-- iCheck -->
   <link rel="stylesheet" href="<?=base_url('assets/plugins')?>/iCheck/flat/blue.css">
   <!-- Morris chart -->
-  <link rel="stylesheet" href="<?=base_url('assets/plugins')?>/morris/morris.css">
+  <!-- <link rel="stylesheet" href="<?=base_url('assets/plugins')?>/morris/morris.css"> -->
   <!-- jvectormap -->
   <link rel="stylesheet" href="<?=base_url('assets/plugins')?>/jvectormap/jquery-jvectormap-1.2.2.css">
   <!-- Date Picker -->

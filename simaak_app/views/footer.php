@@ -25,7 +25,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- Morris.js charts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="<?=base_url('assets/plugins')?>/morris/morris.min.js"></script>
+<!-- <script src="<?=base_url('assets/plugins')?>/morris/morris.min.js"></script> -->
 <!-- Sparkline -->
 <script src="<?=base_url('assets/plugins')?>/sparkline/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->

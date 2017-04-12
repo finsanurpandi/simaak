@@ -42,7 +42,7 @@ class Login extends CI_Controller {
 		// $cek = $this->m_login->count_user($username, password_hash(md5($password), PASSWORD_BCRYPT))->result_array();
 		$count = $this->m_login->count_user($username, md5($password))->num_rows();
 		$cek = $this->m_login->count_user($username, md5($password))->result_array();
-		
+
 		//set date
 		date_default_timezone_set("Asia/Bangkok");
 		$date = new DateTime();
@@ -68,6 +68,7 @@ class Login extends CI_Controller {
 
 		if ($count == 1) {
 			$role = $cek[0]['role'];
+			// $prodi = $cek[0]['prodi'];
 			$user_login = array (
 					'login_in' => TRUE,
 					'username' => $username,

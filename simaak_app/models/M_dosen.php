@@ -33,10 +33,54 @@ class M_dosen extends CI_Model {
 	// 	}
 	// }
 
+	// function getAllData($table, $limit = null, $offset = null)
+	// {
+	// 	if (($limit !== null) && ($offset !== null)) {
+	// 		$query = $this->db->get($table, $limit, $offset);
+	// 	} else {
+	// 		$query = $this->db->get($table);	
+	// 	}
+		
+
+	// 	return $query;
+	// }
+
+	function getDataMahasiswa($table, $nidn, $limit = null, $offset = null)
+	{
+		if (($limit !== null) && ($offset !== null)) {
+			$query = $this->db->get_where($table, $nidn, $limit, $offset);
+		} else {
+			$query = $this->db->get_where($table, $nidn);
+		}
+
+		return $query;
+	}
+
+	function getDataUser ($table, $where)
+	{
+		$query = $this->db->get_where($table, $where, null, null);
+
+		$query = $query->result_array();
+
+		if ($query) {
+			return $query[0];
+		}
+	}
+
+	function searchData ($table, $nidn, $key, $row)
+	{
+		$this->db->like($row, $key);
+		$query = $this->db->get_where($table, $nidn);
+
+		$query = $query->result_array();
+
+		return $query;
+	}
+
 	function updateProfileImage($data, $user)
 	{
 		$this->db->where('nidn', $user);
-		$this->db->update($this->mhs, $data);
+		$this->db->update($this->dosen, $data);
 	}
 
 	function updatePassword($data, $user)

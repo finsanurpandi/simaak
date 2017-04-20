@@ -67,6 +67,31 @@ class M_dosen extends CI_Model {
 		}
 	}
 
+	function getDataOrder($table, $where, $orderby)
+	{
+		foreach ($orderby as $key => $value) {
+				$this->db->order_by($key, $value);
+			}
+		$query = $this->db->get($table);
+		
+
+		return $query;
+	}
+
+	function getAllData($table, $where = null, $limit = null, $offset = null)
+	{
+		if (($limit !== null) && ($offset !== null)) {
+			$query = $this->db->get_where($table, $where, $limit, $offset);
+		} elseif ($where !== null) {
+			$query = $this->db->get_where($table, $where);
+		} else {
+			$query = $this->db->get($table);	
+		}
+		
+
+		return $query;
+	}
+
 	function searchData ($table, $nidn, $key, $row)
 	{
 		$this->db->like($row, $key);

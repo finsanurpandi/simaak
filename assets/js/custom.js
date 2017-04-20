@@ -1,3 +1,4 @@
+
 $('#feedbackPassNowTrue').hide();
 $('#feedbackPassNowFalse').hide();
 $('#feedbackPassNewTrue').hide();
@@ -208,35 +209,103 @@ function checkGolongan(){
     });
 };
 
+//EDIT DOSEN
 
+//PENDIDIKAN
+// OPERATOR DOSEN TAMBAH DATA PENDIDIKAN
+$('#btnTambahPendidikanDosen').click(function(){
+	var nidn = $(this).data('nidn');
+	$('#nidnTambahPendidikan').val(nidn);
+});
+
+// OPERATOR DOSEN EDIT DATA PENDIDIKAN
+$(document).on("click", '#btnEditPendidikanDosen', function(e){
+	var id = $(this).data('id');
+	var perguruantinggi = $(this).data('perguruantinggi');
+	var fakultas = $(this).data('fakultas');
+	var programstudi = $(this).data('programstudi');
+	var ipk = $(this).data('ipk');
+	var gelar = $(this).data('gelar');
+	var tahunlulus = $(this).data('tahunlulus');
+
+	$('#ideditpendidikan').val(id);
+	$('#pteditpendidikan').val(perguruantinggi);
+	$('#fakultaseditpendidikan').val(fakultas);
+	$('#prodieditpendidikan').val(programstudi);
+	$('#ipkeditpendidikan').val(ipk);
+	$('#gelareditpendidikan').val(gelar);
+	$('#luluseditpendidikan').val(tahunlulus);
+});
+
+// OPERATOR DOSEN HAPUS DATA PENDIDIKAN
+$(document).on("click", '#btnHapusDataPendidikanDosen', function(e){
+	var id = $(this).data('id');
+	$('#idpendidikan').val(id);
+});
+
+//PENELITIAN
+// OPERATOR DOSEN EDIT DATA PENELITIAN
+$(document).on("click", '#btnEditPenelitianDosen', function(e){
+	var id = $(this).data('id');
+	var judul = $(this).data('judul');
+	var bidang = $(this).data('bidang');
+	var lembaga = $(this).data('lembaga');
+	var penerbit = $(this).data('penerbit');
+	var tahun = $(this).data('tahun');
+
+	$('#ideditpenelitian').val(id);
+	$('#juduleditpenelitian').val(judul);
+	$('#bidangeditpenelitian').val(bidang);
+	$('#lembagaeditpenelitian').val(lembaga);
+	$('#penerbiteditpenelitian').val(penerbit);
+	$('#tahuneditpenelitian').val(tahun);
+	
+});
+
+// OPERATOR DOSEN HAPUS DATA PENELITIAN
+$(document).on("click", '#btnHapusDataPenelitianDosen', function(e){
+	var id = $(this).data('id');
+	$('#idpenelitian').val(id);
+});
 
 //SET MENU ACTIVE MAHASISWA
 if (role == 1) {
-	if (uri == '') {
-		$('#profil').remove('.active');
-		$('#nilai').remove('.active');
-		$('#perwalian').remove('.active');
-		$('#jadwal').remove('.active');
-	} else if (uri == 'profil') {
+	if ((dataProfil == 'false') || (dataOrtu == 'false') || (dataUpload == 'false')) {
 		$('#profil').addClass('active');
-		$('#nilai').remove('.active');
-		$('#perwalian').remove('.active');
-		$('#jadwal').remove('.active');
-	} else if (uri == 'studi') {
-		$('#nilai').addClass('active');
-		$('#profil').remove('.active');
-		$('#perwalian').remove('.active');
-		$('#jadwal').remove('.active');
-	} else if (uri == 'perwalian') {
-		$('#perwalian').addClass('active');
-		$('#profil').remove('.active');
-		$('#nilai').remove('.active');
-		$('#jadwal').remove('.active');
-	} else if (uri == 'perkuliahan') {
-		$('#jadwal').addClass('active');
-		$('#profil').remove('.active');
-		$('#nilai').remove('.active');
-		$('#perwalian').remove('.active');
+		$('#nilai').hide();
+		$('#perwalian').hide();
+		$('#jadwal').hide();
+	} else {
+		$('#nilai').show();
+		$('#perwalian').show();
+		$('#jadwal').show();
+
+		if (uri == '') {
+			$('#profil').remove('.active');
+			$('#nilai').remove('.active');
+			$('#perwalian').remove('.active');
+			$('#jadwal').remove('.active');
+		} else if (uri == 'profil') {
+			$('#profil').addClass('active');
+			$('#nilai').remove('.active');
+			$('#perwalian').remove('.active');
+			$('#jadwal').remove('.active');
+		} else if (uri == 'studi') {
+			$('#nilai').addClass('active');
+			$('#profil').remove('.active');
+			$('#perwalian').remove('.active');
+			$('#jadwal').remove('.active');
+		} else if (uri == 'perwalian') {
+			$('#perwalian').addClass('active');
+			$('#profil').remove('.active');
+			$('#nilai').remove('.active');
+			$('#jadwal').remove('.active');
+		} else if (uri == 'perkuliahan') {
+			$('#jadwal').addClass('active');
+			$('#profil').remove('.active');
+			$('#nilai').remove('.active');
+			$('#perwalian').remove('.active');
+		}
 	}
 };
 

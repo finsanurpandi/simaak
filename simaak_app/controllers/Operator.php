@@ -90,15 +90,16 @@ class Operator extends CI_Controller {
 	function profil()
 	{
 		$user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
-		// $user_alamat = $this->m_dosen->getAlamatDosen($this->session->userdata('username'));
+		$user_alamat = $this->m_operator->getDataUser('operator_alamat', array('username' => $this->session->userdata('username')));
 		$session = $this->session->userdata('login_in');
 
 		$data['error'] = $this->upload->display_errors();
 
 		$data['user'] = $user_akun;
-		// $data['alamat'] = $user_alamat;
+		$data['alamat'] = $user_alamat;
 
 		$data['role'] = $this->session->role;
+		$data['prodi'] = $this->m_operator->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
 
 		if ($session == TRUE) {
 			$this->load->view('header', $data);
@@ -152,7 +153,7 @@ class Operator extends CI_Controller {
 	function mahasiswa()
 	{
 		//pagination
-		$total = $this->m_operator->getAllData('mhs')->num_rows();
+		$total = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi))->num_rows();
 		$limit = 20;
 		$url = 'operator/mahasiswa';
 		$config = $this->configPagination($total, $limit, $url);
@@ -168,21 +169,25 @@ class Operator extends CI_Controller {
 
 		if (isset($search)) {
 			if ($this->input->post('search_key') == null) {
-				$mhs = $this->m_operator->getAllData('mhs', $limit, $data['page'])->result_array();	
+				$mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi), $limit, $data['page'])->result_array();	
+				$data['link'] = $this->pagination->create_links();
 			} else {
-				$mhs = $this->m_operator->searchData('mhs', $this->input->post('search_key'), $this->input->post('search_category'));
+				$mhs = $this->m_operator->searchData('mhs', array('kode_prodi' => $this->session->kode_prodi), $this->input->post('search_key'), $this->input->post('search_category'));
 			}
 		} else {
-			$mhs = $this->m_operator->getAllData('mhs', $limit, $data['page'])->result_array();	
+			$mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi), $limit, $data['page'])->result_array();	
+			$data['link'] = $this->pagination->create_links();
 		}
 		
-		$dosen = $this->m_operator->getAllData('dosen')->result_array();
+		$dosen = $this->m_operator->getAllData('dosen', array('kode_prodi' => $this->session->kode_prodi))->result_array();
+		$prodi = $this->m_operator->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
 
 		$data['user'] = $user_akun;
 		$data['mhs'] = $mhs;
 		$data['dosen'] = $dosen;
 		$data['role'] = $this->session->role;
-		$data['link'] = $this->pagination->create_links();
+		$data['prodi'] = $prodi;
+		// $data['link'] = $this->pagination->create_links();
 
 		if ($session == TRUE) {
 			$this->load->view('header', $data);
@@ -203,7 +208,9 @@ class Operator extends CI_Controller {
 			$account = array (
 				'username' => $nim,
 				'password' => md5($nim),
-				'role' => '1'
+				'role' => 1,
+				'kode_prodi' => $this->input->post('kode_prodi'),
+				'status' => 1
 				);
 
 			$mahasiswa = array (
@@ -211,7 +218,7 @@ class Operator extends CI_Controller {
 				'nama' => $this->input->post('nama'),
 				'angkatan' => $this->input->post('angkatan'),
 				'jenjang' => $this->input->post('jenjang'),
-				'prodi' => $this->input->post('prodi'),
+				'kode_prodi' => $this->input->post('kode_prodi'),
 				'jenis_kelamin' => $this->input->post('jenis_kelamin'),
 				'tempat_lahir' => ucfirst($this->input->post('tempat_lahir')),
 				'tanggal_lahir' => $this->input->post('tanggal_lahir'),
@@ -258,16 +265,16 @@ class Operator extends CI_Controller {
 
 		$key_nim = $this->encrypt->decode($nim);
 		$mhs = $this->m_operator->getDataUser('mhs', array('nim' => $key_nim));
-		$dosen = $this->m_operator->getAllData('dosen')->result_array();
+		$dosen = $this->m_operator->getAllData('dosen', array('kode_prodi' => $this->session->kode_prodi))->result_array();
 		$prodi = $this->m_operator->getAllData('program_studi')->result_array();
-		$jenjang = $this->m_operator->getAllData('jenjang_akademik')->result_array();
+		// $jenjang = $this->m_operator->getAllData('jenjang_akademik')->result_array();
 		
 
 		$data['user'] = $user_akun;
 		$data['mhs'] = $mhs;
 		$data['dosen'] = $dosen;
 		$data['prodi'] = $prodi;
-		$data['jenjang'] = $jenjang;
+		// $data['jenjang'] = $jenjang;
 		$data['role'] = $this->session->role;
 		$data['key'] = $key_nim;
 
@@ -288,7 +295,6 @@ class Operator extends CI_Controller {
 				'nama' => $this->input->post('nama'),
 				'angkatan' => $this->input->post('angkatan'),
 				'jenjang' => $this->input->post('jenjang'),
-				'prodi' => $this->input->post('prodi'),
 				'jenis_kelamin' => $this->input->post('jenis_kelamin'),
 				'tempat_lahir' => ucfirst($this->input->post('tempat_lahir')),
 				'tanggal_lahir' => $this->input->post('tanggal_lahir'),
@@ -309,7 +315,7 @@ class Operator extends CI_Controller {
 	function dosen()
 	{
 		//pagination
-		$total = $this->m_operator->getAllData('dosen')->num_rows();
+		$total = $this->m_operator->getAllData('dosen', array('kode_prodi' => $this->session->kode_prodi))->num_rows();
 		$limit = 20;
 		$url = 'operator/dosen';
 		$config = $this->configPagination($total, $limit, $url);
@@ -325,21 +331,25 @@ class Operator extends CI_Controller {
 
 		if (isset($search)) {
 			if ($this->input->post('search_key') == null) {
-				$dosen = $this->m_operator->getAllData('dosen', $limit, $data['page'])->result_array();	
+				$dosen = $this->m_operator->getAllData('dosen', array('kode_prodi' => $this->session->kode_prodi),$limit, $data['page'])->result_array();	
+				$data['link'] = $this->pagination->create_links();
 			} else {
-				$dosen = $this->m_operator->searchData('dosen', $this->input->post('search_key'), $this->input->post('search_category'));
+				$dosen = $this->m_operator->searchData('dosen', array('kode_prodi' => $this->session->kode_prodi),$this->input->post('search_key'), $this->input->post('search_category'));
 			}
 		} else {
-			$dosen = $this->m_operator->getAllData('dosen', $limit, $data['page'])->result_array();	
+			$dosen = $this->m_operator->getAllData('dosen', array('kode_prodi' => $this->session->kode_prodi),$limit, $data['page'])->result_array();	
+			$data['link'] = $this->pagination->create_links();
 		}
 		
 		// $dosen = $this->m_operator->getAllData('dosen')->result_array();
+		$prodi = $this->m_operator->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
 
 		$data['user'] = $user_akun;
 		// $data['mhs'] = $mhs;
 		$data['dosen'] = $dosen;
 		$data['role'] = $this->session->role;
-		$data['link'] = $this->pagination->create_links();
+		$data['prodi'] = $prodi;
+		// $data['link'] = $this->pagination->create_links();
 
 		if ($session == TRUE) {
 			$this->load->view('header', $data);
@@ -360,7 +370,9 @@ class Operator extends CI_Controller {
 			$account = array (
 				'username' => $nidn,
 				'password' => md5($nidn),
-				'role' => '2'
+				'role' => 2,
+				'kode_prodi' => $this->input->post('kode_prodi'),
+				'status' => 1
 				);
 
 			$dosen = array (
@@ -369,7 +381,7 @@ class Operator extends CI_Controller {
 				'nama' => $this->input->post('nama'),
 				'gelar_depan' => $this->input->post('gelar_depan'),
 				'gelar_belakang' => $this->input->post('gelar_belakang'),
-				'prodi' => $this->input->post('prodi'),
+				'kode_prodi' => $this->input->post('kode_prodi'),
 				'jenis_kelamin' => $this->input->post('jenis_kelamin'),
 				'jabatan_fungsional' => $this->input->post('jabatan_fungsional'),
 				'golongan' => $this->input->post('golongan'),
@@ -391,6 +403,9 @@ class Operator extends CI_Controller {
 		$prodi = $this->m_operator->getAllData('program_studi')->result_array();
 		$jabfung = $this->m_operator->getAllData('jabatan_fungsional')->result_array();
 		$golongan = $this->m_operator->getDataWhere('golongan', array('jabatan_fungsional' => $dosen['jabatan_fungsional']));
+		// $pendidikan = $this->m_operator->getAllData('dosen_pendidikan', array('nidn' => $key_nidn), null, null, array('tahun_lulus' => 'DESC'));
+		$pendidikan = $this->m_operator->getDataOrder('dosen_pendidikan', array('nidn' => $key_nidn), array('tahun_lulus' => 'DESC'));
+		$penelitian = $this->m_operator->getDataOrder('dosen_penelitian', array('nidn' => $key_nidn), array('tahun' => 'DESC'));
 
 		$data['user'] = $user_akun;
 		$data['dosen'] = $dosen;
@@ -399,16 +414,21 @@ class Operator extends CI_Controller {
 		$data['golongan'] = $golongan;
 		$data['role'] = $this->session->role;
 		$data['key'] = $key_nidn;
+		$data['nidndosen'] = $dosen['nidn'];
+		$data['pendidikan'] = $pendidikan->result_array();
+		$data['penelitian'] = $penelitian->result_array();
 
 		if ($session == TRUE) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('operator/detailDosen', $data);
+			$this->load->view('operator/modal', $data);
 			$this->load->view('footer');
 		} else {
 			redirect('login', 'refresh');
 		}
 
+		//ADD DATA DOSEN
 		$submit = $this->input->post('submit');
 
 		if (isset($submit)) {
@@ -418,7 +438,6 @@ class Operator extends CI_Controller {
 				'nama' => $this->input->post('nama'),
 				'gelar_depan' => $this->input->post('gelar_depan'),
 				'gelar_belakang' => $this->input->post('gelar_belakang'),
-				'prodi' => $this->input->post('prodi'),
 				'jenis_kelamin' => $this->input->post('jenis_kelamin'),
 				'jabatan_fungsional' => $this->input->post('jabatan_fungsional'),
 				'golongan' => $this->input->post('golongan'),
@@ -432,6 +451,96 @@ class Operator extends CI_Controller {
 			redirect($this->uri->uri_string());
 
 		}	
+
+		// ADD DATA PENDIDIKAN DOSEN
+		$addPendidikan = $this->input->post('tambahPendidikanDosen');
+
+		if (isset($addPendidikan)) {
+			$dosen = array (
+				'nidn' => $this->input->post('nidn'),
+				'perguruan_tinggi' => $this->input->post('perguruan_tinggi'),
+				'fakultas' => $this->input->post('fakultas'),
+				'program_studi' => $this->input->post('program_studi'),
+				'ipk' => $this->input->post('ipk'),
+				'gelar' => $this->input->post('gelar'),
+				'tahun_lulus' => $this->input->post('tahun_lulus')
+				);
+
+			$this->m_operator->insertAllData('dosen_pendidikan', $dosen);
+
+			redirect($this->uri->uri_string());
+
+		}
+
+		// EDIT DATA PENDIDIKAN DOSEN
+		$editPendidikan = $this->input->post('editPendidikanDosen');
+
+		if (isset($editPendidikan)) {
+			$dosen = array (
+				'perguruan_tinggi' => $this->input->post('perguruan_tinggi'),
+				'fakultas' => $this->input->post('fakultas'),
+				'program_studi' => $this->input->post('program_studi'),
+				'ipk' => $this->input->post('ipk'),
+				'gelar' => $this->input->post('gelar'),
+				'tahun_lulus' => $this->input->post('tahun_lulus')
+				);
+
+			$this->m_operator->updateData('dosen_pendidikan', $dosen, array('id' => $this->input->post('id')));
+
+			redirect($this->uri->uri_string());
+		}
+
+		// HAPUS DATA PENDIDIKAN
+		$deletePendidikan = $this->input->post('hapusDataPendidikan');
+		if (isset($deletePendidikan)) {
+			$this->m_operator->deleteData('dosen_pendidikan', array('id' => $this->input->post('id')));
+
+			redirect($this->uri->uri_string());			
+		}
+
+		// ADD DATA PENELITIAN DOSEN
+		$addPenelitian = $this->input->post('tambahPenelitianDosen');
+
+		if (isset($addPenelitian)) {
+			$dosen = array (
+				'nidn' => $this->input->post('nidn'),
+				'judul_penelitian' => $this->input->post('judul_penelitian'),
+				'bidang_ilmu' => $this->input->post('bidang_ilmu'),
+				'lembaga' => $this->input->post('lembaga'),
+				'penerbit' => $this->input->post('penerbit'),
+				'tahun' => $this->input->post('tahun')
+				);
+
+			$this->m_operator->insertAllData('dosen_penelitian', $dosen);
+
+			redirect($this->uri->uri_string());
+
+		}
+
+		// EDIT DATA PENELITIAN DOSEN
+		$editPenelitian = $this->input->post('editPenelitianDosen');
+
+		if (isset($editPenelitian)) {
+			$dosen = array (
+				'judul_penelitian' => $this->input->post('judul_penelitian'),
+				'bidang_ilmu' => $this->input->post('bidang_ilmu'),
+				'lembaga' => $this->input->post('lembaga'),
+				'penerbit' => $this->input->post('penerbit'),
+				'tahun' => $this->input->post('tahun')
+				);
+
+			$this->m_operator->updateData('dosen_penelitian', $dosen, array('id' => $this->input->post('id')));
+
+			redirect($this->uri->uri_string());
+		}
+
+		// HAPUS DATA PENELITIAN
+		$deletePenelitian = $this->input->post('hapusDataPenelitian');
+		if (isset($deletePenelitian)) {
+			$this->m_operator->deleteData('dosen_penelitian', array('id' => $this->input->post('id')));
+
+			redirect($this->uri->uri_string());			
+		}
 	}
 
 

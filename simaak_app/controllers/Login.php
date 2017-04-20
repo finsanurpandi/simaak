@@ -68,12 +68,16 @@ class Login extends CI_Controller {
 
 		if ($count == 1) {
 			$role = $cek[0]['role'];
-			// $prodi = $cek[0]['prodi'];
+			$kdprodi = $cek[0]['kode_prodi'];
 			$user_login = array (
 					'login_in' => TRUE,
 					'username' => $username,
 					'pass' => $password,
-					'role' => $role);
+					'role' => $role,
+					'kode_prodi' => $kdprodi,
+					'mhs_profil' => FALSE,
+					'mhs_ortu' => FALSE,
+					'mhs_upload' => FALSE);
 
 			$data = array(
 					'last_login' => $lastlogin,

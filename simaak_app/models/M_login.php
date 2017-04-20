@@ -13,6 +13,7 @@ class M_login extends CI_Model {
 	{
 		$this->db->where('username', $user);
 		$this->db->where('password', $pass);
+		$this->db->where('status', 1);
 		
 		$query = $this->db->get($this->tbl);
 

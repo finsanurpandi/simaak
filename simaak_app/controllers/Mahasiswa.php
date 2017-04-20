@@ -13,13 +13,39 @@ class Mahasiswa extends CI_Controller {
 	function index()
 	{
 		$user_akun = $this->m_mahasiswa->getMahasiswa($this->session->userdata('username'));
-		$user_alamat = $this->m_mahasiswa->getAlamatMahasiswa($this->session->userdata('username'));
+		// $user_alamat = $this->m_mahasiswa->getAlamatMahasiswa($this->session->userdata('username'));
+		$user_profil = $this->m_mahasiswa->getDataUser('mhs_profil', array('nim' => $this->session->username));
+		$user_ortu = $this->m_mahasiswa->getDataUser('mhs_orangtua', array('nim' => $this->session->username));
+		$user_upload = $this->m_mahasiswa->getDataUser('mhs_upload', array('nim' => $this->session->username));
 		$session = $this->session->userdata('login_in');
 
+
 		$data['user'] = $user_akun;
-		$data['alamat'] = $user_alamat;
+		// $data['alamat'] = $user_alamat;
+		$data['profil'] = $user_profil;
+		$data['ortu'] = $user_ortu;
+		$data['upload'] = $user_upload;
 
 		$data['role'] = $this->session->role;
+
+		if (!empty($user_profil)) {
+			$this->session->set_userdata('mhs_profil', TRUE);
+		} else {
+			$this->session->set_userdata('mhs_profil', FALSE);
+		}
+
+		if (!empty($user_ortu)) {
+			$this->session->set_userdata('mhs_ortu', TRUE);
+		} else {
+			$this->session->set_userdata('mhs_ortu', FALSE);
+		}
+
+		if (($user_upload['pas_photo'] == null) || ($user_upload['ijazah'] == null)) {
+			$this->session->set_userdata('mhs_upload', FALSE);
+		} else {
+			$this->session->set_userdata('mhs_upload', TRUE);
+		}
+
 
 		if ($session == TRUE) {
 			$this->load->view('header', $data);
@@ -35,15 +61,62 @@ class Mahasiswa extends CI_Controller {
 	function profil()
 	{
 		$user_akun = $this->m_mahasiswa->getMahasiswa($this->session->userdata('username'));
-		$user_alamat = $this->m_mahasiswa->getAlamatMahasiswa($this->session->userdata('username'));
+		// $user_alamat = $this->m_mahasiswa->getAlamatMahasiswa($this->session->userdata('username'));
+		$user_profil = $this->m_mahasiswa->getDataUser('mhs_profil', array('nim' => $this->session->username));
+		$user_ortu = $this->m_mahasiswa->getDataUser('mhs_orangtua', array('nim' => $this->session->username));
+		$user_upload = $this->m_mahasiswa->getDataUser('mhs_upload', array('nim' => $this->session->username));
+		
 		$session = $this->session->userdata('login_in');
 
 		$data['error'] = $this->upload->display_errors();
 
 		$data['user'] = $user_akun;
-		$data['alamat'] = $user_alamat;
+		// $data['alamat'] = $user_alamat;
+		$data['profil'] = $user_profil;
+		$data['ortu'] = $user_ortu;
+		$data['upload'] = $user_upload;
 
 		$data['role'] = $this->session->role;
+
+		if (!empty($user_profil)) {
+			$this->session->set_userdata('mhs_profil', TRUE);
+		} else {
+			$this->session->set_userdata('mhs_profil', FALSE);
+		}
+
+		if (!empty($user_ortu)) {
+			$this->session->set_userdata('mhs_ortu', TRUE);
+		} else {
+			$this->session->set_userdata('mhs_ortu', FALSE);
+		}
+
+		if (($user_upload['pas_photo'] == null) || ($user_upload['ijazah'] == null)) {
+			$this->session->set_userdata('mhs_upload', FALSE);
+		} else {
+			$this->session->set_userdata('mhs_upload', TRUE);
+		}
+
+
+		// UPDATE DATA ALAMAT MAHASISWA
+		$submit_profil = $this->input->post('submit_profil');
+
+		if (isset($submit_profil)) {
+			$data = array(
+				'nim' => $this->session->username,
+				'nik' => $this->input->post('nik'),
+				'alamat_lengkap' => $this->input->post('alamat_lengkap'),
+				'golongan_darah' => $this->input->post('golongan_darah'),
+				'no_tlp' => $this->input->post('no_tlp'),
+				'email' => $this->input->post('email'),
+				'asal_sekolah' => $this->input->post('asal_sekolah'),
+				'nomor_induk' => $this->input->post('nomor_induk')
+				);
+
+			$this->m_mahasiswa->insertData('mhs_profil', $data);
+			$this->session->set_flashdata('success', true);
+			redirect($this->uri->uri_string());
+
+		}
 
 		if ($session == TRUE) {
 			$this->load->view('header', $data);

@@ -37,13 +37,26 @@ class M_operator extends CI_Model {
 		}
 	}
 
-	function getAllData($table, $limit = null, $offset = null)
+	function getAllData($table, $where = null, $limit = null, $offset = null)
 	{
 		if (($limit !== null) && ($offset !== null)) {
-			$query = $this->db->get($table, $limit, $offset);
+			$query = $this->db->get_where($table, $where, $limit, $offset);
+		} elseif ($where !== null) {
+			$query = $this->db->get_where($table, $where);	
 		} else {
 			$query = $this->db->get($table);	
 		}
+		
+
+		return $query;
+	}
+
+	function getDataOrder($table, $where, $orderby)
+	{
+		foreach ($orderby as $key => $value) {
+				$this->db->order_by($key, $value);
+			}
+		$query = $this->db->get($table);
 		
 
 		return $query;
@@ -91,10 +104,10 @@ class M_operator extends CI_Model {
 	// 	}
 	// }
 
-	function searchData ($table, $key, $row)
+	function searchData ($table, $where, $key, $row)
 	{
 		$this->db->like($row, $key);
-		$query = $this->db->get($table);
+		$query = $this->db->get_where($table, $where);
 
 		$query = $query->result_array();
 
@@ -143,5 +156,10 @@ class M_operator extends CI_Model {
 	{
 		$this->db->where('username', $user);
 		$this->db->update($this->account, $data);
+	}
+
+	function deleteData($table, $where)
+	{
+		$this->db->delete($table, $where); 
 	}
 }

@@ -82,7 +82,7 @@ if ($error == true) {
 
             <strong>Program Studi</strong>
             <p class="text-muted">
-              <?=$user['prodi']?>
+              <?=$user['kode_prodi'].' - '.$prodi['prodi']?>
             </p>
 
             <strong>Jenis Kelamin</strong>
@@ -99,6 +99,11 @@ if ($error == true) {
             <strong>Jabatan Fungsional</strong>
             <p class="text-muted">
               <?=$user['jabatan_fungsional']?>
+            </p>
+
+            <strong>Golongan</strong>
+            <p class="text-muted">
+              <?=$user['golongan']?>
             </p>
 
 
@@ -159,32 +164,12 @@ if ($error == true) {
                           <td><?=$alamat['kodepos']?></td>
                         </tr>
                         <tr>
-                          <td><strong>Jenis Tinggal</strong></td>
-                          <td><?=$alamat['jenis_tinggal']?></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Alat Transportasi</strong></td>
-                          <td><?=$alamat['alat_transportasi']?></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Telepon</strong></td>
-                          <td><?=$alamat['telepon']?></td>
-                        </tr>
-                        <tr>
                           <td><strong>HP</strong></td>
                           <td><?=$alamat['hp']?></td>
                         </tr>
                         <tr>
                           <td><strong>Email</strong></td>
                           <td><?=$alamat['email']?></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Penerima KPS?</strong></td>
-                          <td><?=$alamat['penerima_kps']?></td>
-                        </tr>
-                        <tr>
-                          <td><strong>No KPS</strong></td>
-                          <td><?=$alamat['no_kps']?></td>
                         </tr>
 
                       </tbody>
@@ -194,20 +179,36 @@ if ($error == true) {
 
                   <div class="tab-pane" id="pendidikan">
                     <!-- Post -->
-                    <table class="table">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Perguruan Tinggi</th>
+                          <th>Fakultas</th>
+                          <th>Program Studi</th>
+                          <th>IPK</th>
+                          <th>Gelar</th>
+                          <th>Tahun Lulus</th>
+                        </tr>
+                      </thead>
                       <tbody>
-                        <tr>
-                          <td><strong>Nama Ayah</strong></td>
-                          <td>Nama Ayah</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Nama Ibu</strong></td>
-                          <td>Nama Ibu</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Alamat Tinggal</strong></td>
-                          <td>Cianjur</td>
-                        </tr>
+<?php
+$i = 1;
+foreach ($pendidikan as $value) {
+?>
+<tr>
+  <td><?=$i?></td>
+  <td><?=$value['perguruan_tinggi']?></td>
+  <td><?=$value['fakultas']?></td>
+  <td><?=$value['program_studi']?></td>
+  <td><?=$value['ipk']?></td>
+  <td><?=$value['gelar']?></td>
+  <td><?=$value['tahun_lulus']?></td>
+</tr>
+<?php
+$i++;
+}
+?>
                       </tbody>
                     </table>
 
@@ -215,20 +216,18 @@ if ($error == true) {
 
                   <div class="tab-pane" id="pengajaran">
                     <!-- Post -->
-                    <table class="table">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Semester</th>
+                          <th>Kode Mata Kuliah</th>
+                          <th>Nama Mata Kuliah</th>
+                          <th>Kode Kelas</th>
+                        </tr>
+                      </thead>
                       <tbody>
-                        <tr>
-                          <td><strong>Nama Ayah</strong></td>
-                          <td>Nama Ayah</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Nama Ibu</strong></td>
-                          <td>Nama Ibu</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Alamat Tinggal</strong></td>
-                          <td>Cianjur</td>
-                        </tr>
+                        
                       </tbody>
                     </table>
 
@@ -236,20 +235,34 @@ if ($error == true) {
 
                   <div class="tab-pane" id="penelitian">
                     <!-- Post -->
-                    <table class="table">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Judul Penelitian</th>
+                          <th>Bidang Ilmu</th>
+                          <th>Lembaga</th>
+                          <th>Penerbit</th>
+                          <th>Tahun</th>
+                        </tr>
+                      </thead>
                       <tbody>
-                        <tr>
-                          <td><strong>Nama Ayah</strong></td>
-                          <td>Nama Ayah</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Nama Ibu</strong></td>
-                          <td>Nama Ibu</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Alamat Tinggal</strong></td>
-                          <td>Cianjur</td>
-                        </tr>
+<?php
+$i = 1;
+foreach ($penelitian as $value) {
+?>
+<tr>
+  <td><?=$i?></td>
+  <td><?=$value['judul_penelitian']?></td>
+  <td><?=$value['bidang_ilmu']?></td>
+  <td><?=$value['lembaga']?></td>
+  <td><?=$value['penerbit']?></td>
+  <td><?=$value['tahun']?></td>
+</tr>
+<?php
+$i++;
+}
+?>
                       </tbody>
                     </table>
 

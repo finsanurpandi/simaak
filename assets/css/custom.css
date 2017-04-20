@@ -1,0 +1,19 @@
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
+
+.modal-primary-custom .modal-header {
+  background-color: #3c8dbc !important;
+  color: #fff !important;
+}
+
+.modal-success-custom .modal-header {
+  background-color: #00a65a !important;
+  color: #fff !important;
+}
+
+.modal-danger-custom .modal-header {
+  background-color: #d33724 !important;
+  color: #fff !important;
+}

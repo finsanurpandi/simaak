@@ -23,12 +23,15 @@
             <!-- /.box-header -->
             <div class="box-body box-profile">
             
+            <?php 
+              if (($this->session->mhs_profil == FALSE) || ($this->session->mhs_ortu == FALSE) || ($this->session->mhs_upload == FALSE))  {
+            ?>
             <div class="callout callout-danger">
-              <h4>Perwalian</h4>
+              <h4>Data Mahasiswa</h4>
 
-              <p>Perwalian paling lambat tanggal xx-xx-xxxx, segera lakukan pembayaran untuk dapat melakukan perwalian.</p>
+              <p>Menu lainnya tidak akan muncul sebelum Mahasiswa melengkapi data nya. Silahkan untuk melengkapi data dapat melalui menu profil atau melalui tautan ini --> <a href="<?=base_url('mahasiswa/profil')?>">Data Mahasiswa</a></p>
             </div>
-
+            <?php } ?>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
@@ -39,3 +42,4 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  

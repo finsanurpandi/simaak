@@ -25,10 +25,11 @@
 
 <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                  <li class="active"><a href="#info" data-toggle="tab">Informasi Dasar</a></li>
-                  <li><a href="#alamat" data-toggle="tab">Alamat</a></li>
-                  <li><a href="#pendidikan" data-toggle="tab">Pendidikan</a></li>
-                  <li><a href="#penelitian" data-toggle="tab">Penelitian</a></li>
+                  <li id="doseninfo" class="active"><a href="#info" data-toggle="tab">Informasi Dasar</a></li>
+                  <li id="dosenalamat"><a href="#alamat" data-toggle="tab">Alamat</a></li>
+                  <li id="dosenpendidikan"><a href="#pendidikan" data-toggle="tab">Riwayat Pendidikan</a></li>
+                  <li id="dosenpengajaran"><a href="#pengajaran" data-toggle="tab">Riwayat Mengajar</a></li>
+                  <li id="dosenpenelitian"><a href="#penelitian" data-toggle="tab">Penelitian</a></li>
                 </ul>
                 <div class="tab-content">
                   <div class="active tab-pane" id="info">
@@ -45,6 +46,7 @@
   }
 ?>
 <!-- CONTENT TAB INFO -->
+
 <form method="post" class="form-horizontal">
 
   <div class="form-group">
@@ -82,7 +84,7 @@
     </div>
   </div>
 
-  <div class="form-group">
+ <!--  <div class="form-group">
     <label for="prodi" class="col-sm-2 control-label">Prodi</label>
     <div class="col-sm-6">
       <select class="form-control" name="prodi" id="prodi">
@@ -95,7 +97,7 @@
               ?>
       </select>
     </div>
-  </div>
+  </div> -->
 
   <div class="form-group">
     <label for="jenis_kelamin" class="col-sm-2 control-label">Jenis Kelamin</label>
@@ -140,7 +142,7 @@
   </div>
 
   <div class="form-group">
-    <label for="jabatan_struktural" class="col-sm-2 control-label">Jabatan Struktura;</label>
+    <label for="jabatan_struktural" class="col-sm-2 control-label">Jabatan Struktural</label>
     <div class="col-sm-6">
       <input type="text" class="form-control" name="jabatan_struktural" id="jabatan_struktural" value="<?=$dosen['jabatan_struktural']?>">
     </div>
@@ -149,7 +151,7 @@
   
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <a href="<?=base_url('operator/dosen')?>" class="btn btn-primary btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
+      
       <button type="submit" name="submit" class="btn btn-success btn-sm">Update</button>
     </div>
   </div>
@@ -164,14 +166,111 @@
                   </div> <!-- END DIV TAB ALAMAT -->
 
                   <div class="tab-pane" id="pendidikan">
-<!-- CONTENT TAB PENDIDIKAN -->                    
-
+<!-- CONTENT TAB PENDIDIKAN --> 
+<button id="btnTambahPendidikanDosen" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahDataPendidikanDosenModal" data-nidn="<?=$nidndosen?>"><i class="fa fa-user-plus"></i> Tambah Data</button>                   
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Perguruan Tinggi</th>
+      <th>Fakultas</th>
+      <th>Program Studi</th>
+      <th>IPK</th>
+      <th>Gelar</th>
+      <th>Tahun Lulus</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+<?php
+$i = 1;
+foreach ($pendidikan as $value) {
+?>
+<tr>
+  <td><?=$i?></td>
+  <td><?=$value['perguruan_tinggi']?></td>
+  <td><?=$value['fakultas']?></td>
+  <td><?=$value['program_studi']?></td>
+  <td><?=$value['ipk']?></td>
+  <td><?=$value['gelar']?></td>
+  <td><?=$value['tahun_lulus']?></td>
+  <td>
+  <button type="button" id="btnEditPendidikanDosen" class="btn btn-success btn-xs" 
+  data-toggle="modal" 
+  data-target="#editPendidikanDosenModal"
+  data-id="<?=$value['id']?>"
+  data-perguruantinggi="<?=$value['perguruan_tinggi']?>"
+  data-fakultas="<?=$value['fakultas']?>"
+  data-programstudi="<?=$value['program_studi']?>"
+  data-ipk="<?=$value['ipk']?>"
+  data-gelar="<?=$value['gelar']?>"
+  data-tahunlulus="<?=$value['tahun_lulus']?>">
+  <i class="fa fa-pencil"></i> edit </button>
+  <button type="button" id="btnHapusDataPendidikanDosen" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapusDataPendidikan" data-id="<?=$value['id']?>"><i class="fa fa-remove"></i> hapus</button>
+  </td>
+</tr>
+<?php
+$i++;
+}
+?>
+  </tbody>
+</table>
 <!-- END OF CONTENT TAB PENDIDIKAN -->
+                  </div> <!-- END DIV TAB PENDIDIKAN -->
+
+                  <div class="tab-pane" id="pengajaran">
+<!-- CONTENT TAB PENGAJARAN -->                    
+
+<!-- END OF CONTENT TAB PENGAJARAN -->
                   </div> <!-- END DIV TAB PENDIDIKAN -->
 
                   <div class="tab-pane" id="penelitian">
 <!-- CONTENT TAB PENELITIAN -->                    
-
+<button id="btnTambahPenelitianDosen" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahDataPenelitianDosenModal" data-nidn="<?=$nidndosen?>"><i class="fa fa-user-plus"></i> Tambah Data</button>                   
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Judul Penelitian</th>
+      <th>Bidang Ilmu</th>
+      <th>Lembaga</th>
+      <th>Penerbit</th>
+      <th>Tahun</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+<?php
+$i = 1;
+foreach ($penelitian as $value) {
+?>
+<tr>
+  <td><?=$i?></td>
+  <td><?=$value['judul_penelitian']?></td>
+  <td><?=$value['bidang_ilmu']?></td>
+  <td><?=$value['lembaga']?></td>
+  <td><?=$value['penerbit']?></td>
+  <td><?=$value['tahun']?></td>
+  <td>
+  <button type="button" id="btnEditPenelitianDosen" class="btn btn-success btn-xs" 
+  data-toggle="modal" 
+  data-target="#editPenelitianDosenModal"
+  data-id="<?=$value['id']?>"
+  data-judul="<?=$value['judul_penelitian']?>"
+  data-bidang="<?=$value['bidang_ilmu']?>"
+  data-lembaga="<?=$value['lembaga']?>"
+  data-penerbit="<?=$value['penerbit']?>"
+  data-tahun="<?=$value['tahun']?>">
+  <i class="fa fa-pencil"></i> edit </button>
+  <button type="button" id="btnHapusDataPenelitianDosen" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapusDataPenelitian" data-id="<?=$value['id']?>"><i class="fa fa-remove"></i> hapus</button>
+  </td>
+</tr>
+<?php
+$i++;
+}
+?>
+  </tbody>
+</table>
 <!-- END OF CONTENT TAB PENELITIAN -->
                   </div> <!-- END DIV TAB PENELITIAN -->
 
@@ -179,7 +278,7 @@
                 </div>
 
               </div>  <!-- END OF TABS -->
-
+<a href="<?=base_url('operator/dosen')?>" class="btn btn-primary btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
             </div>
             <!-- /.box-body -->
           </div>
@@ -207,13 +306,13 @@
 
 
 // PROGRAM STUDI
-var prodi = document.getElementById('prodi');
+// var prodi = document.getElementById('prodi');
 
-for (var i = 0; i < prodi.options.length; i++) {
-  if (prodi.options[i].value == "<?=$dosen['prodi']?>") {
-    prodi.options[i].setAttribute('selected', 'true');   
-  };
-};
+// for (var i = 0; i < prodi.options.length; i++) {
+//   if (prodi.options[i].value == "<?=$dosen['kode_prodi']?>") {
+//     prodi.options[i].setAttribute('selected', 'true');   
+//   };
+// };
 
 // JABATAN FUNGSIONAL
 var jabfung = document.getElementById('jabatan_fungsional');

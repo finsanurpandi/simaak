@@ -67,6 +67,9 @@
             <i class="fa fa-dashboard"></i> <span>Profil</span>
           </a>
         </li>
+
+        <?php if (($this->session->mhs_profil == TRUE) && ($this->session->mhs_ortu == TRUE) && ($this->session->mhs_upload == TRUE)) {
+        ?>
         <li id="nilai">
           <a href="<?=base_url('mahasiswa/studi');?>">
             <i class="fa fa-pencil-square-o"></i>
@@ -83,6 +86,7 @@
             <i class="fa fa-graduation-cap"></i> <span>Perkuliahan</span>
           </a>
         </li>
+        <?php } ?>
 
 <!-- MENU DOSEN -->
 <?php
@@ -126,22 +130,27 @@
   } else if($role == 3){
 ?>
 
-         <li id="profil">
+         <li id="operatorProfil">
           <a href="<?=base_url('operator/profil');?>">
             <i class="fa fa-dashboard"></i> <span>Profil</span>
           </a>
         </li>
-        <li id="nilai">
+        <li id="operatorMahasiswa">
           <a href="<?=base_url('operator/mahasiswa');?>">
             <i class="fa fa-pencil-square-o"></i>
             <span>Mahasiswa</span>
           </a>
         </li>
-        <li id="perwalian">
+        <li id="operatorDosen">
           <a href="<?=base_url('operator/dosen');?>">
             <i class="fa fa-user-plus"></i> <span>Dosen</span>
           </a>
         </li>
+        <!-- <li id="operatorJadwal">
+          <a href="<?=base_url('operator/dosen');?>">
+            <i class="fa fa-user-plus"></i> <span>Jadwal</span>
+          </a>
+        </li> -->
         
 
 <!-- MENU PIMPINAN -->

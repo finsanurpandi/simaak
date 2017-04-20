@@ -163,7 +163,7 @@
 <form method="post" class="form-horizontal">
 
   <div class="form-group">
-    <label for="nim" class="col-sm-2 control-label">NIM</label>
+    <label for="nim" class="col-sm-2 control-label">NPM</label>
     <div class="col-sm-6">
       <input type="text" class="form-control" name="nim" id="nim" value="<?=$mhs['nim']?>">
     </div>
@@ -187,18 +187,13 @@
     <label for="jenjang" class="col-sm-2 control-label">Jenjang</label>
     <div class="col-sm-6">
       <select class="form-control" name="jenjang" id="jenjang">
-              <?php
-                foreach ($jenjang as $key => $value) {
-              ?>
-                <option value="<?=$value['jenjang']?>"><?=$value['jenjang']?></option>
-              <?php
-                  }
-              ?>
+        <option value="S1">S1</option>
+        <option value="S2">S2</option>
       </select>
     </div>
   </div>
 
-  <div class="form-group">
+  <!-- <div class="form-group">
     <label for="prodi" class="col-sm-2 control-label">Prodi</label>
     <div class="col-sm-6">
       <select class="form-control" name="prodi" id="prodi">
@@ -211,7 +206,7 @@
               ?>
       </select>
     </div>
-  </div>
+  </div> -->
 
   <div class="form-group">
     <label for="jenis_kelamin" class="col-sm-2 control-label">Jenis Kelamin</label>
@@ -235,7 +230,13 @@
   <div class="form-group">
     <label for="tanggal_lahir" class="col-sm-2 control-label">Tanggal Lahir</label>
     <div class="col-sm-6">
-      <input type="date" class="form-control" name="tanggal_lahir" id="nim" value="<?=$mhs['tanggal_lahir']?>">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+          </div>
+         <input type="date" class="form-control" name="tanggal_lahir" id="nim" value="<?=$mhs['tanggal_lahir']?>">
+        </div>
+      <!-- <input type="date" class="form-control" name="tanggal_lahir" id="nim" value="<?=$mhs['tanggal_lahir']?>"> -->
     </div>
   </div>
 
@@ -265,11 +266,12 @@
   
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <a href="<?=base_url('operator/mahasiswa')?>" class="btn btn-primary btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
+      
       <button type="submit" name="submit" class="btn btn-success btn-sm">Update</button>
     </div>
   </div>
 </form>
+
 <!-- END OF TAB INFO -->
                   </div>
 
@@ -300,7 +302,7 @@
                 </div>
 
               </div>  <!-- END OF TABS -->
-
+<a href="<?=base_url('operator/mahasiswa')?>" class="btn btn-primary btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
             </div>
             <!-- /.box-body -->
           </div>
@@ -336,15 +338,6 @@ for (var i = 0; i < jenjang.options.length; i++) {
   };
 };
 
-
-// PROGRAM STUDI
-var prodi = document.getElementById('prodi');
-
-for (var i = 0; i < prodi.options.length; i++) {
-  if (prodi.options[i].value == "<?=$mhs['prodi']?>") {
-    prodi.options[i].setAttribute('selected', 'true');   
-  };
-};
 
 
 // DOSEN WALI

@@ -49,14 +49,14 @@ Content Wrapper. Contains page content -->
 
 		              <strong>Program Studi</strong>
 		              <p class="text-muted">
-		                <?=$mhs['jenjang'].' '.$mhs['prodi']?>
+		                <?=$mhs['jenjang'].' '.$mhs['kode_prodi']?>
 		              </p>
 
 		              <strong>Angkatan</strong>
 		              <p class="text-muted">
 		                <?=$mhs['angkatan']?>
 		              </p>
-          <a href="<?=base_url('dosen/mahasiswa')?>" class="btn btn-primary btn-sm"> <i class="fa fa-arrow-left"></i> Back</a>
+          
 
 			</div>			
 			</div>
@@ -179,11 +179,19 @@ Content Wrapper. Contains page content -->
 
                   </div>
 
+                  <div class="tab-pane" id="pengajaran">
+<!-- CONTENT TAB PENGAJARAN -->                    
+
+<!-- END OF CONTENT TAB PENGAJARAN -->
+                  </div> <!-- END DIV TAB PENDIDIKAN -->
+
                 </div>
 
               </div>	
 
               <!-- END OF CONTENT -->
+
+<a href="<?=base_url('dosen/mahasiswa')?>" class="btn btn-primary btn-sm"> <i class="fa fa-arrow-left"></i> Back</a>
               
             </div>
             <!-- /.box-body -->

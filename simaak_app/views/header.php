@@ -29,6 +29,8 @@
   <link rel="stylesheet" href="<?=base_url('assets/plugins')?>/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="<?=base_url('assets/plugins')?>/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <!-- Custom CSS Bootstrap -->
+  <link rel="stylesheet" href="<?=base_url('assets/css')?>/custom.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,7 +44,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="<?=base_url()?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->

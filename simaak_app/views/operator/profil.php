@@ -77,7 +77,7 @@ if ($error == true) {
 
 		              <strong>Program Studi</strong>
 		              <p class="text-muted">
-		                <?=$user['prodi']?>
+		                <?=$user['kode_prodi'].' - '.$prodi['prodi']?>
 		              </p>
 
                   <strong>Jenis Kelamin</strong>

@@ -28,7 +28,7 @@
 <form method="post" class="form-inline">
   <div class="form-group form-group-sm">
   <select class="form-control" name="search_category">
-        <option value="nim">Nim</option>
+        <option value="nim">NPM</option>
         <option value="nama">Nama</option>
         <option value="angkatan">Angkatan</option>
         <option value="prodi">Program Studi</option>
@@ -70,7 +70,7 @@
                   echo "<td>".$value['nim']."</td>";
                   echo "<td>".$value['nama']."</td>";
                   echo "<td>".$value['angkatan']."</td>";
-                  echo "<td>".$value['prodi']."</td>";
+                  echo "<td>".$value['kode_prodi']."</td>";
                   echo "<td>".$value['jenis_kelamin']."</td>";
                   echo "<td>".$value['tempat_lahir']."</td>";
                   echo "<td>".$value['tanggal_lahir']."</td>";

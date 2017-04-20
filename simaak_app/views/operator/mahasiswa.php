@@ -17,7 +17,7 @@
     <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Data Mahasiswa</h3>
+              <h3 class="box-title">Data Mahasiswa Prodi <?=$prodi['prodi']?></h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
@@ -28,7 +28,7 @@
 <form method="post" class="form-inline pull-right">
   <div class="form-group form-group-sm">
   <select class="form-control" name="search_category">
-        <option value="nim">Nim</option>
+        <option value="nim">NPM</option>
         <option value="nama">Nama</option>
         <option value="angkatan">Angkatan</option>
         <option value="prodi">Program Studi</option>
@@ -51,10 +51,9 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>NIM</th>
+                  <th>NPM</th>
                   <th>Nama</th>
                   <th>Angkatan</th>
-                  <th>Program Studi</th>
                   <th>Jenis Kelamin</th>
                   <th>Tempat Lahir</th>
                   <th>Tanggal Lahir</th>
@@ -71,7 +70,6 @@
                   echo "<td>".$value['nim']."</td>";
                   echo "<td>".$value['nama']."</td>";
                   echo "<td>".$value['angkatan']."</td>";
-                  echo "<td>".$value['prodi']."</td>";
                   echo "<td>".$value['jenis_kelamin']."</td>";
                   echo "<td>".$value['tempat_lahir']."</td>";
                   echo "<td>".$value['tanggal_lahir']."</td>";
@@ -91,7 +89,7 @@
 
 <div class="text-center">
     <ul class="pagination pagination-sm">
-        <?php echo $link?>
+        <?php echo @$link?>
     </ul>    
 </div>
             </div>

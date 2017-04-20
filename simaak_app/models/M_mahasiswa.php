@@ -33,6 +33,33 @@ class M_mahasiswa extends CI_Model {
 		}
 	}
 
+	function getDataOrder($table, $where, $orderby)
+	{
+		foreach ($orderby as $key => $value) {
+				$this->db->order_by($key, $value);
+			}
+		$query = $this->db->get($table);
+		
+
+		return $query;
+	}
+
+	function getDataUser ($table, $where)
+	{
+		$query = $this->db->get_where($table, $where);
+
+		$query = $query->result_array();
+
+		if ($query) {
+			return $query[0];
+		}
+	}
+
+	function insertData($table, $data)
+	{
+		$this->db->insert($table, $data);
+	}
+
 	function updateProfileImage($data, $user)
 	{
 		$this->db->where('nim', $user);

@@ -1,4 +1,4 @@
-<!-- Content Wrapper. Contains page content -->
+Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -17,7 +17,7 @@
     <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Data Dosen</h3>
+              <h3 class="box-title">Data Dosen Prodi <?=$prodi['prodi']?></h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
@@ -57,7 +57,7 @@
                   <th>Nama</th>
                   <th>Gelar Depan</th>
                   <th>Gelar Belakang</th>
-                  <th>Program Studi</th>
+                  <!-- <th>Program Studi</th> -->
                   <th>Jenis Kelamin</th>
                   <th>Jabatan Fungsional</th>
                   <th>Golongan</th>
@@ -76,7 +76,7 @@
                   echo "<td>".$value['nama']."</td>";
                   echo "<td>".$value['gelar_depan']."</td>";
                   echo "<td>".$value['gelar_belakang']."</td>";
-                  echo "<td>".$value['prodi']."</td>";
+                  // echo "<td>".$value['kode_prodi']."</td>";
                   echo "<td>".$value['jenis_kelamin']."</td>";
                   echo "<td>".$value['jabatan_fungsional']."</td>";
                   echo "<td>".$value['golongan']."</td>";
@@ -97,7 +97,7 @@
 
 <div class="text-center">
     <ul class="pagination pagination-sm">
-        <?php echo $link?>
+        <?php echo @$link?>
     </ul>    
 </div>
             </div>
@@ -110,4 +110,4 @@
     </section>
     <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
+  <!-- /.content-wrapper

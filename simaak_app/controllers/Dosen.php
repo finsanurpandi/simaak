@@ -87,15 +87,22 @@ class Dosen extends CI_Controller {
 	function profil()
 	{
 		$user_akun = $this->m_dosen->getDosen($this->session->userdata('username'));
-		// $user_alamat = $this->m_dosen->getAlamatDosen($this->session->userdata('username'));
+		$user_alamat = $this->m_dosen->getDataUser('dosen_alamat', array('nidn' => $this->session->userdata('username')));
 		$session = $this->session->userdata('login_in');
+		// $riwayat_pendidikan = $this->m_dosen->getAllData('dosen_pendidikan', array('nidn' => $this->session->username));
+		// $riwayat_penelitian = $this->m_dosen->getAllData('dosen_penelitian', array('nidn' => $this->session->username));
+		$riwayat_pendidikan = $this->m_dosen->getDataOrder('dosen_pendidikan', array('nidn' => $this->session->username), array('tahun_lulus' => 'DESC'));
+		$riwayat_penelitian = $this->m_dosen->getDataOrder('dosen_penelitian', array('nidn' => $this->session->username), array('tahun' => 'DESC'));
 
 		$data['error'] = $this->upload->display_errors();
 
 		$data['user'] = $user_akun;
-		// $data['alamat'] = $user_alamat;
+		$data['alamat'] = $user_alamat;
+		$data['pendidikan'] = $riwayat_pendidikan->result_array();
+		$data['penelitian'] = $riwayat_penelitian->result_array();
 
 		$data['role'] = $this->session->role;
+		$data['prodi'] = $this->m_dosen->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
 
 		if ($session == TRUE) {
 			$this->load->view('header', $data);

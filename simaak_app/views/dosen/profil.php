@@ -1,4 +1,4 @@
-Content Wrapper. Contains page content -->
+<!--Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -122,6 +122,7 @@ if ($error == true) {
                   <li><a href="#pendidikan" data-toggle="tab">Riwayat Pendidikan</a></li>
                   <li><a href="#pengajaran" data-toggle="tab">Riwayat Mengajar</a></li>
                   <li><a href="#penelitian" data-toggle="tab">Penelitian</a></li>
+                  <li><a href="#pengabdian" data-toggle="tab">Pengabdian</a></li>
                 </ul>
                 <div class="tab-content">
                   <div class="active tab-pane" id="alamat">
@@ -179,6 +180,7 @@ if ($error == true) {
 
                   <div class="tab-pane" id="pendidikan">
                     <!-- Post -->
+<button id="btnTambahPendidikanDosen" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahDataPendidikanDosenModal" data-nidn="<?=$this->session->username?>"><i class="fa fa-user-plus"></i> Tambah Data</button>                   
                     <table class="table table-hover">
                       <thead>
                         <tr>
@@ -189,6 +191,7 @@ if ($error == true) {
                           <th>IPK</th>
                           <th>Gelar</th>
                           <th>Tahun Lulus</th>
+                          <th>Aksi</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -204,6 +207,21 @@ foreach ($pendidikan as $value) {
   <td><?=$value['ipk']?></td>
   <td><?=$value['gelar']?></td>
   <td><?=$value['tahun_lulus']?></td>
+  <td>
+    <button type="button" id="btnEditPendidikanDosen" class="btn btn-success btn-xs" 
+  data-toggle="modal" 
+  data-target="#editPendidikanDosenModal"
+  data-id="<?=$value['id']?>"
+  data-perguruantinggi="<?=$value['perguruan_tinggi']?>"
+  data-fakultas="<?=$value['fakultas']?>"
+  data-programstudi="<?=$value['program_studi']?>"
+  data-ipk="<?=$value['ipk']?>"
+  data-gelar="<?=$value['gelar']?>"
+  data-tahunlulus="<?=$value['tahun_lulus']?>">
+      <i class="fa fa-pencil"></i> edit
+    </button>
+  <button type="button" id="btnHapusDataPendidikanDosen" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapusDataPendidikan" data-id="<?=$value['id']?>"><i class="fa fa-remove"></i> hapus</button>
+  </td>
 </tr>
 <?php
 $i++;
@@ -234,6 +252,43 @@ $i++;
                   </div>
 
                   <div class="tab-pane" id="penelitian">
+                    <!-- Post -->
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Judul Penelitian</th>
+                          <th>Bidang Ilmu</th>
+                          <th>Lembaga</th>
+                          <th>Penerbit</th>
+                          <th>Tahun</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+<?php
+$i = 1;
+foreach ($penelitian as $value) {
+?>
+<tr>
+  <td><?=$i?></td>
+  <td><?=$value['judul_penelitian']?></td>
+  <td><?=$value['bidang_ilmu']?></td>
+  <td><?=$value['lembaga']?></td>
+  <td><?=$value['penerbit']?></td>
+  <td><?=$value['tahun']?></td>
+</tr>
+<?php
+$i++;
+}
+?>
+                      </tbody>
+                    </table>
+
+                  </div>
+
+
+
+                  <div class="tab-pane" id="pengabdian">
                     <!-- Post -->
                     <table class="table table-hover">
                       <thead>

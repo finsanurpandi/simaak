@@ -31,8 +31,6 @@
         <option value="nim">NPM</option>
         <option value="nama">Nama</option>
         <option value="angkatan">Angkatan</option>
-        <option value="prodi">Program Studi</option>
-        <option value="nidn">Dosen Wali</option>
       </select>
     <div class="input-group">
       <input type="text" name="search_key" class="form-control">

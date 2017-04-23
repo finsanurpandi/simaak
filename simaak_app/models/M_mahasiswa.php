@@ -55,7 +55,50 @@ class M_mahasiswa extends CI_Model {
 		}
 	}
 
+	function getAllData($table, $where = null)
+	{
+		if ($where !== null) {
+			$query = $this->db->get_where($table, $where);
+		} else {
+			$query = $this->db->get($table);
+		}
+
+		return $query;
+	}
+
+	function getNumRows($table, $where = null)
+	{
+		if ($where !== null) {
+			$query = $this->db->get_where($table, $where);
+		} else {
+			$query = $this->db->get($table);
+		}
+
+		return $query->num_rows();
+	}
+
+	function getAllDataOrder($table, $where, $orderby)
+	{
+		foreach ($orderby as $key => $value) {
+				$this->db->order_by($key, $value);
+			}
+
+		foreach ($where as $key => $value) {
+			$this->db->where($key, $value);
+		}
+
+		$query = $this->db->get($table);
+		
+
+		return $query->result_array();
+	}
+
 	function insertData($table, $data)
+	{
+		$this->db->insert($table, $data);
+	}
+
+	function insertAllData($table, $data)
 	{
 		$this->db->insert($table, $data);
 	}
@@ -70,5 +113,11 @@ class M_mahasiswa extends CI_Model {
 	{
 		$this->db->where('username', $user);
 		$this->db->update($this->account, $data);
+	}
+
+	function updateData($table, $data, $user)
+	{
+		$this->db->where('nim', $user);
+		$this->db->update($table, $data);
 	}
 }

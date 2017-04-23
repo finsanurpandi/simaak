@@ -31,7 +31,23 @@
 
               <p>Menu lainnya tidak akan muncul sebelum Mahasiswa melengkapi data nya. Silahkan untuk melengkapi data dapat melalui menu profil atau melalui tautan ini --> <a href="<?=base_url('mahasiswa/profil')?>">Data Mahasiswa</a></p>
             </div>
-            <?php } ?>
+            <?php } 
+
+            foreach ($pengumuman as $value) {
+            ?>
+            <div class="callout <?=$value['tingkat']?>">
+              <h4><?=$value['judul_pengumuman']?></h4>
+
+              <p><?=$value['isi_pengumuman']?></p>
+            </div>
+
+            <?php
+            }
+
+
+            ?>
+
+
             <!-- /.box-body -->
           </div>
           <!-- /.box -->

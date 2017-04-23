@@ -9,13 +9,13 @@
                 <?php
                   if ($user['image'] == null) {
                     if ($user['jenis_kelamin'] == 'L') {
-                      echo "<img src='".base_url('assets/img/profiles/default_male.jpg')."' class='img-circle' alt='User Image'>";
+                      echo "<img src='".base_url('assets/uploads/profiles/default_male.jpg')."' class='img-circle' alt='User Image'>";
                     } else {
-                      echo "<img src='".base_url('assets/img/profiles/default_female.jpg')."' class='img-circle' alt='User Image'>";
+                      echo "<img src='".base_url('assets/uploads/profiles/default_female.jpg')."' class='img-circle' alt='User Image'>";
                     };
                   } else {
                   ?>
-                    <img src="<?=base_url('assets/img/profiles/'.$user['image'])?>" class="img-circle" alt="User Image">
+                    <img src="<?=base_url('assets/uploads/profiles/'.$user['image'])?>" class="img-circle" alt="User Image">
                   <?php
                   } 
                  ?>
@@ -62,26 +62,40 @@
   } else if($role == 1){
 ?>
 
-         <li id="profil">
+        <!-- <li id="mhsprofil" class="">
           <a href="<?=base_url('mahasiswa/profil');?>">
             <i class="fa fa-dashboard"></i> <span>Profil</span>
           </a>
+        </li> -->
+
+        <li id="menuMhsProfil" class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Profil</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="mhsProfil" class=""><a href="<?=base_url('mahasiswa/profil');?>"><i class="fa fa-circle-o"></i> Basic Info</a></li>
+            <li id="mhsOrtu" class=""><a href="<?=base_url('mahasiswa/orangtua');?>"><i class="fa fa-circle-o"></i> Orang Tua</a></li>
+            <li id="mhsDokumen" class=""><a href="<?=base_url('mahasiswa/dokumen');?>"><i class="fa fa-circle-o"></i> Dokumen</a></li>
+          </ul>
         </li>
 
         <?php if (($this->session->mhs_profil == TRUE) && ($this->session->mhs_ortu == TRUE) && ($this->session->mhs_upload == TRUE)) {
         ?>
-        <li id="nilai">
+        <li id="mhsnilai" class="">
           <a href="<?=base_url('mahasiswa/studi');?>">
             <i class="fa fa-pencil-square-o"></i>
             <span>Hasil Studi</span>
           </a>
         </li>
-        <li id="perwalian">
+        <li id="mhsperwalian" class="">
           <a href="<?=base_url('mahasiswa/perwalian');?>">
             <i class="fa fa-user-plus"></i> <span>Perwalian</span>
           </a>
         </li>
-        <li id="jadwal">
+        <li id="mhsjadwal" class="">
           <a href="<?=base_url('mahasiswa/perkuliahan');?>">
             <i class="fa fa-graduation-cap"></i> <span>Perkuliahan</span>
           </a>
@@ -93,11 +107,28 @@
   } else if($role == 2){
 ?>
 
-         <li id="profil">
+        <!-- <li id="profil">
           <a href="<?=base_url('dosen/profil');?>">
             <i class="fa fa-dashboard"></i> <span>Profil</span>
           </a>
+        </li> -->
+
+        <li id="menuDosenProfil" class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Profil</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="dosenProfil" class=""><a href="<?=base_url('dosen/profil');?>"><i class="fa fa-circle-o"></i> Basic Info</a></li>
+            <li id="dosenPendidikan" class=""><a href="<?=base_url('dosen/pendidikan');?>"><i class="fa fa-circle-o"></i> Riwayat Pendidikan</a></li>
+            <li id="dosenPengajaran" class=""><a href="<?=base_url('dosen/pengajaran');?>"><i class="fa fa-circle-o"></i> Riwayat Mengajar</a></li>
+            <li id="dosenPenelitian" class=""><a href="<?=base_url('dosen/penelitian');?>"><i class="fa fa-circle-o"></i> Penelitian</a></li>
+            <li id="dosenPengabdian" class=""><a href="<?=base_url('dosen/pengabdian');?>"><i class="fa fa-circle-o"></i> Pengabdian</a></li>
+          </ul>
         </li>
+
         <li id="nilai">
           <a href="<?=base_url('dosen/nilai');?>">
             <i class="fa fa-pencil-square-o"></i>
@@ -122,6 +153,11 @@
         <li id="kinerja">
           <a href="<?=base_url('dosen/kinerja');?>">
             <i class="fa fa-graduation-cap"></i> <span>Laporan Kinerja</span>
+          </a>
+        </li>
+        <li id="menuDosenDokumen">
+          <a href="<?=base_url('dosen/dokumen');?>">
+            <i class="fa fa-graduation-cap"></i> <span>Dokumen</span>
           </a>
         </li>
 

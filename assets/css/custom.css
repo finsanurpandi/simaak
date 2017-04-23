@@ -17,3 +17,18 @@
   background-color: #d33724 !important;
   color: #fff !important;
 }
+
+.alert-grey {
+  color: #000;
+  background-color: #ccc !important;
+  border-color: #d6e9c6;
+}
+
+.alert.alert-grey > a {
+	color: #000;
+	text-decoration: none;
+}
+
+.alert.alert-grey > a:hover {
+	text-decoration: underline;
+}

@@ -7,7 +7,9 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Profil</li>
+        <li>Profil</li>
+        <li class="active">Basic Info</li>
+
       </ol>
     </section>
 
@@ -51,8 +53,8 @@ if ($error == true) {
                  ?>
 					<br/>
 					<div class="dropdown">
-					  <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-					    Edit
+					  <button class="btn btn-success btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					    <i class="fa fa-refresh"></i> Edit
 					    <span class="caret"></span>
 					  </button>
 					  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
@@ -90,20 +92,20 @@ if ($error == true) {
               
               <!-- CONTENT HERE -->
 
-			<div class="nav-tabs-custom">
+			<!-- <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                   <li class="active"><a href="#profilmhs" data-toggle="tab">Profil</a></li>
                   <li><a href="#orangtua" data-toggle="tab">Orang Tua</a></li>
                   <li><a href="#upload" data-toggle="tab">Upload</a></li>
                 </ul>
                 <div class="tab-content">
-                  <div class="active tab-pane" id="profilmhs">
+                  <div class="active tab-pane" id="profilmhs"> -->
 <?php
 if ($this->session->mhs_profil !== false) {
                   
-  if (@$this->session->flashdata('success') == true) {
+  if (@$this->session->flashdata('profil_success') == true) {
 ?>
-    <div class="alert alert-success">Data berhasil diupdate!
+    <div class="alert alert-success">Data berhasil ditambahkan!
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -145,11 +147,24 @@ if ($this->session->mhs_profil !== false) {
 
                       </tbody>
                     </table>
+                    <br/>
+
+<button id="editProfil" class="btn btn-success btn-sm"
+data-toggle="modal"
+data-target="#editProfilModal"
+data-nik="<?=$profil['nik']?>"
+data-alamat="<?=$profil['alamat_lengkap']?>"
+data-darah="<?=$profil['golongan_darah']?>"
+data-tlp="<?=$profil['no_tlp']?>"
+data-email="<?=$profil['email']?>"
+data-sekolah="<?=$profil['asal_sekolah']?>"
+data-nisn="<?=$profil['nomor_induk']?>"
+><i class="fa fa-refresh"></i> update</button>
 
                     <?php } else {
                     ?>
 
-<form method="post" class="form-horizontal" enctype="multipart/form-data">
+<form method="post" class="form-horizontal">
 
   <div class="form-group required">
     <label for="nik" class="col-sm-2 control-label">NIK</label>
@@ -207,7 +222,7 @@ if ($this->session->mhs_profil !== false) {
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" name="submit_profil" class="btn btn-success btn-sm">Update</button>
+      <button type="submit" name="submit_profil" class="btn btn-success btn-sm"><i class="fa fa-cloud-upload"></i> insert</button>
     </div>
   </div>
 
@@ -216,254 +231,7 @@ if ($this->session->mhs_profil !== false) {
                     <?php
                     }
                     ?>
-                  </div>
-
-                  <div class="tab-pane" id="orangtua">
-                    <!-- Post -->
-<?php
-if ($this->session->mhs_ortu !== FALSE) {
                   
-  if (@$this->session->flashdata('success') == true) {
-?>
-    <div class="alert alert-success">Data berhasil diupdate!
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-<?php
-  }
-?>
-                    <table class="table">
-                      <tbody>
-                        <tr>
-                          <td><strong>Nama Ibu</strong></td>
-                          <td><?=$ortu['ibu_nama']?></td>
-                        </tr>
-                        
-                        <tr>
-                          <td><strong>Tempat, Tgl. Lahir</strong></td>
-                          <td><?=$ortu['ibu_ttl']?></td>
-                        </tr>
-
-                        <tr>
-                          <td><strong>Pendidikan Terakhir</strong></td>
-                          <td><?=$ortu['ibu_pendidikan']?></td>
-                        </tr>
-
-                        <tr>
-                          <td><strong>Pekerjaan</strong></td>
-                          <td><?=$ortu['ibu_pekerjaan']?></td>
-                        </tr>
-
-                        <tr>
-                          <td><strong>Pendapatan/Bulan</strong></td>
-                          <td><?=$ortu['ibu_pendapatan']?></td>
-                        </tr>
-
-                        <tr>
-                          <td><strong>Alamat</strong></td>
-                          <td><?=$ortu['ibu_alamat']?></td>
-                        </tr>
-
-                        <tr>
-                          <td><strong>No Tlp/HP</strong></td>
-                          <td><?=$ortu['ibu_tlp']?></td>
-                        </tr>
-
-                        <tr>
-                          <td><strong></strong></td>
-                          <td></td>
-                        </tr>
-
-
-                        <tr>
-                          <td><strong>Nama Ayah</strong></td>
-                          <td><?=$ortu['ayah_nama']?></td>
-                        </tr>
-                        
-                        <tr>
-                          <td><strong>Tempat, Tgl. Lahir</strong></td>
-                          <td><?=$ortu['ayah_ttl']?></td>
-                        </tr>
-
-                        <tr>
-                          <td><strong>Pendidikan Terakhir</strong></td>
-                          <td><?=$ortu['ayah_pendidikan']?></td>
-                        </tr>
-
-                        <tr>
-                          <td><strong>Pekerjaan</strong></td>
-                          <td><?=$ortu['ayah_pekerjaan']?></td>
-                        </tr>
-
-                        <tr>
-                          <td><strong>Pendapatan/Bulan</strong></td>
-                          <td><?=$ortu['ayah_pendapatan']?></td>
-                        </tr>
-
-                        <tr>
-                          <td><strong>Alamat</strong></td>
-                          <td><?=$ortu['ayah_alamat']?></td>
-                        </tr>
-
-                        <tr>
-                          <td><strong>No Tlp/HP</strong></td>
-                          <td><?=$ortu['ayah_tlp']?></td>
-                        </tr>
-
-                      </tbody>
-                    </table>
-
-                    <?php } else {
-                    ?>
-
-<form method="post" class="form-horizontal">
-
-  <div class="form-group required">
-    <label for="ibu_nama" class="col-sm-2 control-label">Nama Ibu</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="ibu_nama" required>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ibu_ttl" class="col-sm-2 control-label">Tempat, Tanggal. Lahir</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="ibu_ttl" placeholder="Kota, dd/mm/yyyy" required>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ibu_pendidikan" class="col-sm-2 control-label">Pendidikan Terakhir</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="ibu_pendidikan" required>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ibu_pekerjaan" class="col-sm-2 control-label">Pekerjaan</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="ibu_pekerjaan" required>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ibu_pendapatan" class="col-sm-2 control-label">Pendapatan/Bulan</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="ibu_pendapatan" required>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ibu_alamat" class="col-sm-2 control-label">Alamat</label>
-    <div class="col-sm-6">
-      <textarea name="ibu_alamat" rows="3" class="form-control"></textarea>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ibu_no_tlp" class="col-sm-2 control-label">No. Tlp/HP</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="ibu_no_tlp" required>
-    </div>
-  </div>
-
-  <hr/>
-
-  <div class="form-group required">
-    <label for="ayah_nama" class="col-sm-2 control-label">Nama Ayah</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="ayah_nama" required>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ayah_ttl" class="col-sm-2 control-label">Tempat, Tanggal. Lahir</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="ayah_ttl" placeholder="Kota, dd/mm/yyyy" required>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ayah_pendidikan" class="col-sm-2 control-label">Pendidikan Terakhir</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="ayah_pendidikan" required>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ayah_pekerjaan" class="col-sm-2 control-label">Pekerjaan</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="ayah_pekerjaan" required>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ayah_pendapatan" class="col-sm-2 control-label">Pendapatan/Bulan</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="ayah_pendapatan" required>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ayah_alamat" class="col-sm-2 control-label">Alamat</label>
-    <div class="col-sm-6">
-      <textarea name="ayah_alamat" rows="3" class="form-control"></textarea>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ayah_no_tlp" class="col-sm-2 control-label">No. Tlp/HP</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="ayah_no_tlp" required>
-    </div>
-  </div>
-
-  
-
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" name="submit_profil" class="btn btn-success btn-sm">Update</button>
-    </div>
-  </div>
-
-
-</form>
-                    <?php
-                    }
-                    ?>
-
-                  </div>
-
-                   <div class="tab-pane" id="upload">
-                    <!-- Post -->
-<form class="form-horizontal" method="post" action="<?=base_url()?>mahasiswa/editPicture" enctype="multipart/form-data">
-
-  <div class="form-group required">
-    <label for="pas_photo" class="col-sm-2 control-label">Pas Photo</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="file" name="pas_photo" id="pas_photo">
-      <button type="submit" name="submit_profil" class="btn btn-success btn-sm">Upload</button>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <label for="ijazah" class="col-sm-2 control-label">Ijazah</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="file" name="ijazah" id="ijazah">
-      <button type="submit" name="submit_profil" class="btn btn-success btn-sm">Upload</button>
-    </div>
-  </div>
-            
-</form>
-
-
-                  </div>
-
-
-
-                </div>
 
               </div>	
 

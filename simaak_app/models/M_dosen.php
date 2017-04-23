@@ -78,6 +78,22 @@ class M_dosen extends CI_Model {
 		return $query;
 	}
 
+	function getAllDataOrder($table, $where, $orderby)
+	{
+		foreach ($orderby as $key => $value) {
+				$this->db->order_by($key, $value);
+			}
+
+		foreach ($where as $key => $value) {
+			$this->db->where($key, $value);
+		}
+
+		$query = $this->db->get($table);
+		
+
+		return $query->result_array();
+	}
+
 	function getAllData($table, $where = null, $limit = null, $offset = null)
 	{
 		if (($limit !== null) && ($offset !== null)) {
@@ -102,15 +118,37 @@ class M_dosen extends CI_Model {
 		return $query;
 	}
 
+	function insertAllData($table, $data)
+	{
+		$this->db->insert($table, $data);
+	}
+
+	function updateData($table, $data, $where)
+	{
+		$this->db->update($table, $data, $where);
+	}
+
+
 	function updateProfileImage($data, $user)
 	{
 		$this->db->where('nidn', $user);
 		$this->db->update($this->dosen, $data);
 	}
 
+	function updateDokumen($table, $data, $id)
+	{
+		$this->db->where('id', $id);
+		$this->db->update($table, $data);
+	}
+
 	function updatePassword($data, $user)
 	{
 		$this->db->where('username', $user);
 		$this->db->update($this->account, $data);
+	}
+
+	function deleteData($table, $where)
+	{
+		$this->db->delete($table, $where); 
 	}
 }

@@ -68,13 +68,13 @@
             <?php
               if ($user['image'] == null) {
                 if ($user['jenis_kelamin'] == 'L') {
-                  echo "<img src='".base_url('assets/img/profiles/default_male.jpg')."' class='user-image' alt='User Image'>";
+                  echo "<img src='".base_url('assets/uploads/profiles/default_male.jpg')."' class='user-image' alt='User Image'>";
                 } else {
-                  echo "<img src='".base_url('assets/img/profiles/default_female.jpg')."' class='user-image' alt='User Image'>";
+                  echo "<img src='".base_url('assets/uploads/profiles/default_female.jpg')."' class='user-image' alt='User Image'>";
                 };
               } else {
               ?>
-                <img src="<?=base_url('assets/img/profiles/'.$user['image'])?>" class="user-image" alt="User Image">
+                <img src="<?=base_url('assets/uploads/profiles/'.$user['image'])?>" class="user-image" alt="User Image">
               <?php
               } 
              ?>
@@ -88,13 +88,13 @@
                 <?php
                   if ($user['image'] == null) {
                     if ($user['jenis_kelamin'] == 'L') {
-                      echo "<img src='".base_url('assets/img/profiles/default_male.jpg')."' class='img-circle' alt='User Image'>";
+                      echo "<img src='".base_url('assets/uploads/profiles/default_male.jpg')."' class='img-circle' alt='User Image'>";
                     } else {
-                      echo "<img src='".base_url('assets/img/profiles/default_female.jpg')."' class='img-circle' alt='User Image'>";
+                      echo "<img src='".base_url('assets/uploads/profiles/default_female.jpg')."' class='img-circle' alt='User Image'>";
                     };
                   } else {
                   ?>
-                    <img src="<?=base_url('assets/img/profiles/'.$user['image'])?>" class="img-circle" alt="User Image">
+                    <img src="<?=base_url('assets/uploads/profiles/'.$user['image'])?>" class="img-circle" alt="User Image">
                   <?php
                   } 
                  ?>

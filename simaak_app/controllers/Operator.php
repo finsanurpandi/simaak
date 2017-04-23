@@ -17,7 +17,7 @@ class Operator extends CI_Controller {
 	{
 		$user = $this->session->username;
 		$nmfile = "img_".$user."_".time();
-		$config['upload_path']   =   "./assets/img/profiles/";
+		$config['upload_path']   =   "./assets/uploads/profiles/";
 		$config['allowed_types'] =   "gif|jpg|jpeg|png"; 
 		$config['max_size']      =   "1000";
 		$config['max_width']     =   "1907";
@@ -130,7 +130,7 @@ class Operator extends CI_Controller {
 			$data = array ('image' => $fileinfo['file_name']);
 			$this->m_operator->updateProfileImage($data, $username);
 
-			@unlink("./assets/img/profiles/". $img_path);
+			@unlink("./assets/uploads/profiles/". $img_path);
 			redirect('operator/profil', 'refresh');
 		}
  

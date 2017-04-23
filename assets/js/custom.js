@@ -81,6 +81,47 @@ $('#ubahPassModal').on('hidden.bs.modal', function (e) {
   	$('#status_new').remove();
 });
 
+//MAHASISWA
+//EDIT PROFIL MAHASISWA
+$(document).on("click", '#editProfil', function(e){
+
+	var data = $(this).data();
+
+	$('#editNikMhs').val(data['nik']);
+	$('#editAlamatMhs').val(data['alamat']);
+	$('#editDarahMhs').val(data['darah']);
+	$('#editTlpMhs').val(data['tlp']);
+	$('#editEmailMhs').val(data['email']);
+	$('#editSekolahMhs').val(data['sekolah']);
+	$('#editNisnMhs').val(data['nisn']);
+});
+
+//EDIT IBU MAHASISWA
+$(document).on("click", '#editIbu', function(e){
+	var data = $(this).data();
+
+	$('#editNamaIbu').val(data['nama']);
+	$('#editTtlIbu').val(data['ttl']);
+	$('#editPendidikanIbu').val(data['pendidikan']);
+	$('#editPekerjaanIbu').val(data['pekerjaan']);
+	$('#editPendapatanIbu').val(data['pendapatan']);
+	$('#editAlamatIbu').val(data['alamat']);
+	$('#editTlpIbu').val(data['tlp']);
+});
+
+//EDIT AYAH MAHASISWA
+$(document).on("click", '#editAyah', function(e){
+	var data = $(this).data();
+
+	$('#editNamaAyah').val(data['nama']);
+	$('#editTtlAyah').val(data['ttl']);
+	$('#editPendidikanAyah').val(data['pendidikan']);
+	$('#editPekerjaanAyah').val(data['pekerjaan']);
+	$('#editPendapatanAyah').val(data['pendapatan']);
+	$('#editAlamatAyah').val(data['alamat']);
+	$('#editTlpAyah').val(data['tlp']);
+});
+
 // UPDATE IMAGE PROFILE
 $('#update_image').change(function(){
 	if (!$(this).val()) {
@@ -89,6 +130,36 @@ $('#update_image').change(function(){
 		$('#btn_update_image').prop('disabled', false);
 	}
 });
+
+// UPDATE BUTTON PASPHOTO
+$('#update_pasphoto').change(function(){
+	if (!$(this).val()) {
+		$('#btn_update_pasphoto').prop('disabled', true);
+	} else {
+		$('#btn_update_pasphoto').prop('disabled', false);
+	}
+});
+
+$('#btnEditPasphoto').click(function(){
+	var nama = $(this).data(nama);
+
+	$('#pathPasphoto').val(nama['nama']);
+})
+
+// UPDATE BUTTON IJAZAH
+$('#update_ijazah').change(function(){
+	if (!$(this).val()) {
+		$('#btn_update_ijazah').prop('disabled', true);
+	} else {
+		$('#btn_update_ijazah').prop('disabled', false);
+	}
+});
+
+$('#btnEditIjazah').click(function(){
+	var nama = $(this).data(nama);
+
+	$('#pathIjazah').val(nama['nama']);
+})
 
 //SELECT JABFUNG
 function selectJabfung(){
@@ -210,7 +281,7 @@ function checkGolongan(){
 };
 
 //EDIT DOSEN
-
+// ---------------------------------------------------------
 //PENDIDIKAN
 // OPERATOR DOSEN TAMBAH DATA PENDIDIKAN
 $('#btnTambahPendidikanDosen').click(function(){
@@ -243,6 +314,7 @@ $(document).on("click", '#btnHapusDataPendidikanDosen', function(e){
 	$('#idpendidikan').val(id);
 });
 
+// ---------------------------------------------------------
 //PENELITIAN
 // OPERATOR DOSEN EDIT DATA PENELITIAN
 $(document).on("click", '#btnEditPenelitianDosen', function(e){
@@ -268,49 +340,130 @@ $(document).on("click", '#btnHapusDataPenelitianDosen', function(e){
 	$('#idpenelitian').val(id);
 });
 
+// ---------------------------------------------------------
+//DOKUMEN
+// OPERATOR DOSEN EDIT DATA DOKUMEN
+$(document).on("click", '#btnEditDokumenDosen', function(e){
+	var id = $(this).data('id');
+	var judul = $(this).data('judul');
+	var nama = $(this).data('nama');
+
+	$('#ideditdokumen').val(id);
+	$('#juduleditdokumen').val(judul);
+	$('#namaeditdokumen').val(nama);
+	
+});
+
+// OPERATOR DOSEN HAPUS DATA PENELITIAN
+$(document).on("click", '#btnHapusDataDokumenDosen', function(e){
+	var id = $(this).data('id');
+	var nama = $(this).data('nama');
+	$('#iddokumen').val(id);
+	$('#namadokumen').val(nama);
+});
+
 //SET MENU ACTIVE MAHASISWA
+function mhsClearMenu(){
+	$('#menuMhsProfil').remove('.active');
+	$('#mhsnilai').remove('.active');
+	$('#mhsperwalian').remove('.active');
+	$('#mhsjadwal').remove('.active');
+}
+
 if (role == 1) {
-	if ((dataProfil == 'false') || (dataOrtu == 'false') || (dataUpload == 'false')) {
-		$('#profil').addClass('active');
-		$('#nilai').hide();
-		$('#perwalian').hide();
-		$('#jadwal').hide();
-	} else {
-		$('#nilai').show();
-		$('#perwalian').show();
-		$('#jadwal').show();
 
 		if (uri == '') {
-			$('#profil').remove('.active');
-			$('#nilai').remove('.active');
-			$('#perwalian').remove('.active');
-			$('#jadwal').remove('.active');
+			mhsClearMenu();
 		} else if (uri == 'profil') {
-			$('#profil').addClass('active');
-			$('#nilai').remove('.active');
-			$('#perwalian').remove('.active');
-			$('#jadwal').remove('.active');
+			$('#menuMhsProfil').addClass('active');
+			$('#mhsProfil').addClass('active');
+			$('#mhsOrtu').remove('active');
+			$('#mhsDokumen').remove('active');
+			$('#mhsnilai').remove('.active');
+			$('#mhsperwalian').remove('.active');
+			$('#mhsjadwal').remove('.active');
+		} else if (uri == 'orangtua') { 
+			$('#menuMhsProfil').addClass('active');
+			$('#mhsOrtu').addClass('active');
+			$('#mhsProfil').remove('active');
+			$('#mhsDokumen').remove('active');
+			$('#mhsnilai').remove('.active');
+			$('#mhsperwalian').remove('.active');
+			$('#mhsjadwal').remove('.active');
+		} else if (uri == 'dokumen') { 
+			$('#menuMhsProfil').addClass('active');
+			$('#mhsOrtu').remove('active');
+			$('#mhsProfil').remove('active');
+			$('#mhsDokumen').addClass('active');
+			$('#mhsnilai').remove('.active');
+			$('#mhsperwalian').remove('.active');
+			$('#mhsjadwal').remove('.active');
 		} else if (uri == 'studi') {
-			$('#nilai').addClass('active');
-			$('#profil').remove('.active');
-			$('#perwalian').remove('.active');
-			$('#jadwal').remove('.active');
+			$('#mhsnilai').addClass('active');
+			$('#mhsprofil').remove('.active');
+			$('#mhsperwalian').remove('.active');
+			$('#mhsjadwal').remove('.active');
 		} else if (uri == 'perwalian') {
-			$('#perwalian').addClass('active');
-			$('#profil').remove('.active');
-			$('#nilai').remove('.active');
-			$('#jadwal').remove('.active');
+			$('#mhsperwalian').addClass('active');
+			$('#mhsprofil').remove('.active');
+			$('#mhsnilai').remove('.active');
+			$('#mhsjadwal').remove('.active');
 		} else if (uri == 'perkuliahan') {
-			$('#jadwal').addClass('active');
-			$('#profil').remove('.active');
-			$('#nilai').remove('.active');
-			$('#perwalian').remove('.active');
+			$('#mhsjadwal').addClass('active');
+			$('#mhsprofil').remove('.active');
+			$('#mhsnilai').remove('.active');
+			$('#mhsperwalian').remove('.active');
 		}
-	}
+	
 };
 
+//SET MENU ACTIVE MAHASISWA
+function DosenClearMenu(){
+	$('#menuDosenProfil').remove('.active');
+	// $('#mhsnilai').remove('.active');
+	// $('#mhsperwalian').remove('.active');
+	// $('#mhsjadwal').remove('.active');
+}
+
 if (role == 2) {
-	
+	if (uri == '') {
+			dosenClearMenu();
+		} else if (uri == 'profil') {
+			$('#menuDosenProfil').addClass('active');
+			$('#dosenProfil').addClass('active');
+			$('#dosenPendidikan').remove('active');
+			$('#dosenPengajaran').remove('active');
+			$('#dosenPenelitian').remove('active');
+			$('#dosenPengabdian').remove('active');
+		} else if (uri == 'pendidikan') { 
+			$('#menuDosenProfil').addClass('active');
+			$('#dosenProfil').remove('active');
+			$('#dosenPendidikan').addClass('active');
+			$('#dosenPengajaran').remove('active');
+			$('#dosenPenelitian').remove('active');
+			$('#dosenPengabdian').remove('active');
+		} else if (uri == 'pengajaran') { 
+			$('#menuDosenProfil').addClass('active');
+			$('#dosenProfil').remove('active');
+			$('#dosenPendidikan').remove('active');
+			$('#dosenPengajaran').addClass('active');
+			$('#dosenPenelitian').remove('active');
+			$('#dosenPengabdian').remove('active');
+		} else if (uri == 'penelitian') { 
+			$('#menuDosenProfil').addClass('active');
+			$('#dosenProfil').remove('active');
+			$('#dosenPendidikan').remove('active');
+			$('#dosenPengajaran').remove('active');
+			$('#dosenPenelitian').addClass('active');
+			$('#dosenPengabdian').remove('active');
+		} else if (uri == 'pengabdian') { 
+			$('#menuDosenProfil').addClass('active');
+			$('#dosenProfil').remove('active');
+			$('#dosenPendidikan').remove('active');
+			$('#dosenPengajaran').remove('active');
+			$('#dosenPenelitian').remove('active');
+			$('#dosenPengabdian').addClass('active');
+		}
 };
 	
 

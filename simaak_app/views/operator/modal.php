@@ -510,7 +510,7 @@
   </div>
 </div>
 
-<!-- HAPUS DATA PENDIDIKAN DOSEN -->
+<!-- HAPUS DATA PENELITIAN DOSEN -->
 <div class="modal modal-danger-custom fade" id="hapusDataPenelitian">
           <div class="modal-dialog">
             <div class="modal-content">

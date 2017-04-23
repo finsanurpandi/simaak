@@ -6,7 +6,7 @@
 <body>
 <?php
 
-foreach ($input as $key => $value) {
+foreach ($foto as $key => $value) {
 	echo $key.' => '.$value;
 }
 

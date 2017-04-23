@@ -17,16 +17,24 @@
           <div class="box box-primary">
             <div class="box-header with-border">
               <i class="fa fa-bullhorn"></i>
-              <h3 class="box-title">Pengumuman Penting</h3>
+              <h3 class="box-title">Pengumuman</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
             
-            <div class="callout callout-danger">
-              <h4>Perwalian</h4>
+            <?php 
 
-              <p>Perwalian paling lambat tanggal xx-xx-xxxx, segera lakukan pembayaran untuk dapat melakukan perwalian.</p>
+            foreach ($pengumuman as $value) {
+            ?>
+            <div class="callout <?=$value['tingkat']?>">
+              <h4><?=$value['judul_pengumuman']?></h4>
+
+              <p><?=$value['isi_pengumuman']?></p>
             </div>
+
+            <?php
+            }
+            ?>
 
             <!-- /.box-body -->
           </div>

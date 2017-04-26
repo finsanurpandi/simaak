@@ -332,6 +332,120 @@
         <!-- /.modal -->
 
 
+<!-- PENGABDIAN DOSEN -->
+<!-- Tambah data PENGABDIAN dosen -->
+<div class="modal fade modal-primary-custom" id="tambahDataPengabdianDosenModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Tambah Data Pengabdian Dosen</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="">
+        
+        <div class="form-group">
+            <label for="perguruan_tinggi">Program Pengabdian</label>
+            <input type="hidden" name="nidn" id="nidnTambahPengabdian" value="<?=$this->session->username?>">
+            <input class="form-control" type="text" name="program" required>
+        </div>
+
+        <div class="form-group">
+            <label for="bidang_ilmu">Judul</label>
+            <input class="form-control" type="text" name="judul" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lembaga">Anggota</label>
+            <input class="form-control" type="text" name="anggota">
+        </div>
+
+        <div class="form-group">
+            <label for="penerbit">Tahun</label>
+            <input class="form-control" type="text" name="tahun" required>
+        </div>
+
+            
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" name="tambahPengabdianDosen" id="tambahPengabdianDosen"><i class="fa fa-plus"></i> tambah</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Data PENGABDIAN dosen -->
+<div class="modal fade modal-success-custom" id="editPengabdianDosenModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Data Pengabdian Dosen</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="">
+        
+        <div class="form-group">
+            <label for="judul_penelitian">Judul Penelitian</label>
+            <input type="hidden" name="id" id="idEditPengabdian">
+            <input class="form-control" type="text" name="program" id="programEditPengabdian" required>
+        </div>
+
+        <div class="form-group">
+            <label for="bidang_ilmu">Judul</label>
+            <input class="form-control" type="text" name="judul" id="judulEditPengabdian" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lembaga">Anggota</label>
+            <input class="form-control" type="text" id="anggotaEditPengabdian" name="anggota">
+        </div>
+
+        <div class="form-group">
+            <label for="penerbit">Tahun</label>
+            <input class="form-control" type="text" name="tahun" id="tahunEditPengabdian" required>
+        </div>
+        
+            
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" name="editPengabdianDosen" id="editPengabdianDosen"><i class="fa fa-cloud-upload"></i> update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HAPUS DATA PENGABDIAN DOSEN -->
+<div class="modal modal-danger-custom fade" id="hapusDataPengabdian">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Hapus Data Pengabdian</h4>
+              </div>
+              <div class="modal-body">
+                <p>Apakah anda yakin akan menghapus data?</p>
+              </div>
+              <div class="modal-footer">
+                <form method="post">
+                <input type="hidden" name="id" id="idpengabdian">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger" name="hapusDataPengabdian"><i class="fa fa-trash"></i> delete</button>
+                </form>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+
 <!-- DOKUMEN DOSEN -->
 <!-- Tambah data DOKUMEN dosen -->
 <div class="modal fade modal-primary-custom" id="tambahDataDokumenDosenModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -400,7 +514,7 @@
   </div>
 </div>
 
-<!-- HAPUS DATA PENELITIAN DOSEN -->
+<!-- HAPUS DATA DOKUMEN DOSEN -->
 <div class="modal modal-danger-custom fade" id="hapusDataDokumen">
           <div class="modal-dialog">
             <div class="modal-content">

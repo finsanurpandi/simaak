@@ -28,4 +28,26 @@ class Ajax extends CI_Controller {
 
         echo json_encode($golongan);
     }
+
+    function loadMatkul($ta)
+    {
+
+        $matkul = $this->m_operator->getDataWhere('matakuliah', array('kode_prodi' => $this->session->kode_prodi, 'periode' => $ta));
+
+        echo json_encode($matkul);
+    }
+
+    function loadNidn()
+    {
+        $dosen = $this->m_operator->getDataWhere('dosen', array('kode_prodi' => $this->session->kode_prodi));
+
+        echo json_encode($dosen);
+    }
+
+    function getDataMatkul()
+    {
+        $matkul = $this->m_operator->getDataWhere('matakuliah', array('kode_matkul' => $this->input->post('kodeMatkul')));
+
+        echo json_encode($matkul);
+    }
 }

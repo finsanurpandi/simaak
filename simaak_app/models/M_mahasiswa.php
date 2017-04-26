@@ -35,9 +35,14 @@ class M_mahasiswa extends CI_Model {
 
 	function getDataOrder($table, $where, $orderby)
 	{
+		foreach ($where as $key => $value) {
+			$this->db->where($key, $value);
+		}
+		
 		foreach ($orderby as $key => $value) {
 				$this->db->order_by($key, $value);
 			}
+
 		$query = $this->db->get($table);
 		
 
@@ -91,6 +96,17 @@ class M_mahasiswa extends CI_Model {
 		
 
 		return $query->result_array();
+	}
+
+	function getDistinctData($table, $row)
+	{
+		$this->db->distinct();
+
+		$this->db->select($row);
+
+		$query = $this->db->get($table);
+
+		return $query;
 	}
 
 	function insertData($table, $data)

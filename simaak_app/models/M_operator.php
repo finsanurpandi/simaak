@@ -53,9 +53,14 @@ class M_operator extends CI_Model {
 
 	function getDataOrder($table, $where, $orderby)
 	{
+		foreach ($where as $key => $value) {
+			$this->db->where($key, $value);
+		}
+
 		foreach ($orderby as $key => $value) {
 				$this->db->order_by($key, $value);
 			}
+
 		$query = $this->db->get($table);
 		
 
@@ -75,7 +80,9 @@ class M_operator extends CI_Model {
 
 	function getDataWhere ($table, $where)
 	{
-		$query = $this->db->get_where($table, $where);
+		
+		$this->db->where($where);
+		$query = $this->db->get($table);
 
 		$query = $query->result_array();
 
@@ -91,6 +98,17 @@ class M_operator extends CI_Model {
 		if ($query) {
 			return $query[0];
 		}
+	}
+
+	function getDistinctData($table, $row)
+	{
+		$this->db->distinct();
+
+		$this->db->select($row);
+
+		$query = $this->db->get($table);
+
+		return $query;
 	}
 
 	// function getDataDosen ($nidn)

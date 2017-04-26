@@ -348,7 +348,7 @@ class Dosen extends CI_Controller {
 	function pengabdian()
 	{
 		$user_akun = $this->m_dosen->getDosen($this->session->userdata('username'));
-		$user_alamat = $this->m_dosen->getDataUser('dosen_alamat', array('nidn' => $this->session->userdata('username')));
+		
 		$session = $this->session->userdata('login_in');
 		
 		$riwayat_pengabdian = $this->m_dosen->getDataOrder('dosen_pengabdian', array('nidn' => $this->session->username), array('tahun' => 'DESC'));
@@ -361,7 +361,7 @@ class Dosen extends CI_Controller {
 		if ($session == TRUE) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
-			$this->load->view('dosen/pendidikan', $data);
+			$this->load->view('dosen/pengabdian', $data);
 			$this->load->view('dosen/modal', $data);
 			$this->load->view('footer');
 		} else {
@@ -374,12 +374,10 @@ class Dosen extends CI_Controller {
 		if (isset($addPengabdian)) {
 			$dosen = array (
 				'nidn' => $this->input->post('nidn'),
-				'perguruan_tinggi' => $this->input->post('perguruan_tinggi'),
-				'fakultas' => $this->input->post('fakultas'),
-				'program_studi' => $this->input->post('program_studi'),
-				'ipk' => $this->input->post('ipk'),
-				'gelar' => $this->input->post('gelar'),
-				'tahun_lulus' => $this->input->post('tahun_lulus')
+				'program' => $this->input->post('program'),
+				'judul' => $this->input->post('judul'),
+				'anggota' => $this->input->post('anggota'),
+				'tahun' => $this->input->post('tahun')
 				);
 
 			$this->m_dosen->insertAllData('dosen_pengabdian', $dosen);
@@ -393,12 +391,10 @@ class Dosen extends CI_Controller {
 
 		if (isset($editPengabdian)) {
 			$dosen = array (
-				'perguruan_tinggi' => $this->input->post('perguruan_tinggi'),
-				'fakultas' => $this->input->post('fakultas'),
-				'program_studi' => $this->input->post('program_studi'),
-				'ipk' => $this->input->post('ipk'),
-				'gelar' => $this->input->post('gelar'),
-				'tahun_lulus' => $this->input->post('tahun_lulus')
+				'program' => $this->input->post('program'),
+				'judul' => $this->input->post('judul'),
+				'anggota' => $this->input->post('anggota'),
+				'tahun' => $this->input->post('tahun')
 				);
 
 			$this->m_dosen->updateData('dosen_pengabdian', $dosen, array('id' => $this->input->post('id')));
@@ -626,29 +622,6 @@ class Dosen extends CI_Controller {
 			}
 
 	}
-
-
-// MENU STUDI ----------------------------------
-// function studi()
-// 	{
-// 		$user_akun = $this->m_mahasiswa->getMahasiswa($this->session->userdata('username'));
-// 		$user_alamat = $this->m_mahasiswa->getAlamatMahasiswa($this->session->userdata('username'));
-// 		$session = $this->session->userdata('login_in');
-
-// 		$data['user'] = $user_akun;
-// 		$data['alamat'] = $user_alamat;
-
-// 		$data['role'] = $this->session->role;
-
-// 		if ($session == TRUE) {
-// 			$this->load->view('header', $data);
-// 			$this->load->view('sidenav', $data);
-// 			$this->load->view('mahasiswa/studi', $data);
-// 			$this->load->view('footer');
-// 		} else {
-// 			redirect('login', 'refresh');
-// 		}	
-// 	}
 
 
 

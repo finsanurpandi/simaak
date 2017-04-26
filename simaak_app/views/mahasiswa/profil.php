@@ -41,13 +41,13 @@ if ($error == true) {
                 <?php
                   if ($user['image'] == null) {
                     if ($user['jenis_kelamin'] == 'L') {
-                      echo "<img src='".base_url('assets/img/profiles/default_male.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
+                      echo "<img src='".base_url('assets/uploads/profiles/default_male.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
                     } else {
-                      echo "<img src='".base_url('assets/img/profiles/default_female.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
+                      echo "<img src='".base_url('assets/uploads/profiles/default_female.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
                     };
                   } else {
                   ?>
-                    <img src="<?=base_url('assets/img/profiles/'.$user['image'])?>" class="profile-user-img img-responsive img-circle" alt="User Image">
+                    <img src="<?=base_url('assets/uploads/profiles/'.$user['image'])?>" class="profile-user-img img-responsive img-circle" alt="User Image">
                   <?php
                   } 
                  ?>

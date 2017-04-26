@@ -225,6 +225,13 @@ class Operator extends CI_Controller {
 				'nidn' => $this->input->post('dosen_wali')
 				);
 
+			$status_keuangan = array (
+				'nim' => $this->input->post('nim'),
+				'kode_prodi' => $this->input->post('kode_prodi'),
+				'tahun_ajaran' => $this->input->post('tahun_ajaran'),
+				'status' => '0%'
+				);
+
 			$this->m_operator->insertMahasiswa($account, $mahasiswa);
 			redirect($this->uri->uri_string());
 		}
@@ -540,6 +547,58 @@ class Operator extends CI_Controller {
 			$this->m_operator->deleteData('dosen_penelitian', array('id' => $this->input->post('id')));
 
 			redirect($this->uri->uri_string());			
+		}
+	}
+
+	function jadwal()
+	{
+		$user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
+		$session = $this->session->userdata('login_in');
+		$jadwal = $this->m_operator->getDataOrder('jadwal', array('kode_prodi' => $this->session->kode_prodi, 'tahun_ajaran' => $this->session->tahun_ajaran), array('semester' => 'ASC', 'kode_matkul' => 'ASC', 'kelas' => 'ASC'))->result_array();
+		$matkul = $this->m_operator->getDataWhere('matakuliah', array('kode_prodi' => $this->session->kode_prodi));
+		$semester = $this->m_operator->getDistinctData('jadwal', 'semester')->result_array();
+
+		$data['user'] = $user_akun;
+
+		$data['role'] = $this->session->role;
+
+		$data['jadwal'] = $jadwal;
+		$data['semester'] = $semester;
+		$data['prodi'] = $this->m_operator->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
+
+		if ($session == TRUE) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('operator/jadwal', $data);
+			$this->load->view('operator/modal', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
+
+		$submit_jadwal = $this->input->post('tambahJadwal');
+
+		if (isset($submit_jadwal)) {
+			// $waktu = $this->input->post('waktuMulai').' - '.$this->input->post('waktuSelesai');
+
+			$jadwal = array (
+				'kode_matkul' => $this->input->post('kode_matkul'),
+				'nama_matkul' => $this->input->post('nama_matkul'),
+				'sks' => $this->input->post('sks'),
+				'nidn' => $this->input->post('nidn'),
+				'nama_dosen' => $this->input->post('nama_dosen'),
+				'kelas' => $this->input->post('kelas'),
+				'hari' => $this->input->post('hari'),
+				'waktu' => $this->input->post('waktu'),
+				'ruangan' => $this->input->post('ruangan'),
+				'semester' => $this->input->post('semester'),
+				'tahun_ajaran' => $this->session->tahun_ajaran,
+				'kode_prodi' => $this->session->kode_prodi
+				);
+
+			$this->m_operator->insertAllData('jadwal', $jadwal);
+
+			redirect($this->uri->uri_string());
 		}
 	}
 

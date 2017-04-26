@@ -280,6 +280,60 @@ function checkGolongan(){
     });
 };
 
+// LOAD DATA KODE MATKUL
+$('#kodeMatkul').change(function(){
+	var str = $(this).find(":selected").text();
+	var nama = str.substring(9);
+	var kode = str.substring(0, 6);
+
+	$('#namaMatkul').val(nama);
+
+	$.ajax({
+		method: 'post',
+		url: baseurl+"ajax/getDataMatkul",
+		dataType: 'json',
+		data: {kodeMatkul:kode},
+		success: function(res){
+			$('#semester').val(res[0]['semester']);
+			$('#sks').val(res[0]['sks']);
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
+});
+
+
+
+$('#nidnJadwal').change(function(){
+	var str = $(this).find(":selected").text();
+	var res = str.substring(14);
+
+	$('#namaDosen').val(res);
+});
+
+//ADD MINUTES
+function addMinutes(time, minToAdd){
+	function D(J){ return (J<10? '0':'') + J};
+
+	var piece = time.split(':');
+
+	var mins = piece[0]*60 + +piece[1] + +minToAdd;
+
+	return D(mins%(24*60)/60 | 0) + ':' + D(mins%60);
+}
+
+$('#waktuMulai').change(function(){
+	var waktu = $(this).val()+':00';
+	var sks = $('#sks').val();
+	var addTime = sks * 50;
+
+	// $('#waktuSelesai').val(addMinutes(waktu, addTime));
+	$(this).val($(this).val()+' - '+addMinutes(waktu, addTime));
+})
+
+
+
 //EDIT DOSEN
 // ---------------------------------------------------------
 //PENDIDIKAN
@@ -338,6 +392,26 @@ $(document).on("click", '#btnEditPenelitianDosen', function(e){
 $(document).on("click", '#btnHapusDataPenelitianDosen', function(e){
 	var id = $(this).data('id');
 	$('#idpenelitian').val(id);
+});
+
+
+// ---------------------------------------------------------
+//PENGABDIAN
+// OPERATOR DOSEN EDIT DATA PENGABDIAN
+$(document).on("click", '#btnEditPengabdianDosen', function(e){
+	var data = $(this).data();
+
+	$('#idEditPengabdian').val(data['id']);
+	$('#programEditPengabdian').val(data['program']);
+	$('#judulEditPengabdian').val(data['judul']);
+	$('#anggotaEditPengabdian').val(data['anggota']);
+	$('#tahunEditPengabdian').val(data['tahun']);
+});
+
+// OPERATOR DOSEN HAPUS DATA PENGABDIAN
+$(document).on("click", '#btnHapusDataPengabdianDosen', function(e){
+	var id = $(this).data('id');
+	$('#idpengabdian').val(id);
 });
 
 // ---------------------------------------------------------

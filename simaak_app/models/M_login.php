@@ -7,6 +7,7 @@ class M_login extends CI_Model {
 	{
 		parent::__construct();
 		$this->tbl = 'account';
+		$this->ta = 'tahun_ajaran';
 	}
 
 	function count_user ($user, $pass)
@@ -37,5 +38,14 @@ class M_login extends CI_Model {
 
     	$this->db->where('username', $user);
     	$this->db->update($this->tbl, $timestamp);
+    }
+
+    function tahun_ajaran()
+    {
+    	$this->db->limit(1);
+    	$this->db->order_by('id', 'DESC');
+    	$query = $this->db->get($this->ta);
+
+    	return $query->result_array();
     }
 }

@@ -2,7 +2,7 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 1.0.0
     </div>
-    <strong>Copyright &copy; 2017 <a href="http://almsaeedstudio.com">Finsa Nurpandi</a>.</strong> All rights
+    <strong>Copyright &copy; 2016 <a href="http://febi.unsur.ac.id" target="_blank">Fakultas Ekonomi dan Bisnis Islam</a>.</strong> All rights
     reserved.
   </footer>
 

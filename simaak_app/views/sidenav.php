@@ -182,11 +182,11 @@
             <i class="fa fa-user-plus"></i> <span>Dosen</span>
           </a>
         </li>
-        <!-- <li id="operatorJadwal">
-          <a href="<?=base_url('operator/dosen');?>">
+        <li id="operatorJadwal">
+          <a href="<?=base_url('operator/jadwal');?>">
             <i class="fa fa-user-plus"></i> <span>Jadwal</span>
           </a>
-        </li> -->
+        </li>
         
 
 <!-- MENU PIMPINAN -->

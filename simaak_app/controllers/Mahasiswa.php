@@ -45,6 +45,7 @@ class Mahasiswa extends CI_Controller {
 		$user_upload = $this->m_mahasiswa->getDataUser('mhs_upload', array('nim' => $this->session->username));
 		$pengumuman = $this->m_mahasiswa->getAllDataOrder('pengumuman', array('role' => $this->session->role, 'status' => 1), array('created', 'DESC'));
 		$session = $this->session->userdata('login_in');
+		$this->session->set_userdata('kelas', $user_akun['kelas']);
 
 
 		$data['user'] = $user_akun;
@@ -440,16 +441,20 @@ function perwalian()
 		$user_akun = $this->m_mahasiswa->getMahasiswa($this->session->userdata('username'));
 		$user_alamat = $this->m_mahasiswa->getAlamatMahasiswa($this->session->userdata('username'));
 		$session = $this->session->userdata('login_in');
+		$jadwal = $this->m_mahasiswa->getDataOrder('jadwal', array('kode_prodi' => $this->session->kode_prodi, 'tahun_ajaran' => $this->session->tahun_ajaran), array('semester' => 'ASC', 'kode_matkul' => 'ASC', 'kelas' => 'ASC'))->result_array();
+		$semester = $this->m_mahasiswa->getDistinctData('jadwal', 'semester')->result_array();
 
 		$data['user'] = $user_akun;
 		$data['alamat'] = $user_alamat;
-
+		$data['jadwal'] = $jadwal;
+		$data['semester'] = $semester;
 		$data['role'] = $this->session->role;
 
 		if ($session == TRUE) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('mahasiswa/perwalian', $data);
+			$this->load->view('mahasiswa/modal', $data);
 			$this->load->view('footer');
 		} else {
 			redirect('login', 'refresh');
@@ -462,6 +467,7 @@ function perkuliahan()
 		$user_akun = $this->m_mahasiswa->getMahasiswa($this->session->userdata('username'));
 		$user_alamat = $this->m_mahasiswa->getAlamatMahasiswa($this->session->userdata('username'));
 		$session = $this->session->userdata('login_in');
+		$jadwal = $this->m_operator->getDataOrder('jadwal', array('kode_prodi' => $this->session->kode_prodi, 'tahun_ajaran' => $this->session->tahun_ajaran), array('semester' => 'ASC', 'kode_matkul' => 'ASC', 'kelas' => 'ASC'))->result_array();
 
 		$data['user'] = $user_akun;
 		$data['alamat'] = $user_alamat;

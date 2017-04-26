@@ -536,12 +536,97 @@
         </div>
         <!-- /.modal -->
 
+
+<!-- JADWAL -->
+<!-- Tambah data JADWAL -->
+<div class="modal fade modal-primary-custom" id="tambahDataJadwalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Tambah Data Jadwal</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="">
+        
+        <div class="form-group">
+            <label for="nidn">Matakuliah</label>
+            <select id="kodeMatkul" class="form-control" name="kode_matkul" onclick="loadKodeMatkul();">
+                <option>---</option>
+            </select>
+            <input class="form-control" type="hidden" name="nama_matkul" id="namaMatkul">
+            <input class="form-control" type="hidden" name="semester" id="semester">
+            <input class="form-control" type="hidden" name="sks" id="sks">
+        </div>
+
+        <div class="form-group">
+            <label for="nidn">Dosen</label>
+            <select id="nidnJadwal" class="form-control" name="nidn" onclick="loadNidn();">
+                <option>---</option>
+            </select>
+            <input class="form-control" type="hidden" name="nama_dosen" id="namaDosen">
+        </div>
+
+        <div class="form-group">
+            <label for="nidn">Kelas</label>
+            <select name="kelas" class="form-control">
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="nidn">Hari</label>
+            <select name="hari" class="form-control">
+              <option value="senin">Senin</option>
+              <option value="selasa">Selasa</option>
+              <option value="rabu">Rabu</option>
+              <option value="kamis">Kamis</option>
+              <option value="jum'at">Jum'at</option>
+              <option value="sabtu">Sabtu</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="nidn">Mulai</label>
+            <input class="form-control" type="text" name="waktu" id="waktuMulai" placeholder="hh:mm">
+        </div>
+
+       <!--  <div class="form-group">
+            <label for="nidn">Selesai</label>
+            <input class="form-control" type="hidden" name="waktuSelesai" id="waktuSelesai" disabled="true" placeholder="hh:mm">
+        </div> -->
+
+        <div class="form-group">
+            <label for="nidn">Ruangan</label>
+            <select name="ruangan" class="form-control">
+              <option value="ruangan-1">Ruangan-1</option>
+              <option value="ruangan-2">Ruangan-2</option>
+              <option value="ruangan-3">Ruangan-3</option>
+              <option value="ruangan-4">Ruangan-4</option>
+            </select>
+        </div>
+        
+            
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" name="tambahJadwal" id="btnTambahJadwal"><i class="fa fa-plus"></i> Tambah</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   var pass = "<?=$this->session->pass?>";
 
   var baseurl = "<?=base_url()?>";
 
   var kodeprodi = "<?=$this->session->kode_prodi?>";
+
+  var ta = "<?=substr($this->session->tahun_ajaran, 5)?>";
 
   var pm = document.getElementById('kodeprodimhs');
 
@@ -562,6 +647,64 @@
       pd.options[i].setAttribute('selected', 'true');
     }
   };
+
+var visitMatkul = 0;
+var visitDosen = 0;
+
+function loadKodeMatkul(){
+  var kodeMatkul = document.getElementById('kodeMatkul');
+  
+  $.ajax({
+    method: "post",
+    url: baseurl+"ajax/loadMatkul/"+ta,
+    dataType: 'json',
+    success: function(res){
+      visitMatkul += 1;
+      if (visitMatkul == 1) {
+        for (var i = 0; i < res.length; i++) {
+          // kodeMatkul.appendChild("<option value='"+res[i]['kode_matkul']+"'>"+res[i]['kode_matkul']+"</option>");
+          var x = document.createElement("option");
+          x.setAttribute('value', res[i]['kode_matkul']);
+          var t = document.createTextNode(res[i]['kode_matkul']+' - Semester '+res[i]['semester']+' - '+res[i]['nama_matkul']);
+          x.appendChild(t);
+          document.getElementById('kodeMatkul').appendChild(x);
+        };
+      };
+
+    },
+    error: function(error){
+      console.log(error);
+    }
+  });
+
+};
+
+function loadNidn(){
+  var nidn = document.getElementById('nidnJadwal');
+
+  $.ajax({
+    method: "post",
+    url: baseurl+"ajax/loadNidn",
+    dataType: 'json',
+    success: function(res){
+      visitDosen += 1;
+      if (visitDosen == 1) {
+        for (var i = 0; i < res.length; i++) {
+          var x = document.createElement("option");
+          x.setAttribute('value', res[i]['nidn']);
+          var t = document.createTextNode(res[i]['nidn']+' - '+res[i]['gelar_depan']+' '+res[i]['nama']+'., '+res[i]['gelar_belakang']);
+          x.appendChild(t);
+          document.getElementById('nidnJadwal').appendChild(x);
+        };
+      };
+
+    },
+    error: function(error){
+      console.log(error);
+    }
+  });
+
+};
   
 
 </script>

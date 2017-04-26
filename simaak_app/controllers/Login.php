@@ -42,6 +42,7 @@ class Login extends CI_Controller {
 		// $cek = $this->m_login->count_user($username, password_hash(md5($password), PASSWORD_BCRYPT))->result_array();
 		$count = $this->m_login->count_user($username, md5($password))->num_rows();
 		$cek = $this->m_login->count_user($username, md5($password))->result_array();
+		$tahun = $this->m_login->tahun_ajaran();
 
 		//set date
 		date_default_timezone_set("Asia/Bangkok");
@@ -77,7 +78,8 @@ class Login extends CI_Controller {
 					'kode_prodi' => $kdprodi,
 					'mhs_profil' => FALSE,
 					'mhs_ortu' => FALSE,
-					'mhs_upload' => FALSE);
+					'mhs_upload' => FALSE,
+					'tahun_ajaran' => $tahun[0]['tahun_ajaran']);
 
 			$data = array(
 					'last_login' => $lastlogin,

@@ -590,7 +590,7 @@
 
         <div class="form-group">
             <label for="nidn">Mulai</label>
-            <input class="form-control" type="text" name="waktu" id="waktuMulai" placeholder="hh:mm">
+            <input class="form-control" type="text" name="waktu" id="waktuMulai" placeholder="hh.mm">
         </div>
 
        <!--  <div class="form-group">

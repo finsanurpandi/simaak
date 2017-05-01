@@ -142,12 +142,12 @@
         </li>
         <li id="mahasiswa">
           <a href="<?=base_url('dosen/mahasiswa');?>">
-            <i class="fa fa-graduation-cap"></i> <span>Daftar Mahasiswa</span>
+            <i class="fa fa-graduation-cap"></i> <span>Mahasiswa Wali</span>
           </a>
         </li>
         <li id="matakuliah">
           <a href="<?=base_url('dosen/matakuliah');?>">
-            <i class="fa fa-graduation-cap"></i> <span>Daftar Matakuliah</span>
+            <i class="fa fa-graduation-cap"></i> <span>Matakuliah</span>
           </a>
         </li>
         <li id="kinerja">

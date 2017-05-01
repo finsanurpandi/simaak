@@ -542,6 +542,33 @@
         <!-- /.modal -->
 
 
+<!-- VALIDASI PERWALIAN -->
+<div class="modal modal-success-custom fade" id="validasiModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Validasi Perwalian Mahasiswa</h4>
+              </div>
+              <div class="modal-body">
+                <p>Apakah anda yakin akan melakukan validasi perwalian mahasiswa?</p>
+              </div>
+              <div class="modal-footer">
+                <form method="post">
+                <input type="hidden" name="nim" id="nimValidasi">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-success" name="validasiPerwalianDosen"><i class="fa fa-check"></i> Validasi</button>
+                </form>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+
 <script>
   var pass = "<?=$this->session->pass?>";
   var baseurl = "<?=base_url()?>";

@@ -3,7 +3,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Data Mahasiswa
+        Data Perwalian Mahasiswa
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url()?>"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -57,31 +57,31 @@ if (!empty($gelardepan)) {
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th>No</th>
-                  <th>NIM</th>
+                  <th>#</th>
+                  <th>NPM</th>
                   <th>Nama</th>
                   <th>Angkatan</th>
-                  <th>Program Studi</th>
-                  <th>Jenis Kelamin</th>
-                  <th>Tempat Lahir</th>
-                  <th>Tanggal Lahir</th>
+                  <th>Status Perwalian</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                $i = $page + 1;
-                foreach ($mhs as $key => $value) {
+                $i = 1;
+                foreach ($statusperwalian as $key => $value) {
                   echo "<tr>";
                   echo "<td>".$i++."</td>";
                   echo "<td>".$value['nim']."</td>";
                   echo "<td>".$value['nama']."</td>";
                   echo "<td>".$value['angkatan']."</td>";
-                  echo "<td>".$value['kode_prodi']."</td>";
-                  echo "<td>".$value['jenis_kelamin']."</td>";
-                  echo "<td>".$value['tempat_lahir']."</td>";
-                  echo "<td>".$value['tanggal_lahir']."</td>";
-                  echo "<td><a href='".base_url()."dosen/detailmahasiswa/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a></td>";
+
+                  if (empty($value['v_dosen'])) {
+                  	echo "Belum perwalian";
+                  } else {
+                  	echo "<td>".$value['v_dosen']."</td>";
+              		}
+              		
+                  echo "<td><a href='".base_url()."dosen/validasi_perwalian/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a></td>";
                   echo "</tr>";
                 }
                 ?>
@@ -89,16 +89,16 @@ if (!empty($gelardepan)) {
 
             </table>
 <?php
-  if ($mhs == null) {
+  if ($statusperwalian == null) {
     echo "<p class='text-center text-danger'><strong>data tidak ditemukan!</strong></p>";
   }
 ?>
 
-<div class="text-center">
+<!-- <div class="text-center">
     <ul class="pagination pagination-sm">
         <?php echo $link?>
     </ul>    
-</div>
+</div> -->
             </div>
             <!-- /.box-body -->
           </div>

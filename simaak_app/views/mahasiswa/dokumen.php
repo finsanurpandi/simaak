@@ -41,7 +41,7 @@ if ($error == true) {
     <div class="col-sm-6">
     <input type="hidden" name="path" value="$upload['pas_photo']">
 <?php
-if ($upload['pas_photo'] !== '') {
+if (!empty($upload['pas_photo']) ) {
   echo "<div class='alert alert-grey'>";
   $link = base_url('assets/img/documents/mahasiswa/'.$upload['pas_photo']);
   echo "<i class='fa fa-check text-success'></i> ";
@@ -70,7 +70,7 @@ if ($upload['pas_photo'] !== '') {
     <input type="hidden" name="path" value="$upload['ijazah']">
 
 <?php
-if ($upload['ijazah'] !== '') {
+if (!empty($upload['ijazah'])) {
   echo "<div class='alert alert-grey'>";
   $link = base_url('assets/img/documents/mahasiswa/'.$upload['ijazah']);
   echo "<i class='fa fa-check text-success'></i> ";

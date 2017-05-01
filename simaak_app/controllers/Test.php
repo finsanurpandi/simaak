@@ -5,39 +5,60 @@ class Test extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('upload');
-        // $this->load->model('m_operator');
+        // $this->load->library('upload');
+        $this->load->model('m_test');
     }
 
     function index()
     {
-            $nmfile = $this->input->post('nidn')."_".time();
-            $config['upload_path']   =   "./assets/img/";
-            $config['allowed_types'] =   "gif|jpg|jpeg|png|pdf"; 
-            $config['max_size']      =   "3000";
-            $config['file_name']     =   $nmfile;
+            // $nmfile = $this->input->post('nidn')."_".time();
+            // $config['upload_path']   =   "./assets/img/";
+            // $config['allowed_types'] =   "gif|jpg|jpeg|png|pdf"; 
+            // $config['max_size']      =   "3000";
+            // $config['file_name']     =   $nmfile;
  
-            $this->upload->initialize($config);
-            // $this->uploadDokumenDosen($this->input->post('nidn'));
+            // $this->upload->initialize($config);
+            // // $this->uploadDokumenDosen($this->input->post('nidn'));
 
-            if (!$this->upload->do_upload('file')) {
-                $this->index();
-            } else {
+            // if (!$this->upload->do_upload('file')) {
+            //     $this->index();
+            // } else {
 
-            $fileinfo = $this->upload->data();
+            // $fileinfo = $this->upload->data();
 
-            $dosen = array (
-                'nidn' => $this->input->post('nidn'),
-                'judul_file' => $this->input->post('judul_file'),
-                'nama_file' => $fileinfo['file_name']
-                );
+            // $dosen = array (
+            //     'nidn' => $this->input->post('nidn'),
+            //     'judul_file' => $this->input->post('judul_file'),
+            //     'nama_file' => $fileinfo['file_name']
+            //     );
 
-            $data['foto'] = $dosen;
+            // $data['foto'] = $dosen;
 
-            $this->load->view('test');
+            // $this->load->view('test');
 
-            //redirect($this->uri->uri_string());
-            }
+            // //redirect($this->uri->uri_string());
+            // }
+        $golongan = $this->m_test->select('golongan');
+        $data['golongan'] = $golongan;
+
+        $this->load->view('test', $data);
+    }
+
+    function multipleInput()
+    {
+        // $data = $this->input->post('jabfung');
+        
+
+        $data = array();
+        for ($i = 0; $i < count($this->input->post('jabfung')); $i++) {
+            $data[$i] = array(
+                'jabatan_fungsional' => $this->input->post('jabfung')[$i],
+                'pangkat' => $this->input->post('pangkat')[$i],
+                'golongan' => $this->input->post('golongan')[$i]
+            );
+        };
+
+        $this->m_test->insert('perwalian', $data);
     }
 
     

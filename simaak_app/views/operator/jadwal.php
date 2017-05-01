@@ -62,7 +62,7 @@ foreach ($semester as $data) {
                   echo "<td class='text-center'>".$value['kelas']."</td>";
                   echo "<td>".ucfirst($value['hari']).", ".$value['waktu']." WIB</td>";
                   echo "<td>".ucfirst($value['ruangan'])."</td>";
-                  echo "<td><a href='".base_url()."operator/detailMahasiswa/".$this->encrypt->encode($value['id'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> edit</a></td>";
+                  echo "<td><a href='".base_url()."operator/detailMahasiswa/".$this->encrypt->encode($value['id_jadwal'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> edit</a></td>";
                   echo "</tr>";
                 } else {
                   continue;
@@ -73,6 +73,7 @@ foreach ($semester as $data) {
               </tbody>
 
             </table>
+            <hr/>
 <?php
 }
 ?>

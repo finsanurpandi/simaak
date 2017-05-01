@@ -96,17 +96,42 @@ class M_dosen extends CI_Model {
 
 	function getAllData($table, $where = null, $limit = null, $offset = null)
 	{
-		if (($limit !== null) && ($offset !== null)) {
-			$query = $this->db->get_where($table, $where, $limit, $offset);
-		} elseif ($where !== null) {
-			$query = $this->db->get_where($table, $where);
-		} else {
-			$query = $this->db->get($table);	
-		}
-		
+		// if (($limit !== null) && ($offset !== null)) {
+		// 	$query = $this->db->get_where($table, $where, $limit, $offset);
+		// } elseif ($where !== null) {
+		// 	$query = $this->db->get_where($table, $where);
+		// } else {
+		// 	$query = $this->db->get($table);	
+		// }
 
+		if (($limit !== null) && ($offset !== null)) {
+			$this->db->limit($limit, $offset);
+		} elseif ($where !== null) {
+			foreach ($where as $key => $value) {
+				$this->db->where($key, $value);
+			}
+		}
+
+		$query = $this->db->get($table);	
+		
 		return $query;
 	}
+
+	function getPerwalianMhs($where)
+	{
+		$this->db->select('mhs.nim, mhs.nama, mhs.angkatan, status_perwalian.v_dosen');
+		$this->db->from('mhs');
+		$this->db->join('status_perwalian', 'status_perwalian.nim = mhs.nim');
+		
+		foreach ($where as $key => $value) {
+			$this->db->where($key, $value);
+		}
+
+		$query = $this->db->get();
+		
+		return $query->result_array();	
+	}
+
 
 	function searchData ($table, $nidn, $key, $row)
 	{
@@ -125,7 +150,16 @@ class M_dosen extends CI_Model {
 
 	function updateData($table, $data, $where)
 	{
-		$this->db->update($table, $data, $where);
+		foreach ($data as $key => $value) {
+			$this->db->set($key, $value);
+		}
+
+		foreach ($where as $key => $value) {
+			$this->db->where($key, $value);
+		}
+
+		$this->db->update($table);
+		// $this->db->update($table, $data, $where);
 	}
 
 

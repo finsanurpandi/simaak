@@ -283,7 +283,7 @@ function checkGolongan(){
 // LOAD DATA KODE MATKUL
 $('#kodeMatkul').change(function(){
 	var str = $(this).find(":selected").text();
-	var nama = str.substring(9);
+	var nama = str.substring(22);
 	var kode = str.substring(0, 6);
 
 	$('#namaMatkul').val(nama);
@@ -435,6 +435,13 @@ $(document).on("click", '#btnHapusDataDokumenDosen', function(e){
 	$('#iddokumen').val(id);
 	$('#namadokumen').val(nama);
 });
+
+// VALIDASI PERWALIAN DOSEN
+$('#validasiPerwalianDosen').click(function(){
+	var nim = $(this).data('nim');
+
+	$('#nimValidasi').val(nim);
+})
 
 //SET MENU ACTIVE MAHASISWA
 function mhsClearMenu(){

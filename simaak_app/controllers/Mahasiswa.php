@@ -309,19 +309,19 @@ class Mahasiswa extends CI_Controller {
 	{
 		$user_akun = $this->m_mahasiswa->getMahasiswa($this->session->userdata('username'));
 		// $user_alamat = $this->m_mahasiswa->getAlamatMahasiswa($this->session->userdata('username'));
-		$user_upload = $this->m_mahasiswa->getAllData('mhs_upload', array('nim' => $this->session->username))->result_array()[0];
+		$user_upload = @$this->m_mahasiswa->getAllData('mhs_upload', array('nim' => $this->session->username))->result_array()[0];
 		
 		$session = $this->session->userdata('login_in');
 
 		$data['user'] = $user_akun;
 		// $data['alamat'] = $user_alamat;
-		$data['upload'] = $user_upload;
+		$data['upload'] = @$user_upload;
 
 		$data['role'] = $this->session->role;
 
 		$data['error'] = $this->upload->display_errors();
 
-		if (($user_upload['pas_photo'] == null) || ($user_upload['ijazah'] == null)) {
+		if ( (empty($user_upload['pas_photo'])) || (empty($user_upload['ijazah'])) ) {
 			$this->session->set_userdata('mhs_upload', FALSE);
 		} else {
 			$this->session->set_userdata('mhs_upload', TRUE);
@@ -443,12 +443,18 @@ function perwalian()
 		$session = $this->session->userdata('login_in');
 		$jadwal = $this->m_mahasiswa->getDataOrder('jadwal', array('kode_prodi' => $this->session->kode_prodi, 'tahun_ajaran' => $this->session->tahun_ajaran), array('semester' => 'ASC', 'kode_matkul' => 'ASC', 'kelas' => 'ASC'))->result_array();
 		$semester = $this->m_mahasiswa->getDistinctData('jadwal', 'semester')->result_array();
+		$statusperwalian = $this->m_mahasiswa->getAllData('status_perwalian', array('nim' => $this->session->username))->result_array();
+		$perwalian = $this->m_mahasiswa->getAllData('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+		// $totalSks = $this->m_mahasiswa->getTotalSks('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran));
 
 		$data['user'] = $user_akun;
 		$data['alamat'] = $user_alamat;
 		$data['jadwal'] = $jadwal;
 		$data['semester'] = $semester;
 		$data['role'] = $this->session->role;
+		$data['statusperwalian'] = @$statusperwalian[0];
+		$data['perwalian'] = $perwalian;
+		// $data['totalsks'] = $totalSks;
 
 		if ($session == TRUE) {
 			$this->load->view('header', $data);
@@ -459,6 +465,44 @@ function perwalian()
 		} else {
 			redirect('login', 'refresh');
 		}	
+
+		$submit_perwalian = $this->input->post('submitperwalian');
+
+		if (isset($submit_perwalian)) {
+			date_default_timezone_set("Asia/Bangkok");
+			$date = new DateTime();
+			$tglperwalian = $date->format('Y-m-d H:i:s');
+
+			$data = array();
+
+			for ($i = 0; $i < count($this->input->post('id_jadwal')); $i++) {
+	            $data[$i] = array(
+	            	'nim' => $this->session->username,
+	            	'nama_mhs' => $user_akun['nama'],
+	                'kode_matkul' => $this->input->post('kode_matkul')[$i],
+	                'nama_matkul' => $this->input->post('nama_matkul')[$i],
+	                'sks' => $this->input->post('sks')[$i],
+	                'nidn' => $this->input->post('nidn')[$i],
+	                'nama_dosen' => $this->input->post('nama_dosen')[$i],
+	                'kelas' => $this->input->post('kelas')[$i],
+	                'id_jadwal' => $this->input->post('id_jadwal')[$i],
+	                'semester' => $this->input->post('semester')[$i],
+	                'tahun_ajaran' => $this->session->tahun_ajaran,
+	                'kode_prodi' => $this->session->kode_prodi
+	            );
+	        };
+
+	        $data2 = array(
+	        	'nim' => $this->session->username,
+	        	'nidn' => $user_akun['nidn'],
+	        	'tahun_ajaran' => $this->session->tahun_ajaran,
+	        	'tgl_perwalian' => $tglperwalian
+	        	);
+
+	        $this->m_mahasiswa->insertMultiple('perwalian', $data, 'status_perwalian', $data2);
+
+	        redirect($this->uri->uri_string());
+		}
 	}
 
 // MENU JADWAL KULIAH ----------------------------------
@@ -467,12 +511,14 @@ function perkuliahan()
 		$user_akun = $this->m_mahasiswa->getMahasiswa($this->session->userdata('username'));
 		$user_alamat = $this->m_mahasiswa->getAlamatMahasiswa($this->session->userdata('username'));
 		$session = $this->session->userdata('login_in');
-		$jadwal = $this->m_operator->getDataOrder('jadwal', array('kode_prodi' => $this->session->kode_prodi, 'tahun_ajaran' => $this->session->tahun_ajaran), array('semester' => 'ASC', 'kode_matkul' => 'ASC', 'kelas' => 'ASC'))->result_array();
+		$jadwalmhs = $this->m_mahasiswa->getJadwalMhs(array('nim' => $this->session->username));
+		$statusperwalian = $this->m_mahasiswa->getAllData('status_perwalian', array('nim' => $this->session->username))->result_array();
 
 		$data['user'] = $user_akun;
 		$data['alamat'] = $user_alamat;
-
+		$data['jadwal'] = $jadwalmhs;
 		$data['role'] = $this->session->role;
+		$data['statusperwalian'] = @$statusperwalian[0];
 
 		if ($session == TRUE) {
 			$this->load->view('header', $data);
@@ -483,5 +529,6 @@ function perkuliahan()
 			redirect('login', 'refresh');
 		}	
 	}
+
 
 }

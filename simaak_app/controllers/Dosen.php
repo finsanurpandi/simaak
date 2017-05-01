@@ -448,6 +448,174 @@ class Dosen extends CI_Controller {
 		redirect('login/logout', 'refresh');
 	}
 
+// MENU PERWALIAN
+
+	function perwalian()
+	{
+		$nidn = $this->session->userdata('username');
+
+		$user_akun = $this->m_dosen->getDosen($nidn);
+		$session = $this->session->userdata('login_in');
+		$statusperwalian = $this->m_dosen->getPerwalianMhs(array('mhs.nidn' => $this->session->username));
+
+
+		$data['user'] = $user_akun;
+		$data['role'] = $this->session->role;
+		$data['statusperwalian'] = $statusperwalian;
+
+		if ($session == TRUE) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('dosen/perwalian', $data);
+			$this->load->view('dosen/modal', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
+	}
+
+	function validasi_perwalian($nim)
+	{
+		$nidn = $this->session->userdata('username');
+		$key_nim = $this->encrypt->decode($nim);
+		$user_akun = $this->m_dosen->getDosen($nidn);
+		$session = $this->session->userdata('login_in');
+		$perwalianmhs = $this->m_dosen->getAllDataOrder('perwalian', array('nim' => $key_nim), array('kode_matkul' => 'ASC'));
+		$statusperwalian = $this->m_dosen->getAllData('status_perwalian', array('nim' => $key_nim))->result_array();
+
+
+		$data['user'] = $user_akun;
+		$data['role'] = $this->session->role;
+		$data['perwalianmhs'] = $perwalianmhs;
+		$data['statusperwalian'] = $statusperwalian;
+
+		if ($session == TRUE) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('dosen/validasi_perwalian', $data);
+			$this->load->view('dosen/modal', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
+
+		$validasi_dosen = $this->input->post('validasiPerwalianDosen');
+
+		if (isset($validasi_dosen)) {
+			$this->m_dosen->updateData('status_perwalian', array('v_dosen' => 'Disetujui'), array('nim' => $this->input->post('nim'), 'tahun_ajaran' => $this->session->tahun_ajaran));
+
+			redirect('dosen/perwalian','refresh');
+		}
+	}
+
+// MENU MATAKULIAH
+
+	function matakuliah()
+	{
+		$nidn = $this->session->userdata('username');
+
+		$user_akun = $this->m_dosen->getDosen($nidn);
+		$session = $this->session->userdata('login_in');
+		$jadwal = $this->m_dosen->getAllDataOrder('jadwal', array('nidn' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran), array('kode_matkul' => 'ASC'));
+
+
+		$data['user'] = $user_akun;
+		$data['role'] = $this->session->role;
+		$data['jadwal'] = $jadwal;
+
+		if ($session == TRUE) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('dosen/matakuliah', $data);
+			$this->load->view('dosen/modal', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
+	}
+
+	function detailmatakuliah($kode_matkul, $nama_matkul, $kelas)
+	{
+		$nidn = $this->session->userdata('username');
+		$kode_matkul = $this->encrypt->decode($kode_matkul);
+		$nama_matkul = $this->encrypt->decode($nama_matkul);
+		$kelas = $this->encrypt->decode($kelas);
+		$user_akun = $this->m_dosen->getDosen($nidn);
+		$session = $this->session->userdata('login_in');
+		$jadwal = $this->m_dosen->getAllDataOrder('perwalian', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('log' => 'ASC'));
+
+
+		$data['user'] = $user_akun;
+		$data['role'] = $this->session->role;
+		$data['jadwal'] = $jadwal;
+		$data['nama_matkul'] = $nama_matkul;
+		$data['kelas'] = $kelas;
+
+		if ($session == TRUE) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('dosen/detailmatakuliah', $data);
+			$this->load->view('dosen/modal', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
+	}
+
+// MENU NILAI
+
+	function nilai()
+	{
+		$nidn = $this->session->userdata('username');
+
+		$user_akun = $this->m_dosen->getDosen($nidn);
+		$session = $this->session->userdata('login_in');
+		$jadwal = $this->m_dosen->getAllDataOrder('jadwal', array('nidn' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran), array('kode_matkul' => 'ASC'));
+
+
+		$data['user'] = $user_akun;
+		$data['role'] = $this->session->role;
+		$data['jadwal'] = $jadwal;
+
+		if ($session == TRUE) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('dosen/nilai', $data);
+			$this->load->view('dosen/modal', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
+	}
+
+	function detailnilai($kode_matkul, $nama_matkul, $kelas)
+	{
+		$nidn = $this->session->userdata('username');
+		$kode_matkul = $this->encrypt->decode($kode_matkul);
+		$nama_matkul = $this->encrypt->decode($nama_matkul);
+		$kelas = $this->encrypt->decode($kelas);
+		$user_akun = $this->m_dosen->getDosen($nidn);
+		$session = $this->session->userdata('login_in');
+		$jadwal = $this->m_dosen->getAllDataOrder('perwalian', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('log' => 'ASC'));
+
+
+		$data['user'] = $user_akun;
+		$data['role'] = $this->session->role;
+		$data['jadwal'] = $jadwal;
+		$data['nama_matkul'] = $nama_matkul;
+		$data['kelas'] = $kelas;
+
+		if ($session == TRUE) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('dosen/detailnilai', $data);
+			$this->load->view('dosen/modal', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
+	}
+
 
 // MENU MAHASISWA ----------------------------------
 

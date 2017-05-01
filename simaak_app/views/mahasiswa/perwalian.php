@@ -1,9 +1,9 @@
-<!-- Content Wrapper. Contains page content -->
+Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Selamat datang, <?=$user['nama']?>
+        Perwalian Mahasiswa
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url()?>"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -17,7 +17,7 @@
     <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Perwalian Mahasiswa <?=$this->session->kelas?></h3>
+              <h3 class="box-title"><?=$user['nama']?></h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
@@ -63,10 +63,10 @@
                     <?=$user['kelas']?>
                   </p>
 
-                  <strong>IP Terakhir</strong>
+                  <!-- <strong>IP Terakhir</strong>
                   <p class="text-muted">
 
-                  </p>
+                  </p> -->
 
 
       </div>      
@@ -75,6 +75,67 @@
               <hr>
 
 <?php
+if (!empty($statusperwalian)) {
+?>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Kode Matakuliah</th>
+      <th>Nama Matakuliah</th>
+      <th>SKS</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+<?php
+$i = 1;
+$totalsks = 0;
+foreach ($perwalian as $key => $value) {
+?>
+<tr>
+  <td><?=$i++?></td>
+  <td><?=$value['kode_matkul']?></td>
+  <td><?=$value['nama_matkul']?></td>
+  <td><?=$value['sks']?></td>
+</tr>
+<?php
+$totalsks += $value['sks'];
+ } ?>
+
+  </tbody>
+</table>
+<hr/>
+
+<strong>Total SKS</strong>
+<p class="text-muted">
+  <?=$totalsks?> SKS
+</p>
+
+<strong>Waktu Perwalian</strong>
+<p class="text-muted">
+  <?php
+  $date = new DateTime($statusperwalian['tgl_perwalian']);
+  echo $date->format('l, d/m/Y - H:i:s'). ' WIB';
+  ?>
+</p>
+
+<strong>Status Validasi</strong>
+<p class="text-muted">
+  Dosen Wali = <?=$statusperwalian['v_dosen']?>
+<?php
+// $validasidosen = $statusperwalian['v_dosen'];
+//   if (empty($validasidosen)) {
+//     echo 'Menunggu';
+//   } else {
+//     echo $statusperwalian['v_dosen'];
+//   }
+?>
+</p>
+<?php
+} else {
+
 foreach ($semester as $value) {
 ?>
 <h3>Semester <?=$value['semester']?></h3>
@@ -90,22 +151,44 @@ foreach ($semester as $value) {
     </tr>
   </thead>
   <tbody>
-
+<form method="post">
 <?php
+$i = 0;
 foreach ($jadwal as $data) {
 if (($data['semester'] == $value['semester']) && ($data['kelas'] == $this->session->kelas)) {
-  
 ?>
     <tr>
-      <td><?=$data['kode_matkul']?></td>
-      <td><?=$data['nama_matkul']?></td>
-      <td><?=$data['sks']?></td>
-      <td><?=$data['nama_dosen']?></td>
-      <td><?=ucfirst($data['hari']).', '.$data['waktu']?></td>
-      <td><?=$data['ruangan']?></td>
+      <td>
+        <input type="hidden" name="nama_mhs[]" value="<?=$user['nama']?>">
+        <input type="hidden" name="kode_matkul[]" value="<?=$data['kode_matkul']?>">
+        <?=$data['kode_matkul']?>
+      </td>
+      <td>
+        <input type="hidden" name="nama_matkul[]" value="<?=$data['nama_matkul']?>">
+        <?=$data['nama_matkul']?>
+      </td>
+      <td>
+        <input type="hidden" name="sks[]" value="<?=$data['sks']?>">
+        <?=$data['sks']?>
+      </td>
+      <td>
+        <input type="hidden" name="nidn[]" value="<?=$data['nidn']?>">
+        <input type="hidden" name="nama_dosen[]" value="<?=$data['nama_dosen']?>">
+        <input type="hidden" name="kelas[]" value="<?=$data['kelas']?>">
+        <?=$data['nama_dosen']?>
+      </td>
+      <td>
+        <input type="hidden" name="id_jadwal[]" value="<?=$data['id_jadwal']?>">
+        <?=ucfirst($data['hari']).', '.$data['waktu']?>
+      </td>
+      <td>
+        <input type="hidden" name="semester[]" value="<?=$data['semester']?>">
+        <?=$data['ruangan']?>
+      </td>
     </tr>
 
 <?php 
+$i++;
 } else {
   continue;
 }
@@ -114,9 +197,11 @@ if (($data['semester'] == $value['semester']) && ($data['kelas'] == $this->sessi
   </tbody>
 </table>
 <hr/>
-<button class="btn btn-primary btn-xs">Kirim</button>
+<button id="btnSubmitPerwalian" class="btn btn-primary btn-xs" name="submitperwalian">Kirim</button>
+</form>
 <hr/>
 <?php
+}
 }
 ?>
 <hr/>
@@ -132,4 +217,4 @@ if (($data['semester'] == $value['semester']) && ($data['kelas'] == $this->sessi
     </section>
     <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
+  <!-- /.content-wrapper

@@ -63,10 +63,13 @@ class M_mahasiswa extends CI_Model {
 	function getAllData($table, $where = null)
 	{
 		if ($where !== null) {
-			$query = $this->db->get_where($table, $where);
-		} else {
-			$query = $this->db->get($table);
-		}
+			foreach ($where as $key => $value) {
+				$this->db->where($key, $value);
+			}
+		} 
+		
+		$query = $this->db->get($table);
+		
 
 		return $query;
 	}
@@ -109,6 +112,23 @@ class M_mahasiswa extends CI_Model {
 		return $query;
 	}
 
+	function getJadwalMhs($where)
+	{
+		$this->db->select('perwalian.nim, perwalian.kode_matkul, perwalian.nama_matkul, perwalian.nama_dosen, perwalian.sks, jadwal.hari, jadwal.waktu, jadwal.ruangan');
+		$this->db->from('perwalian');
+		$this->db->join('jadwal', 'jadwal.id_jadwal = perwalian.id_jadwal');
+		
+		foreach ($where as $key => $value) {
+			$this->db->where($key, $value);
+		}
+
+		
+		$query = $this->db->get();
+
+		return $query->result_array();
+	}
+
+
 	function insertData($table, $data)
 	{
 		$this->db->insert($table, $data);
@@ -117,6 +137,14 @@ class M_mahasiswa extends CI_Model {
 	function insertAllData($table, $data)
 	{
 		$this->db->insert($table, $data);
+	}
+
+	function insertMultiple($table1, $data1, $table2, $data2)
+	{
+		$this->db->trans_start();
+		$this->db->insert_batch($table1, $data1);
+		$this->db->insert($table2, $data2);
+		$this->db->trans_complete();
 	}
 
 	function updateProfileImage($data, $user)

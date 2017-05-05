@@ -64,7 +64,7 @@ if ($error == true) {
 					<button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#ubahPassModal">ubah password</button> -->
 				</div>
 
-				<div class="col-md-10">
+				<!-- <div class="col-md-10">
 			   		<strong>NIDN</strong>
 		        <p class="text-muted">
 		          <?=$user['nidn']?>
@@ -107,7 +107,7 @@ if ($error == true) {
             </p>
 
 
-			</div>			
+			</div>	 -->		
 			</div>
 
               
@@ -118,59 +118,100 @@ if ($error == true) {
 
 			<div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                  <li class="active"><a href="#alamat" data-toggle="tab">Alamat</a></li>
+                  <li class="active"><a href="#identitas" data-toggle="tab">Identitas Dosen</a></li>
                   <li><a href="#pendidikan" data-toggle="tab">Riwayat Pendidikan</a></li>
-                  <li><a href="#pengajaran" data-toggle="tab">Riwayat Mengajar</a></li>
-                  <li><a href="#penelitian" data-toggle="tab">Penelitian</a></li>
-                  <li><a href="#pengabdian" data-toggle="tab">Pengabdian</a></li>
                 </ul>
                 <div class="tab-content">
-                  <div class="active tab-pane" id="alamat">
-                    <table class="table">
+                  <div class="active tab-pane" id="identitas">
+                    <table class="table table-hover">
                       <tbody>
                         <tr>
                           <td><strong>NIK</strong></td>
-                          <td><?=$alamat['nik']?></td>
+                          <td><?=$user['nik']?></td>
                         </tr>
                         <tr>
-                          <td><strong>Kewarganegaraan</strong></td>
-                          <td><?=$alamat['kewarganegaraan']?></td>
+                          <td><strong>NIDN</strong></td>
+                          <td><?=$user['nidn']?></td>
                         </tr>
                         <tr>
-                          <td><strong>Jalan</strong></td>
-                          <td><?=$alamat['jalan']?></td>
+                          <td><strong>Nama</strong></td>
+                          <td>
+<?php
+if (!empty($user['gelar_depan'])) {
+  echo $user['gelar_depan'].'. '.$user['nama'].', '.$user['gelar_belakang'];
+} else {
+  echo $user['nama'].', '.$user['gelar_belakang'];
+}
+
+?>
+                          </td>
                         </tr>
                         <tr>
-                          <td><strong>RT</strong></td>
-                          <td><?=$alamat['rt']?></td>
+                          <td><strong>Nama PT</strong></td>
+                          <td>Universitas Suryakancana</td>
                         </tr>
                         <tr>
-                          <td><strong>RW</strong></td>
-                          <td><?=$alamat['rw']?></td>
+                          <td><strong>Alamat PT</strong></td>
+                          <td>Jl. Pasir Gede Raya</td>
                         </tr>
                         <tr>
-                          <td><strong>Dusun</strong></td>
-                          <td><?=$alamat['dusun']?></td>
+                          <td><strong>Fakultas / Prog.Studi</strong></td>
+                          <td>
+<?php
+if ($user['kode_prodi'] == 'MPI') {
+  echo "Manajemen Pendidikan Islam";
+} elseif ($user['kode_prodi'] == 'ES') {
+  echo "Ekonomi Syariah";
+} elseif ($user['kode_prodi'] == 'PBS') {
+  echo "Perbankan Syariah";
+}
+?>
+                          </td>
                         </tr>
                         <tr>
-                          <td><strong>Kelurahan</strong></td>
-                          <td><?=$alamat['kelurahan']?></td>
+                          <td><strong>Jenis Dosen</strong></td>
+                          <td>
+<?php
+$jenis = $user['jenis_dosen'];
+switch ($jenis) {
+  case 'PR':
+    echo 'Profesor';
+    break;
+  case 'DT':
+    echo 'Dosen Dengan Tugas Tambahan';
+    break;
+  case 'PT':
+    echo 'Profesor Dengan Tugas Tambahan';
+    break;
+  default:
+    echo 'Dosen Biasa';
+    break;
+}
+?>
+                          </td>
                         </tr>
                         <tr>
-                          <td><strong>Kecamatan</strong></td>
-                          <td><?=$alamat['kecamatan']?></td>
+                          <td><strong>Jabatan Fungsional - Golongan</strong></td>
+                          <td><?=$user['jabatan_fungsional'].' - '.$user['golongan']?></td>
                         </tr>
                         <tr>
-                          <td><strong>Kodepos</strong></td>
-                          <td><?=$alamat['kodepos']?></td>
+                          <td><strong>Tanggal Lahir</strong></td>
+                          <td><?=$user['tgl_lahir']?></td>
                         </tr>
+
                         <tr>
-                          <td><strong>HP</strong></td>
-                          <td><?=$alamat['hp']?></td>
+                          <td><strong>Tempat Lahir</strong></td>
+                          <td><?=$user['tempat_lahir']?></td>
                         </tr>
+
+                        <tr>
+                          <td><strong>No. HP</strong></td>
+                          <td><?=$user['no_hp']?></td>
+                        </tr>
+
                         <tr>
                           <td><strong>Email</strong></td>
-                          <td><?=$alamat['email']?></td>
+                          <td><?=$user['email']?></td>
                         </tr>
 
                       </tbody>

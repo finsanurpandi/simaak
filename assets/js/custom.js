@@ -500,7 +500,12 @@ if (role == 1) {
 
 //SET MENU ACTIVE MAHASISWA
 function DosenClearMenu(){
-	$('#menuDosenProfil').remove('.active');
+	$('#kinerjadosen').remove('.active');
+	$('#dosenPengajaran').remove('.active');
+	$('#dosenPenelitian').remove('.active');
+	$('#dosenPengabdian').remove('.active');
+	$('#profildosen').remove('.active');
+	$('#nilaidosen').remove('.active');
 	// $('#mhsnilai').remove('.active');
 	// $('#mhsperwalian').remove('.active');
 	// $('#mhsjadwal').remove('.active');
@@ -508,43 +513,35 @@ function DosenClearMenu(){
 
 if (role == 2) {
 	if (uri == '') {
-			dosenClearMenu();
-		} else if (uri == 'profil') {
-			$('#menuDosenProfil').addClass('active');
-			$('#dosenProfil').addClass('active');
-			$('#dosenPendidikan').remove('active');
-			$('#dosenPengajaran').remove('active');
-			$('#dosenPenelitian').remove('active');
-			$('#dosenPengabdian').remove('active');
-		} else if (uri == 'pendidikan') { 
-			$('#menuDosenProfil').addClass('active');
-			$('#dosenProfil').remove('active');
-			$('#dosenPendidikan').addClass('active');
-			$('#dosenPengajaran').remove('active');
-			$('#dosenPenelitian').remove('active');
-			$('#dosenPengabdian').remove('active');
+			DosenClearMenu();
 		} else if (uri == 'pengajaran') { 
-			$('#menuDosenProfil').addClass('active');
-			$('#dosenProfil').remove('active');
-			$('#dosenPendidikan').remove('active');
+			$('#kinerjadosen').addClass('active');
 			$('#dosenPengajaran').addClass('active');
-			$('#dosenPenelitian').remove('active');
-			$('#dosenPengabdian').remove('active');
+			// $('#dosenPenelitian').remove('active');
+			// $('#dosenPengabdian').remove('active');
 		} else if (uri == 'penelitian') { 
-			$('#menuDosenProfil').addClass('active');
-			$('#dosenProfil').remove('active');
-			$('#dosenPendidikan').remove('active');
-			$('#dosenPengajaran').remove('active');
+			$('#kinerjadosen').addClass('active');
+			// $('#dosenPengajaran').remove('active');
 			$('#dosenPenelitian').addClass('active');
-			$('#dosenPengabdian').remove('active');
+			// $('#dosenPengabdian').remove('active');
 		} else if (uri == 'pengabdian') { 
-			$('#menuDosenProfil').addClass('active');
-			$('#dosenProfil').remove('active');
-			$('#dosenPendidikan').remove('active');
-			$('#dosenPengajaran').remove('active');
-			$('#dosenPenelitian').remove('active');
+			$('#kinerjadosen').addClass('active');
+			// $('#dosenPengajaran').remove('active');
+			// $('#dosenPenelitian').remove('active');
 			$('#dosenPengabdian').addClass('active');
-		}
+		} else if (uri == 'profil') {
+			$('#profildosen').addClass('active');
+		} else if (uri == 'nilai') {
+			$('#nilaidosen').addClass('active');
+		} else if (uri == 'perwalian') {
+			$('#perwaliandosen').addClass('active');
+		} else if (uri == 'mahasiswa') {
+			$('#mahasiswadosen').addClass('active');
+		} else if (uri == 'matakuliah') {
+			$('#matakuliahdosen').addClass('active');
+		} else if (uri == 'dokumen') {
+			$('#dokumendosen').addClass('active');
+		};
 };
 	
 

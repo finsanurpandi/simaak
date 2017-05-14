@@ -43,7 +43,7 @@ if ($error == true) {
 <?php
 if (!empty($upload['pas_photo']) ) {
   echo "<div class='alert alert-grey'>";
-  $link = base_url('assets/img/documents/mahasiswa/'.$upload['pas_photo']);
+  $link = base_url('assets/uploads/documents/mahasiswa/'.$upload['pas_photo']);
   echo "<i class='fa fa-check text-success'></i> ";
   echo "<a href='".$link."' target='_blank'>".$upload['pas_photo']."</a>";
   echo "<button id='btnEditPasphoto' type='button' class='btn btn-success btn-xs pull-right' data-target='#editPasphotoModal' data-toggle='modal' data-nama='".$upload['pas_photo']."'>";
@@ -72,7 +72,7 @@ if (!empty($upload['pas_photo']) ) {
 <?php
 if (!empty($upload['ijazah'])) {
   echo "<div class='alert alert-grey'>";
-  $link = base_url('assets/img/documents/mahasiswa/'.$upload['ijazah']);
+  $link = base_url('assets/uploads/documents/mahasiswa/'.$upload['ijazah']);
   echo "<i class='fa fa-check text-success'></i> ";
   echo "<a href='".$link."' target='_blank'>".$upload['ijazah']."</a>";
   echo "<button id='btnEditIjazah' type='button' class='btn btn-success btn-xs pull-right' data-target='#editIjazahModal' data-toggle='modal' data-nama='".$upload['ijazah']."'>";

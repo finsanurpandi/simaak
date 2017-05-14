@@ -62,7 +62,7 @@ foreach ($semester as $data) {
                   echo "<td class='text-center'>".$value['kelas']."</td>";
                   echo "<td>".ucfirst($value['hari']).", ".$value['waktu']." WIB</td>";
                   echo "<td>".ucfirst($value['ruangan'])."</td>";
-                  echo "<td><a href='".base_url()."operator/detailMahasiswa/".$this->encrypt->encode($value['id_jadwal'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> edit</a></td>";
+                  echo "<td><button class='btn btn-success btn-xs' data-toggle='modal' data-target='#editJadwalModal' data-id='".$value['id_jadwal']."'><i class='fa fa-pencil'></i> edit</button></td>";
                   echo "</tr>";
                 } else {
                   continue;

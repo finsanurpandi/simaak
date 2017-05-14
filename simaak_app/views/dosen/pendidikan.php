@@ -34,7 +34,8 @@
                       <thead>
                         <tr>
                           <th>No</th>
-                          <th>Perguruan Tinggi</th>
+                          <th>Jenjang</th>
+                          <th>Perguruan Tinggii</th>
                           <th>Fakultas</th>
                           <th>Program Studi</th>
                           <th>IPK</th>
@@ -51,6 +52,7 @@ foreach ($pendidikan as $value) {
 ?>
 <tr>
   <td><?=$i?></td>
+  <td><?=$value['jenjang']?></td>
   <td><?=$value['perguruan_tinggi']?></td>
   <td><?=$value['fakultas']?></td>
   <td><?=$value['program_studi']?></td>

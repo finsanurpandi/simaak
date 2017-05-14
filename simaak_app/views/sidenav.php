@@ -84,20 +84,42 @@
 
         <?php if (($this->session->mhs_profil == TRUE) && ($this->session->mhs_ortu == TRUE) && ($this->session->mhs_upload == TRUE)) {
         ?>
-        <li id="mhsnilai" class="">
-          <a href="<?=base_url('mahasiswa/studi');?>">
+        <!-- <li id="mhsnilai" class="">
+          <a href="<?=base_url('mahasiswa/hasilstudi');?>">
             <i class="fa fa-pencil-square-o"></i>
             <span>Hasil Studi</span>
           </a>
+        </li> -->
+        <li id="menuMhsStudi" class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Hasil Studi</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="mhsSemester" class=""><a href="<?=base_url('mahasiswa/ips');?>"><i class="fa fa-circle-o"></i> Semester</a></li>
+            <li id="mhsKeseluruhan" class=""><a href="<?=base_url('mahasiswa/ipk');?>"><i class="fa fa-circle-o"></i> Keseluruhan</a></li>
+          </ul>
         </li>
+<?php
+if (!empty($pembayaran)) {
+?>
         <li id="mhsperwalian" class="">
           <a href="<?=base_url('mahasiswa/perwalian');?>">
             <i class="fa fa-user-plus"></i> <span>Perwalian</span>
           </a>
         </li>
+<?php } ?>
+
         <li id="mhsjadwal" class="">
           <a href="<?=base_url('mahasiswa/perkuliahan');?>">
             <i class="fa fa-graduation-cap"></i> <span>Perkuliahan</span>
+          </a>
+        </li>
+        <li id="mhsupload" class="">
+          <a href="<?=base_url('mahasiswa/pembayaran');?>">
+            <i class="fa fa-upload"></i> <span>Upload Pembayaran</span>
           </a>
         </li>
         <?php } ?>
@@ -198,10 +220,29 @@
             <i class="fa fa-user-plus"></i> <span>Dosen</span>
           </a>
         </li>
-        <li id="operatorJadwal">
+        <!-- <li id="operatorJadwal">
           <a href="<?=base_url('operator/jadwal');?>">
             <i class="fa fa-user-plus"></i> <span>Jadwal</span>
           </a>
+        </li> -->
+        <li id="operatorPerwalian">
+          <a href="<?=base_url('operator/perwalian');?>">
+            <i class="fa fa-user-plus"></i> <span>perwalian</span>
+          </a>
+        </li>
+
+        <li id="operatorPerkuliahan" class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Perkuliahan</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="operatorJadwal" class=""><a href="<?=base_url('operator/jadwal');?>"><i class="fa fa-circle-o"></i> Jadwal</a></li>
+            <li id="operatorMatakuliah" class=""><a href="<?=base_url('operator/matakuliah');?>"><i class="fa fa-circle-o"></i> Matakuliah</a></li>
+            <li id="operatorHasil" class=""><a href="<?=base_url('operator/hasilstudi');?>"><i class="fa fa-circle-o"></i> Hasil Studi</a></li>
+          </ul>
         </li>
         
 

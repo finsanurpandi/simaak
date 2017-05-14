@@ -30,7 +30,78 @@ Content Wrapper. Contains page content -->
 </div>
             <br/>
 
+<?php
+if (!empty($penilaian)) {
+?>
+
+<table class="table table-hover">
+<tr>
+  <th>#</th>
+  <th>NPM</th>
+  <th>Nama</th>
+  <th>Nilai</th>
+  <th>Aksi</th>
+</tr>
+<?php
+$no = 1;
+foreach ($penilaian as $key => $value) {
+?>
+<tr>
+  <td><?=$no++?></td>
+  <td><?=$value['nim']?></td>
+  <td><?=$value['nama_mhs']?></td>
+  <td><strong>
+  <?php
+  switch ($value['nilai']) {
+      case 4:
+        echo 'A';
+        break;
+      case 3.5:
+        echo 'AB';
+        break;
+      case 3:
+        echo 'B';
+        break;
+      case 2.5:
+        echo 'BC';
+        break;
+      case 2:
+        echo 'C';
+        break;
+      case 1.5:
+        echo 'CD';
+        break;
+      case 1:
+        echo 'D';
+        break;
+      case 0.5:
+        echo 'DE';
+        break;
+      case 0:
+        echo 'E';
+        break;
+      case -1:
+        echo 'T';
+        break;
+    }
+  ?>
+  </strong>
+  </td>
+  <td>
+    <button id="editNilaiMahasiswa" class="btn btn-success btn-xs" data-toggle="modal" data-target="#editNilaiModal" data-id="<?=$value['id']?>" data-nilai="<?=$value['nilai']?>" data-mhs="<?=$value['nama_mhs']?>" data-nim="<?=$value['nim']?>"><i class="fa fa-pencil"></i> edit</button>
+  </td>
+</tr>
+
+<?php
+}
+echo "</table>";
+} else {
+
+if (!empty($jadwal)) {
+?>
+
             <div class="table-responsive">
+<form method="post">
             <table class="table table-hover">
               <thead>
                 <tr>
@@ -38,13 +109,14 @@ Content Wrapper. Contains page content -->
                   <th>Nim</th>
                   <th>Nama</th>
                   <th>Nilai</th>
-                  <th>Aksi</th>
+                 <!--  <th>Aksi</th> -->
                   
                 </tr>
               </thead>
               <tbody>
                 <?php
                 $i = 1;
+                $index = 0;
                 foreach ($jadwal as $key => $value) {
                   echo "<tr>";
                   echo "<td>".$i++."</td>";
@@ -52,31 +124,76 @@ Content Wrapper. Contains page content -->
                   echo "<td>".$value['nama_mhs']."</td>";
                 ?>
 <td>
-<select name="nilaiMhs">
-  <option>---</option>
-  <option value="A">A</option>
-  <option value="AB">AB</option>
-  <option value="B">B</option>
-  <option value="BC">BC</option>
-  <option value="C">C</option>
-  <option value="CD">CD</option>
-  <option value="D">D</option>
-  <option value="DE">DE</option>
-  <option value="E">E</option>
-</select>
-</td>
-<td>
-  <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> input</button>
+
+<input type="hidden" name="nim[]" value="<?=$value['nim']?>">
+<input type="hidden" name="nama[]" value="<?=$value['nama_mhs']?>">
+<input type="hidden" name="kode_matkul[]" value="<?=$value['kode_matkul']?>">
+<input type="hidden" name="nama_matkul[]" value="<?=$value['nama_matkul']?>">
+<input type="hidden" name="sks[]" value="<?=$value['sks']?>">
+<input type="hidden" name="nidn[]" value="<?=$value['nidn']?>">
+<input type="hidden" name="nama_dosen[]" value="<?=$value['nama_dosen']?>">
+<input type="hidden" name="kelas[]" value="<?=$value['kelas']?>">
+<input type="hidden" name="id_jadwal[]" value="<?=$value['id_jadwal']?>">
+<input type="hidden" name="semester[]" value="<?=$value['semester']?>">
+<input type="hidden" name="semester_mhs[]" value="<?=$value['semester_mhs']?>">
+<input type="hidden" name="tahun_ajaran[]" value="<?=$value['tahun_ajaran']?>">
+<input type="hidden" name="kode_prodi[]" value="<?=$value['kode_prodi']?>">
+<label class="radio-inline">
+  <input type="radio" name="nilai[<?=$index?>]" id="dosenNilai" value="4"> A
+</label>
+<label class="radio-inline">
+  <input type="radio" name="nilai[<?=$index?>]" id="dosenNilai" value="3.5"> AB
+</label>
+<label class="radio-inline">
+  <input type="radio" name="nilai[<?=$index?>]" id="dosenNilai" value="3"> B
+</label>
+<label class="radio-inline">
+  <input type="radio" name="nilai[<?=$index?>]" id="dosenNilai" value="2.5"> BC
+</label>
+<label class="radio-inline">
+  <input type="radio" name="nilai[<?=$index?>]" id="dosenNilai" value="2"> C
+</label>
+<label class="radio-inline">
+  <input type="radio" name="nilai[<?=$index?>]" id="dosenNilai" value="1.5"> CD
+</label>
+<label class="radio-inline">
+  <input type="radio" name="nilai[<?=$index?>]" id="dosenNilai" value="1"> D
+</label>
+<label class="radio-inline">
+  <input type="radio" name="nilai[<?=$index?>]" id="dosenNilai" value="0.5"> DE
+</label>
+<label class="radio-inline">
+  <input type="radio" name="nilai[<?=$index?>]" id="dosenNilai" value="0"> E
+</label>
+<label class="radio-inline">
+  <input type="radio" name="nilai[<?=$index?>]" id="dosenNilai" value="0"> T
+</label>
+
+
 </td>
 
                 <?php
-
+$index++;
                   echo "</tr>";
                 }
                 ?>
+<tr>
+
+  <td colspan="4">
+    <input type="submit" name="submitNilai" value="Kirim Nilai" class="btn btn-primary btn-xs btn-block">
+    </form>
+  </td>
+</tr>
               </tbody>
 
             </table>
+
+
+<?php } else {
+    echo "Data tidak ditemukan <br/>";
+  }
+}
+?>
 
 
 <!-- <div class="text-center">

@@ -52,7 +52,8 @@
   <div class="form-group">
     <label for="nidn" class="col-sm-2 control-label">NIDN</label>
     <div class="col-sm-6">
-      <input type="text" class="form-control" name="nidn" id="nidn" value="<?=$dosen['nidn']?>">
+      <!-- <input type="text" class="form-control" value="<?=$dosen['nidn']?>" disabled="true"> -->
+      <p class="form-control"><?=$dosen['nidn']?></p>
     </div>
   </div>
 
@@ -83,21 +84,6 @@
       <input type="text" class="form-control" name="gelar_belakang" id="gelar_belakang" value="<?=$dosen['gelar_belakang']?>">
     </div>
   </div>
-
- <!--  <div class="form-group">
-    <label for="prodi" class="col-sm-2 control-label">Prodi</label>
-    <div class="col-sm-6">
-      <select class="form-control" name="prodi" id="prodi">
-              <?php
-                foreach ($prodi as $key => $value) {
-              ?>
-                <option value="<?=$value['prodi']?>"><?=$value['prodi']?></option>
-              <?php
-                  }
-              ?>
-      </select>
-    </div>
-  </div> -->
 
   <div class="form-group">
     <label for="jenis_kelamin" class="col-sm-2 control-label">Jenis Kelamin</label>
@@ -142,17 +128,28 @@
   </div>
 
   <div class="form-group">
+    <label for="jabatan_fungsional" class="col-sm-2 control-label">Jenis Dosen</label>
+    <div class="col-sm-6">
+      <select class="form-control" name="jenis_dosen" id="jenisdosen">
+        <option id="ds" value="DS">Dosen Biasa</option>
+        <option id="pr" value="PR">Professor</option>
+        <option id="dt" value="DT">Dosen dengan Tugas Tambahan</option>
+        <option id="pt" value="PT">Professor dengan Tugas Tambahan</option>
+      </select>
+      </div>
+  </div>
+
+  <div class="form-group">
     <label for="jabatan_struktural" class="col-sm-2 control-label">Jabatan Struktural</label>
     <div class="col-sm-6">
       <input type="text" class="form-control" name="jabatan_struktural" id="jabatan_struktural" value="<?=$dosen['jabatan_struktural']?>">
     </div>
   </div>
   
-  
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       
-      <button type="submit" name="submit" class="btn btn-success btn-sm">Update</button>
+      <button type="submit" name="submit" class="btn btn-success btn-sm"><i class="fa fa-refresh"></i> Update</button>
     </div>
   </div>
 </form>
@@ -172,6 +169,7 @@
   <thead>
     <tr>
       <th>No</th>
+      <th>Jenjang</th>
       <th>Perguruan Tinggi</th>
       <th>Fakultas</th>
       <th>Program Studi</th>
@@ -188,6 +186,7 @@ foreach ($pendidikan as $value) {
 ?>
 <tr>
   <td><?=$i?></td>
+  <td><?=$value['jenjang']?></td>
   <td><?=$value['perguruan_tinggi']?></td>
   <td><?=$value['fakultas']?></td>
   <td><?=$value['program_studi']?></td>
@@ -303,6 +302,23 @@ $i++;
   } else {
     pere.setAttribute('checked', 'true');
   };
+
+// JENIS DOSEN
+
+var ds = document.getElementById('ds');
+var dt = document.getElementById('dt');
+var pr = document.getElementById('pr');
+var pt = document.getElementById('pt');
+
+if (ds.value == "<?=$dosen['jenis_dosen']?>") {
+  ds.setAttribute('selected', 'true');
+} else if (dt.value == "<?=$dosen['jenis_dosen']?>") {
+  dt.setAttribute('selected', 'true');
+} else if (pr.value == "<?=$dosen['jenis_dosen']?>") {
+  pr.setAttribute('selected', 'true');
+} else if (pt.value == "<?=$dosen['jenis_dosen']?>") {
+  pt.setAttribute('selected', 'true');
+};
 
 
 // PROGRAM STUDI

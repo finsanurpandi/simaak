@@ -87,6 +87,15 @@
         <form method="post" action="">
         
         <div class="form-group">
+          <label for="perguruan_tinggi">Jenjang</label>
+          <select name="jenjang" class="form-control">
+            <option value="S1">S1</option>
+            <option value="S2">S2</option>
+            <option value="S3">S3</option>
+          </select>
+        </div>
+
+        <div class="form-group">
             <label for="perguruan_tinggi">Perguruan Tinggi</label>
             <input type="hidden" name="nidn" id="nidnTambahPendidikan" value="<?=$this->session->username?>">
             <input class="form-control" type="text" name="perguruan_tinggi">
@@ -567,6 +576,56 @@
           <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
+
+
+<!-- Edit Nilai Mahasiswa -->
+<div class="modal fade modal-success-custom" id="editNilaiModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Nilai Mahasiswa</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+        
+        <div class="form-group">
+            <label for="judul_file">NPM</label>
+            <input class="form-control" type="text" name="nim_mhs" id="nimeditnilai" disabled="true">
+        </div>
+        <div class="form-group">
+            <label for="judul_file">Nama</label>
+            <input class="form-control" type="text" name="nama_mhs" id="namaeditnilai" disabled="true">
+        </div>
+        <div class="form-group">
+            <label for="judul_file">Nilai</label>
+            <select id="nilaieditnilai" name="nilai" class="form-control">
+              <option value="4">A</option>
+              <option value="3.5">AB</option>
+              <option value="3">B</option>
+              <option value="2.5">BC</option>
+              <option value="2">C</option>
+              <option value="1.5">CD</option>
+              <option value="1">D</option>
+              <option value="0.5">DE</option>
+              <option value="0">E</option>
+              <option value="0">T</option>
+            </select>
+        </div>
+
+        
+            
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" name="id" id="ideditnilai">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" name="editNilaiMahasiswa" value="xxx"><i class="fa fa-cloud-upload"></i> update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <script>

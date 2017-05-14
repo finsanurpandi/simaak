@@ -161,6 +161,21 @@ $('#btnEditIjazah').click(function(){
 	$('#pathIjazah').val(nama['nama']);
 })
 
+// UPDATE BUTTON PEMBAYARAN
+$('#btnEditPembayaran').click(function(){
+	var nama = $(this).data('nama');
+	
+	$('#pathPembayaran').val(nama);
+});
+
+$('#update_pembayaran').change(function(){
+	if (!$(this).val()) {
+		$('#btn_update_pembayaran').prop('disabled', true);
+	} else {
+		$('#btn_update_pembayaran').prop('disabled', false);
+	}
+});
+
 //SELECT JABFUNG
 function selectJabfung(){
 	$('#golongan option').remove();
@@ -443,12 +458,29 @@ $('#validasiPerwalianDosen').click(function(){
 	$('#nimValidasi').val(nim);
 })
 
+// EDIT NILAI MAHASISWA
+$(document).on("click", '#editNilaiMahasiswa', function(e){
+	var id = $(this).data('id');
+	var nama = $(this).data('mhs');
+	var nim = $(this).data('nim');
+	var nilai = $(this).data('nilai');
+
+	$('#ideditnilai').val(id);
+	$('#namaeditnilai').val(nama);
+	$('#nimeditnilai').val(nim);
+
+	$('#nilaieditnilai option').filter(function(){
+		return ($(this).val() == nilai);
+	}).prop('selected', true);
+});
+
 //SET MENU ACTIVE MAHASISWA
 function mhsClearMenu(){
 	$('#menuMhsProfil').remove('.active');
-	$('#mhsnilai').remove('.active');
+	$('#menuMhsStudi').remove('.active');
 	$('#mhsperwalian').remove('.active');
 	$('#mhsjadwal').remove('.active');
+	$('#mhsupload').remove('.active');
 }
 
 if (role == 1) {
@@ -458,42 +490,45 @@ if (role == 1) {
 		} else if (uri == 'profil') {
 			$('#menuMhsProfil').addClass('active');
 			$('#mhsProfil').addClass('active');
-			$('#mhsOrtu').remove('active');
-			$('#mhsDokumen').remove('active');
-			$('#mhsnilai').remove('.active');
-			$('#mhsperwalian').remove('.active');
-			$('#mhsjadwal').remove('.active');
+			// $('#mhsOrtu').remove('active');
+			// $('#mhsDokumen').remove('active');
+			// $('#mhsnilai').remove('.active');
+			// $('#mhsperwalian').remove('.active');
+			// $('#mhsjadwal').remove('.active');
 		} else if (uri == 'orangtua') { 
 			$('#menuMhsProfil').addClass('active');
 			$('#mhsOrtu').addClass('active');
-			$('#mhsProfil').remove('active');
-			$('#mhsDokumen').remove('active');
-			$('#mhsnilai').remove('.active');
-			$('#mhsperwalian').remove('.active');
-			$('#mhsjadwal').remove('.active');
+			// $('#mhsProfil').remove('active');
+			// $('#mhsDokumen').remove('active');
+			// $('#mhsnilai').remove('.active');
+			// $('#mhsperwalian').remove('.active');
+			// $('#mhsjadwal').remove('.active');
 		} else if (uri == 'dokumen') { 
 			$('#menuMhsProfil').addClass('active');
-			$('#mhsOrtu').remove('active');
-			$('#mhsProfil').remove('active');
+			// $('#mhsOrtu').remove('active');
+			// $('#mhsProfil').remove('active');
 			$('#mhsDokumen').addClass('active');
-			$('#mhsnilai').remove('.active');
-			$('#mhsperwalian').remove('.active');
-			$('#mhsjadwal').remove('.active');
-		} else if (uri == 'studi') {
-			$('#mhsnilai').addClass('active');
-			$('#mhsprofil').remove('.active');
-			$('#mhsperwalian').remove('.active');
-			$('#mhsjadwal').remove('.active');
+			// $('#mhsnilai').remove('.active');
+			// $('#mhsperwalian').remove('.active');
+			// $('#mhsjadwal').remove('.active');
+		} else if (uri == 'ips') {
+			$('#mhsSemester').addClass('active');
+			$('#menuMhsStudi').addClass('active');
+		} else if (uri == 'ipk') {
+			$('#mhsKeseluruhan').addClass('active');
+			$('#menuMhsStudi').addClass('active');
 		} else if (uri == 'perwalian') {
 			$('#mhsperwalian').addClass('active');
-			$('#mhsprofil').remove('.active');
-			$('#mhsnilai').remove('.active');
-			$('#mhsjadwal').remove('.active');
+			// $('#mhsprofil').remove('.active');
+			// $('#mhsnilai').remove('.active');
+			// $('#mhsjadwal').remove('.active');
 		} else if (uri == 'perkuliahan') {
 			$('#mhsjadwal').addClass('active');
-			$('#mhsprofil').remove('.active');
-			$('#mhsnilai').remove('.active');
-			$('#mhsperwalian').remove('.active');
+			// $('#mhsprofil').remove('.active');
+			// $('#mhsnilai').remove('.active');
+			// $('#mhsperwalian').remove('.active');
+		} else if (uri == 'pembayaran') {
+			$('#mhsupload').addClass('active');
 		}
 	
 };
@@ -531,13 +566,13 @@ if (role == 2) {
 			$('#dosenPengabdian').addClass('active');
 		} else if (uri == 'profil') {
 			$('#profildosen').addClass('active');
-		} else if (uri == 'nilai') {
+		} else if (uri == 'nilai' || uri == 'detailnilai') {
 			$('#nilaidosen').addClass('active');
-		} else if (uri == 'perwalian') {
+		} else if (uri == 'perwalian' || uri == 'validasi_perwalian') {
 			$('#perwaliandosen').addClass('active');
-		} else if (uri == 'mahasiswa') {
+		} else if (uri == 'mahasiswa' || uri == 'detailmahasiswa') {
 			$('#mahasiswadosen').addClass('active');
-		} else if (uri == 'matakuliah') {
+		} else if (uri == 'matakuliah' || uri == 'detailmatakuliah') {
 			$('#matakuliahdosen').addClass('active');
 		} else if (uri == 'dokumen') {
 			$('#dokumendosen').addClass('active');

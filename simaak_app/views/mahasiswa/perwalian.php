@@ -108,6 +108,11 @@ $totalsks += $value['sks'];
 </table>
 <hr/>
 
+<strong>Tahun Ajaran</strong>
+<p class="text-muted">
+  <?=$this->session->tahun_ajaran?>
+</p>
+
 <strong>Total SKS</strong>
 <p class="text-muted">
   <?=$totalsks?> SKS
@@ -131,9 +136,13 @@ $totalsks += $value['sks'];
 //   } else {
 //     echo $statusperwalian['v_dosen'];
 //   }
+if ($statusperwalian['v_dosen'] == 'Menunggu') {
+
 ?>
 </p>
+<a href="<?=base_url('cetak/cetak_kartu_rencana_studi/')?><?=$this->encrypt->encode($this->session->username)?>" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i> Cetak KRS</a>
 <?php
+}
 } else {
 
 foreach ($semester as $value) {

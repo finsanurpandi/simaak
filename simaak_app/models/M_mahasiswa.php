@@ -33,10 +33,12 @@ class M_mahasiswa extends CI_Model {
 		}
 	}
 
-	function getDataOrder($table, $where, $orderby)
+	function getDataOrder($table, $where = null, $orderby)
 	{
-		foreach ($where as $key => $value) {
-			$this->db->where($key, $value);
+		if ($where !== null) {
+			foreach ($where as $key => $value) {
+				$this->db->where($key, $value);
+			}
 		}
 		
 		foreach ($orderby as $key => $value) {
@@ -88,8 +90,8 @@ class M_mahasiswa extends CI_Model {
 	function getAllDataOrder($table, $where, $orderby)
 	{
 		foreach ($orderby as $key => $value) {
-				$this->db->order_by($key, $value);
-			}
+			$this->db->order_by($key, $value);
+		}
 
 		foreach ($where as $key => $value) {
 			$this->db->where($key, $value);
@@ -112,6 +114,27 @@ class M_mahasiswa extends CI_Model {
 		return $query;
 	}
 
+	function getDistinctDataOrder($table, $where = null, $row, $order)
+	{
+		$this->db->distinct();
+
+		$this->db->select($row);
+
+		if ($where !== null) {
+			foreach ($where as $key => $value) {
+				$this->db->where($key, $value);
+			}
+		}
+
+		foreach ($order as $key => $value) {
+			$this->db->order_by($key, $value);
+		}
+
+		$query = $this->db->get($table);
+
+		return $query;
+	}
+
 	function getJadwalMhs($where)
 	{
 		$this->db->select('perwalian.nim, perwalian.kode_matkul, perwalian.nama_matkul, perwalian.nama_dosen, perwalian.sks, jadwal.hari, jadwal.waktu, jadwal.ruangan');
@@ -122,10 +145,16 @@ class M_mahasiswa extends CI_Model {
 			$this->db->where($key, $value);
 		}
 
-		
 		$query = $this->db->get();
 
 		return $query->result_array();
+	}
+
+	function getMatkulKeseluruhan($user)
+	{
+		$sql = 'SELECT a.* FROM nilai a INNER JOIN (SELECT kode_matkul, MAX(nilai) AS max_nilai FROM nilai GROUP BY kode_matkul) b ON a.kode_matkul = b.kode_matkul AND a.nilai = b.max_nilai AND a.nim = '.$user.' ORDER BY a.kode_matkul ASC';
+		$query = $this->db->query($sql);
+		return $query;
 	}
 
 
@@ -151,6 +180,15 @@ class M_mahasiswa extends CI_Model {
 	{
 		$this->db->where('nim', $user);
 		$this->db->update($this->mhs, $data);
+	}
+
+	function updateImage($table, $data, $where)
+	{
+		foreach ($where as $key => $value) {
+			$this->db->where($key, $value);	
+		}
+		
+		$this->db->update($table, $data);
 	}
 
 	function updatePassword($data, $user)

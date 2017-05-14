@@ -43,7 +43,7 @@ class M_login extends CI_Model {
     function tahun_ajaran()
     {
     	$this->db->limit(1);
-    	$this->db->order_by('id', 'DESC');
+    	$this->db->order_by('tahun_ajaran', 'DESC');
     	$query = $this->db->get($this->ta);
 
     	return $query->result_array();

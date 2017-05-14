@@ -219,6 +219,7 @@ class Operator extends CI_Controller {
 				'angkatan' => $this->input->post('angkatan'),
 				'jenjang' => $this->input->post('jenjang'),
 				'kode_prodi' => $this->input->post('kode_prodi'),
+				'kelas' => $this->input->post('kelas'),
 				'jenis_kelamin' => $this->input->post('jenis_kelamin'),
 				'tempat_lahir' => ucfirst($this->input->post('tempat_lahir')),
 				'tanggal_lahir' => $this->input->post('tanggal_lahir'),
@@ -301,6 +302,7 @@ class Operator extends CI_Controller {
 				'nim' => $this->input->post('nim'),
 				'nama' => $this->input->post('nama'),
 				'angkatan' => $this->input->post('angkatan'),
+				'kelas' => $this->input->post('kelas'),
 				'jenjang' => $this->input->post('jenjang'),
 				'jenis_kelamin' => $this->input->post('jenis_kelamin'),
 				'tempat_lahir' => ucfirst($this->input->post('tempat_lahir')),
@@ -392,6 +394,7 @@ class Operator extends CI_Controller {
 				'jenis_kelamin' => $this->input->post('jenis_kelamin'),
 				'jabatan_fungsional' => $this->input->post('jabatan_fungsional'),
 				'golongan' => $this->input->post('golongan'),
+				'jenis_dosen' => $this->input->post('jenis_dosen'),
 				'jabatan_struktural' => $this->input->post('jabatan_struktural')
 				);
 
@@ -435,12 +438,11 @@ class Operator extends CI_Controller {
 			redirect('login', 'refresh');
 		}
 
-		//ADD DATA DOSEN
+		//EDIT DATA DOSEN
 		$submit = $this->input->post('submit');
 
 		if (isset($submit)) {
 			$dosen = array (
-				'nidn' => $this->input->post('nidn'),
 				'nik' => $this->input->post('nik'),
 				'nama' => $this->input->post('nama'),
 				'gelar_depan' => $this->input->post('gelar_depan'),
@@ -448,6 +450,7 @@ class Operator extends CI_Controller {
 				'jenis_kelamin' => $this->input->post('jenis_kelamin'),
 				'jabatan_fungsional' => $this->input->post('jabatan_fungsional'),
 				'golongan' => $this->input->post('golongan'),
+				'jenis_dosen' => $this->input->post('jenis_dosen'),
 				'jabatan_struktural' => $this->input->post('jabatan_struktural')
 				);
 
@@ -465,6 +468,7 @@ class Operator extends CI_Controller {
 		if (isset($addPendidikan)) {
 			$dosen = array (
 				'nidn' => $this->input->post('nidn'),
+				'jenjang' => $this->input->post('jenjang'),
 				'perguruan_tinggi' => $this->input->post('perguruan_tinggi'),
 				'fakultas' => $this->input->post('fakultas'),
 				'program_studi' => $this->input->post('program_studi'),
@@ -484,6 +488,7 @@ class Operator extends CI_Controller {
 
 		if (isset($editPendidikan)) {
 			$dosen = array (
+				'jenjang' => $this->input->post('jenjang'),
 				'perguruan_tinggi' => $this->input->post('perguruan_tinggi'),
 				'fakultas' => $this->input->post('fakultas'),
 				'program_studi' => $this->input->post('program_studi'),
@@ -549,6 +554,68 @@ class Operator extends CI_Controller {
 			redirect($this->uri->uri_string());			
 		}
 	}
+
+
+// PERWALIAN
+
+	function perwalian()
+	{
+
+		// $user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
+		// $session = $this->session->userdata('login_in');
+
+		// $search = $this->input->post('search');
+
+		// if (isset($search)) {
+			
+		// } else {
+		// 	$statusperwalian = $this->m_operator->getPerwalianMhs();
+		// }
+
+		//pagination
+		$total = $this->m_operator->getAllData('status_perwalian', array('tahun_ajaran' => $this->session->tahun_ajaran))->num_rows();
+		$limit = 20;
+		$url = 'operator/perwalian';
+		$config = $this->configPagination($total, $limit, $url);
+		//-------
+
+		$data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;		
+
+		$user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
+		$session = $this->session->userdata('login_in');
+
+		//SEARCH 
+		$search = $this->input->post('search');
+
+		if (isset($search)) {
+			if ($this->input->post('search_key') == null) {
+				$statusperwalian = $this->m_operator->getPerwalianMhs(null, $limit, $data['page']);
+				$data['link'] = $this->pagination->create_links();
+			} else {
+				$statusperwalian = $this->m_operator->getPerwalianMhs(array($this->input->post('search_category') => $this->input->post('search_key')));
+			}
+		} else {
+			$statusperwalian = $this->m_operator->getPerwalianMhs(null, $limit, $data['page']);
+			$data['link'] = $this->pagination->create_links();
+		}
+
+		$data['user'] = $user_akun;
+		$data['role'] = $this->session->role;
+		$data['statusperwalian'] = $statusperwalian;
+
+		if ($session == TRUE) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('operator/perwalian', $data);
+			$this->load->view('operator/modal', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
+
+
+	}
+
 
 	function jadwal()
 	{

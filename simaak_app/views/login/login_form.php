@@ -41,7 +41,7 @@
   }
 ?>
 
-    <form action="login/do_login" method="post">
+    <form action="" method="post">
       <div class="form-group has-feedback">
         <input type="text" class="form-control" placeholder="User ID" name="username" required>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>

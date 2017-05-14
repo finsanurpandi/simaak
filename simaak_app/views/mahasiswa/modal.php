@@ -303,6 +303,35 @@
   </div>
 </div>
 
+<!-- Edit Data Pembayaran -->
+<div class="modal fade modal-success-custom" id="editPembayaranModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Ganti Pas Photo</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="<?=base_url('mahasiswa/editPembayaran')?>" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="gambar">Image</label>
+            <input class="form-control" type="file" name="img_pembayaran" id="update_pembayaran">
+            <br/>
+            <p class="text-danger">*Max size 1Mb</p>
+        </div>
+            
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" name="username" value="<?=$this->session->username?>">
+        <input type="hidden" name="path" id="pathPembayaran">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" id="btn_update_pembayaran" disabled="true">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   var pass = "<?=$this->session->pass?>";
 </script>

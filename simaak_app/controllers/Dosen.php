@@ -87,7 +87,7 @@ class Dosen extends CI_Controller {
 
 		$data['role'] = $this->session->role;
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/home', $data);
@@ -118,7 +118,7 @@ class Dosen extends CI_Controller {
 		$data['role'] = $this->session->role;
 		$data['prodi'] = $this->m_dosen->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/profil', $data);
@@ -191,7 +191,7 @@ class Dosen extends CI_Controller {
 
 		$data['role'] = $this->session->role;
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/pendidikan', $data);
@@ -207,6 +207,7 @@ class Dosen extends CI_Controller {
 		if (isset($addPendidikan)) {
 			$dosen = array (
 				'nidn' => $this->input->post('nidn'),
+				'jenjang' => $this->input->post('jenjang'),
 				'perguruan_tinggi' => $this->input->post('perguruan_tinggi'),
 				'fakultas' => $this->input->post('fakultas'),
 				'program_studi' => $this->input->post('program_studi'),
@@ -226,6 +227,7 @@ class Dosen extends CI_Controller {
 
 		if (isset($editPendidikan)) {
 			$dosen = array (
+				'jenjang' => $this->input->post('jenjang'),
 				'perguruan_tinggi' => $this->input->post('perguruan_tinggi'),
 				'fakultas' => $this->input->post('fakultas'),
 				'program_studi' => $this->input->post('program_studi'),
@@ -262,7 +264,7 @@ class Dosen extends CI_Controller {
 
 		$data['role'] = $this->session->role;
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/pengajaran', $data);
@@ -289,7 +291,7 @@ class Dosen extends CI_Controller {
 
 		$data['role'] = $this->session->role;
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/penelitian', $data);
@@ -358,7 +360,7 @@ class Dosen extends CI_Controller {
 
 		$data['role'] = $this->session->role;
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/pengabdian', $data);
@@ -463,7 +465,7 @@ class Dosen extends CI_Controller {
 		$data['role'] = $this->session->role;
 		$data['statusperwalian'] = $statusperwalian;
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/perwalian', $data);
@@ -489,7 +491,7 @@ class Dosen extends CI_Controller {
 		$data['perwalianmhs'] = $perwalianmhs;
 		$data['statusperwalian'] = $statusperwalian;
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/validasi_perwalian', $data);
@@ -523,7 +525,7 @@ class Dosen extends CI_Controller {
 		$data['role'] = $this->session->role;
 		$data['jadwal'] = $jadwal;
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/matakuliah', $data);
@@ -551,7 +553,7 @@ class Dosen extends CI_Controller {
 		$data['nama_matkul'] = $nama_matkul;
 		$data['kelas'] = $kelas;
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/detailmatakuliah', $data);
@@ -577,7 +579,7 @@ class Dosen extends CI_Controller {
 		$data['role'] = $this->session->role;
 		$data['jadwal'] = $jadwal;
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/nilai', $data);
@@ -597,15 +599,53 @@ class Dosen extends CI_Controller {
 		$user_akun = $this->m_dosen->getDosen($nidn);
 		$session = $this->session->userdata('login_in');
 		$jadwal = $this->m_dosen->getAllDataOrder('perwalian', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('log' => 'ASC'));
-
+		$penilaian = $this->m_dosen->getAllDataOrder('nilai', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('nim' => 'ASC'));
 
 		$data['user'] = $user_akun;
 		$data['role'] = $this->session->role;
 		$data['jadwal'] = $jadwal;
 		$data['nama_matkul'] = $nama_matkul;
 		$data['kelas'] = $kelas;
+		$data['penilaian'] = $penilaian;
 
-		if ($session == TRUE) {
+		$nilai = $this->input->post('submitNilai');
+		if (isset($nilai)) {
+			$data = array();
+
+			for ($i=0; $i < count($this->input->post('nim')); $i++) { 
+				$data[$i] = array(
+					'nim' => $this->input->post('nim')[$i],
+					'nama_mhs' => $this->input->post('nama')[$i],
+					'kode_matkul' => $this->input->post('kode_matkul')[$i],
+					'nama_matkul' => $this->input->post('nama_matkul')[$i],
+					'sks' => $this->input->post('sks')[$i],
+					'nidn' => $this->input->post('nidn')[$i],
+					'nama_dosen' => $this->input->post('nama_dosen')[$i],
+					'kelas' => $this->input->post('kelas')[$i],
+					'id_jadwal' => $this->input->post('id_jadwal')[$i],
+					'semester' => $this->input->post('semester')[$i],
+					'semester_mhs' => $this->input->post('semester_mhs')[$i],
+					'tahun_ajaran' => $this->input->post('tahun_ajaran')[$i],
+					'kode_prodi' => $this->input->post('kode_prodi')[$i],
+					'nilai' => $this->input->post('nilai')[$i],
+				);
+			}
+
+			$this->m_dosen->insertMultipleData('nilai', $data);
+			redirect($this->uri->uri_string());
+		}
+
+		$editnilai = $this->input->post('editNilaiMahasiswa');
+
+		if (isset($editnilai)) {
+			$data = array('nilai' => $this->input->post('nilai'));
+
+			$this->m_dosen->updateData('nilai', $data, array('id' => $this->input->post('id')));
+			redirect($this->uri->uri_string());
+			// print_r($this->input->post());
+		}
+
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/detailnilai', $data);
@@ -659,7 +699,7 @@ class Dosen extends CI_Controller {
 		$data['role'] = $this->session->role;
 		// $data['link'] = $this->pagination->create_links();
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/mahasiswa', $data);
@@ -684,7 +724,7 @@ class Dosen extends CI_Controller {
 		$data['alamat'] = $alamat;
 		$data['role'] = $this->session->role;
 		
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/detailmahasiswa', $data);
@@ -710,7 +750,7 @@ class Dosen extends CI_Controller {
 
 		$data['role'] = $this->session->role;
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('dosen/dokumen', $data);

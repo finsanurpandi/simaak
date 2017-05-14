@@ -183,6 +183,43 @@
     </div>
   </div>
 
+   <div class="form-group">
+    <label for="kelas" class="col-sm-2 control-label">Kelas</label>
+    <div class="col-sm-6">
+      <select class="form-control" name="kelas" id="kelasmhs">
+<?php
+if ($mhs['kelas'] == 'A') {
+?>
+        <option value="A" selected="true">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+
+<?php } elseif ($mhs['kelas'] == 'B') {
+?>
+
+        <option value="A">A</option>
+        <option value="B" selected="true">B</option>
+        <option value="C">C</option>
+
+<?php } elseif ($mhs['kelas'] == 'C') {
+?>
+
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C" selected="true">C</option>
+
+<?php } elseif (empty($mhs['kelas'])) {
+?>
+
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+
+<?php } ?>
+      </select>
+    </div>
+  </div>
+
   <div class="form-group">
     <label for="jenjang" class="col-sm-2 control-label">Jenjang</label>
     <div class="col-sm-6">

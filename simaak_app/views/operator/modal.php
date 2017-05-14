@@ -122,6 +122,16 @@
         </div>
 
         <div class="form-group">
+            <label for="prodi">Kelas</label>
+            <select class="form-control" name="kelas" id="kelasmhs">
+              <option>---</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label for="jenjang">Jenis Kelamin</label><br/>
             <label class="radio-inline">
               <input type="radio" name="jenis_kelamin" value="L"> Laki-Laki
@@ -257,6 +267,17 @@
             </select>
         </div>
 
+        <div class="form-group">
+            <label for="jabatan_fungsional">Jenis Dosen</label>
+            <select class="form-control" name="jenis_dosen" id="jenisdosen">
+              <option>---</option>
+              <option value="DS">Dosen Biasa</option>
+              <option value="PS">Professor</option>
+              <option value="DT">Dosen dengan Tugas Tambahan</option>
+              <option value="PT">Professor dengan Tugas Tambahan</option>
+            </select>
+        </div>
+
 
         <div class="form-group">
             <label for="jabatan_struktural">Jabatan Struktural</label>
@@ -286,6 +307,14 @@
       </div>
       <div class="modal-body">
         <form method="post" action="">
+        <div class="form-group">
+          <label for="perguruan_tinggi">Jenjang</label>
+          <select name="jenjang" class="form-control">
+            <option value="S1">S1</option>
+            <option value="S2">S2</option>
+            <option value="S3">S3</option>
+          </select>
+        </div>
         
         <div class="form-group">
             <label for="perguruan_tinggi">Perguruan Tinggi</label>
@@ -341,6 +370,14 @@
       </div>
       <div class="modal-body">
         <form method="post" action="">
+        <div class="form-group">
+          <label for="perguruan_tinggi">Jenjang</label>
+          <select name="jenjang" class="form-control">
+            <option value="S1">S1</option>
+            <option value="S2">S2</option>
+            <option value="S3">S3</option>
+          </select>
+        </div>
         
         <div class="form-group">
             <label for="perguruan_tinggi">Perguruan Tinggi</label>
@@ -619,6 +656,82 @@
   </div>
 </div>
 
+<!-- EDIT data JADWAL -->
+<div class="modal fade modal-success-custom" id="editJadwalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Tambah Data Jadwal</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="">
+
+        <div class="form-group">
+          <label>Matakuliah</label>
+          <input class="form-control" id="editMatakuliah" disabled="true">
+        </div>
+
+        <div class="form-group">
+            <label for="nidn">Dosen</label>
+            <select id="editNidnJadwal" class="form-control" name="nidn" onclick="loadEditNidn();">
+                <option>---</option>
+            </select>
+            <input class="form-control" type="hidden" name="nama_dosen" id="editNamaDosen">
+        </div>
+
+        <div class="form-group">
+            <label for="nidn">Kelas</label>
+            <select name="kelas" class="form-control">
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="nidn">Hari</label>
+            <select name="hari" class="form-control">
+              <option value="senin">Senin</option>
+              <option value="selasa">Selasa</option>
+              <option value="rabu">Rabu</option>
+              <option value="kamis">Kamis</option>
+              <option value="jum'at">Jum'at</option>
+              <option value="sabtu">Sabtu</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="nidn">Mulai</label>
+            <input class="form-control" type="text" name="waktu" id="waktuMulai" placeholder="hh.mm">
+        </div>
+
+       <!--  <div class="form-group">
+            <label for="nidn">Selesai</label>
+            <input class="form-control" type="hidden" name="waktuSelesai" id="waktuSelesai" disabled="true" placeholder="hh:mm">
+        </div> -->
+
+        <div class="form-group">
+            <label for="nidn">Ruangan</label>
+            <select name="ruangan" class="form-control">
+              <option value="ruangan-1">Ruangan-1</option>
+              <option value="ruangan-2">Ruangan-2</option>
+              <option value="ruangan-3">Ruangan-3</option>
+              <option value="ruangan-4">Ruangan-4</option>
+            </select>
+        </div>
+        
+            
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" name="tambahJadwal" id="btnTambahJadwal"><i class="fa fa-plus"></i> Tambah</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   var pass = "<?=$this->session->pass?>";
 
@@ -650,6 +763,7 @@
 
 var visitMatkul = 0;
 var visitDosen = 0;
+var visitEditDosen = 0;
 
 function loadKodeMatkul(){
   var kodeMatkul = document.getElementById('kodeMatkul');
@@ -705,6 +819,32 @@ function loadNidn(){
   });
 
 };
+
+function loadEditNidn(){
+var nidn = document.getElementById('editNidnJadwal');
+
+  $.ajax({
+    method: "post",
+    url: baseurl+"ajax/loadNidn",
+    dataType: 'json',
+    success: function(res){
+      visitEditDosen += 1;
+      if (visitEditDosen == 1) {
+        for (var i = 0; i < res.length; i++) {
+          var x = document.createElement("option");
+          x.setAttribute('value', res[i]['nidn']);
+          var t = document.createTextNode(res[i]['nidn']+' - '+res[i]['gelar_depan']+' '+res[i]['nama']+'., '+res[i]['gelar_belakang']);
+          x.appendChild(t);
+          document.getElementById('editNidnJadwal').appendChild(x);
+        };
+      };
+
+    },
+    error: function(error){
+      console.log(error);
+    }
+  });
+}
   
 
 </script>

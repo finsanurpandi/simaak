@@ -31,6 +31,7 @@
         <option value="nim">NPM</option>
         <option value="nama">Nama</option>
         <option value="angkatan">Angkatan</option>
+        <option value="kelas">Kelas</option>
         <option value="prodi">Program Studi</option>
         <option value="nidn">Dosen Wali</option>
       </select>
@@ -54,6 +55,7 @@
                   <th>NPM</th>
                   <th>Nama</th>
                   <th>Angkatan</th>
+                  <th>Kelas</th>
                   <th>Jenis Kelamin</th>
                   <th>Tempat Lahir</th>
                   <th>Tanggal Lahir</th>
@@ -70,6 +72,7 @@
                   echo "<td>".$value['nim']."</td>";
                   echo "<td>".$value['nama']."</td>";
                   echo "<td>".$value['angkatan']."</td>";
+                  echo "<td>".$value['kelas']."</td>";
                   echo "<td>".$value['jenis_kelamin']."</td>";
                   echo "<td>".$value['tempat_lahir']."</td>";
                   echo "<td>".$value['tanggal_lahir']."</td>";

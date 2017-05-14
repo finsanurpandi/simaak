@@ -111,6 +111,31 @@ class M_operator extends CI_Model {
 		return $query;
 	}
 
+	function getPerwalianMhs($where = null, $limit = null, $offset = null)
+	{
+		$this->db->select('mhs.nim, mhs.nama, mhs.angkatan, mhs.kelas, status_perwalian.v_dosen');
+		$this->db->from('mhs');
+		$this->db->join('status_perwalian', 'status_perwalian.nim = mhs.nim');
+		
+		// if ($where !== null) {
+		// 	foreach ($where as $key => $value) {
+		// 		$this->db->where($key, $value);
+		// 	}
+		// }
+
+		if (($limit !== null) && ($offset !== null)) {
+			$this->db->limit($limit, $offset);
+		} elseif ($where !== null) {
+			foreach ($where as $key => $value) {
+				$this->db->like($key, $value);
+			}
+		} 
+
+		$query = $this->db->get();
+		
+		return $query->result_array();	
+	}
+
 	// function getDataDosen ($nidn)
 	// {
 	// 	$query = $this->db->get_where($this->mhs, array('nidn' => $nidn));

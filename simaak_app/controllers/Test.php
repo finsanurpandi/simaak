@@ -49,16 +49,8 @@ class Test extends CI_Controller {
         // $data = $this->input->post('jabfung');
         
 
-        $data = array();
-        for ($i = 0; $i < count($this->input->post('jabfung')); $i++) {
-            $data[$i] = array(
-                'jabatan_fungsional' => $this->input->post('jabfung')[$i],
-                'pangkat' => $this->input->post('pangkat')[$i],
-                'golongan' => $this->input->post('golongan')[$i]
-            );
-        };
-
-        $this->m_test->insert('perwalian', $data);
+        $data['post'] = $this->input->post();
+        $this->load->view('test', $data);
     }
 
     

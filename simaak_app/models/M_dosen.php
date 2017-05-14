@@ -148,6 +148,11 @@ class M_dosen extends CI_Model {
 		$this->db->insert($table, $data);
 	}
 
+	function insertMultipleData($table, $data)
+	{
+		$this->db->insert_batch($table, $data);
+	}
+
 	function updateData($table, $data, $where)
 	{
 		foreach ($data as $key => $value) {

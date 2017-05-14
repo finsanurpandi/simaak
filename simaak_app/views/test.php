@@ -8,40 +8,16 @@
 </head>
 <body>
 <div class="container">
-<table class="table table-hover">
-<thead>
-	<tr>
-		<th>#</th>
-		<th>Jabfung</th>
-		<th>pangkat</th>
-		<th>golongan</th>
-	</tr>
-</thead>
-<tbody>
-<form method="post" action="<?=base_url('test/multipleInput')?>">
 <?php
-$i = 1;
-foreach ($golongan as $value) {
+print_r($post);
+echo "<br>";
+for ($i=0; $i < count($post['nim']); $i++) { 
+	echo ($i+1).'. '.$post['nim'][$i].' - '.$post['nama'][$i].' - '.$post['nilai'][$i].'<br/>';
+}
+echo $post['nim'][1];
+
 ?>
 
-	<tr>
-		<td><?=$i++?></td>
-		<td>
-			<input type="hidden" name="jabfung[]" value="<?=$value['jabatan_fungsional']?>">
-			<?=$value['jabatan_fungsional']?>
-		</td>
-		<td>
-			<input type="hidden" name="pangkat[]" value="<?=$value['pangkat']?>">
-			<?=$value['pangkat']?></td>
-		<td>
-			<input type="hidden" name="golongan[]" value="<?=$value['golongan']?>">
-			<?=$value['golongan']?></td>
-	</tr>
-<?php } ?>
-
-</tbody>
-</table>
-<button id="btnSubmitPerwalian" class="btn btn-primary btn-xs">Kirim</button>	
 </form>
 </div>
 <script src="//code.jquery.com/jquery.js"></script>

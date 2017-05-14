@@ -7,7 +7,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url()?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Studi</li>
+        <li class="active">Perkuliahan</li>
       </ol>
     </section>
 
@@ -17,7 +17,6 @@
     <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <i class="fa fa-bullhorn"></i>
               <h3 class="box-title"><?=$user['nama']?></h3>
             </div>
             <!-- /.box-header -->
@@ -92,6 +91,7 @@ if (empty($statusperwalian)) {
     <th>Nama Dosen</th>
     <th>Waktu</th>
     <th>Ruangan</th>
+    <th>Cetak</th>
   </tr>
 </thead>
 <?php
@@ -106,6 +106,9 @@ foreach ($jadwal as $key => $value) {
   <td><?=$value['nama_dosen']?></td>
   <td><?=ucfirst($value['hari']).', '.$value['waktu']?></td>
   <td><?=$value['ruangan']?></td>
+  <td>
+    <a href="<?=base_url('cetak/cetak_kartu_hadir_kuliah/')?><?=$this->encrypt->encode($this->session->username)."/".$this->encrypt->encode($value['nama_matkul'])."/".$this->encrypt->encode($value['nama_dosen'])?>" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>
+  </td>
 </tr>
 <?php } }?>
 </table>
@@ -115,6 +118,8 @@ foreach ($jadwal as $key => $value) {
           </div>
           <!-- /.box -->
         </div>
+
+<a href="<?=base_url('cetak/cetak_jadwal_kuliah/')?><?=$this->encrypt->encode($this->session->username)?>" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>
       
 
     </section>

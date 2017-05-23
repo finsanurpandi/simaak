@@ -18,27 +18,35 @@
     <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Data Pengabdian Dosen</h3>
+              <h3 class="box-title">Kinerja Bidang Pengabdian</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
             
 <div>
-            <button id="btnTambahPengabdianDosen" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahDataPengabdianDosenModal" data-nidn="<?=$this->session->username?>"><i class="fa fa-user-plus"></i> Tambah Data</button>                   
+
+<button id="btnTambahPengabdianDosen" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahDataPengabdianDosenModal" data-nidn="<?=$this->session->username?>"><i class="fa fa-user-plus"></i> Tambah Data</button>                   
 
 </div>
             <br/>
 
             <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table table-bordered table-custom-header">
                       <thead>
                         <tr>
-                          <th>No</th>
-                          <th>Program Pengabdian</th>
-                          <th>Judul</th>
-                          <th>Anggota</th>
-                          <th>Tahun</th>
-                          <th>Aksi</th>
+                          <th rowspan="2">No</th>
+                          <th rowspan="2">Jenis Kegiatan</th>
+                          <th colspan="2">Beban Kerja</th>
+                          <th rowspan="2">Masa</th>
+                          <th colspan="2">Kinerja</th>
+                          <th rowspan="2">Rekomendasi</th>
+                          <th rowspan="2">Aksi</th>
+                        </tr>
+                        <tr>
+                          <th>Bukti Penugasan</th>
+                          <th>SKS</th>
+                          <th>Bukti Dokumen</th>
+                          <th>SKS</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -48,23 +56,26 @@ $i = 1;
 foreach ($pengabdian as $value) {
 ?>
 <tr>
-  <td><?=$i?></td>
-  <td><?=$value['program']?></td>
-  <td><?=$value['judul']?></td>
-  <td><?=$value['anggota']?></td>
-  <td><?=$value['tahun']?></td>
-  <td>
-    <button type="button" id="btnEditPengabdianDosen" class="btn btn-success btn-xs" 
-  data-toggle="modal" 
-  data-target="#editPengabdianDosenModal"
-  data-id="<?=$value['id']?>"
-  data-program="<?=$value['program']?>"
-  data-judul="<?=$value['judul']?>"
-  data-anggota="<?=$value['anggota']?>"
-  data-tahun="<?=$value['tahun']?>">
-      <i class="fa fa-refresh"></i> edit
-    </button>
-  <button type="button" id="btnHapusDataPengabdianDosen" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapusDataPengabdian" data-id="<?=$value['id']?>"><i class="fa fa-remove"></i> hapus</button>
+  <td align="center"><?=$i?></td>
+  <td><?=$value['jenis_kegiatan']?></td>
+  <td><?=$value['bukti_penugasan']?></td>
+  <td align="center"><?=$value['sks_beban_kerja']?></td>
+  <td><?=$value['masa_penugasan']?></td>
+  <td><?=$value['bukti_dokumen']?></td>
+  <td align="center"><?=$value['sks_kinerja']?></td>
+  <td align="center"><strong><?=strtoupper($value['rekomendasi'])?></strong></td>
+  <td align="center">
+    <button id="btnEditPengabdianDosen" class="btn btn-success btn-xs" data-toggle="modal" data-target="#editPengabdianDosenModal" 
+    data-id="<?=$value['id']?>"
+    data-jeniskegiatan="<?=$value['jenis_kegiatan']?>"
+    data-buktipenugasan="<?=$value['bukti_penugasan']?>"
+    data-sksbebankerja="<?=$value['sks_beban_kerja']?>"
+    data-masapenugasan="<?=$value['masa_penugasan']?>"
+    data-buktidokumen="<?=$value['bukti_dokumen']?>"
+    data-skskinerja="<?=$value['sks_kinerja']?>"
+    data-rekomendasi="<?=$value['rekomendasi']?>"
+    ><i class="fa fa-pencil"></i></button>
+    <button id="btnHapusDataPengabdianDosen" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapusDataPengabdian" data-id="<?=$value['id']?>"><i class="fa fa-trash"></i></button>
   </td>
 </tr>
 <?php
@@ -78,7 +89,6 @@ $i++;
     echo "<p class='text-center text-danger'><strong>data tidak ditemukan!</strong></p>";
   }
 ?>
-
 
 <!-- <div class="text-center">
     <ul class="pagination pagination-sm">

@@ -28,6 +28,10 @@ class Login extends CI_Controller {
 				redirect('operator', 'refresh');
 			} elseif ($role == 4) {
 				redirect('pimpinan', 'refresh');
+			} elseif ($role == 5) {
+				redirect('keuangan', 'refresh');
+			} elseif ($role == 6) {
+				redirect('akademik', 'refresh');
 			}
 		}
 
@@ -98,6 +102,10 @@ class Login extends CI_Controller {
 					redirect('operator', 'refresh');
 				} elseif ($role == 4) {
 					redirect('pimpinan', 'refresh');
+				} elseif ($role == 5) {
+					redirect('keuangan', 'refresh');
+				} elseif ($role == 6) {
+					redirect('akademik', 'refresh');
 				}
 
 			} else {

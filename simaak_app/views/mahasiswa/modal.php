@@ -309,7 +309,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Ganti Pas Photo</h4>
+        <h4 class="modal-title" id="myModalLabel">Ubah Data Pembayaran</h4>
       </div>
       <div class="modal-body">
         <form method="post" action="<?=base_url('mahasiswa/editPembayaran')?>" enctype="multipart/form-data">

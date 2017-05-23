@@ -84,7 +84,7 @@
         <h4 class="modal-title" id="myModalLabel">Tambah Data Pendidikan Dosen</h4>
       </div>
       <div class="modal-body">
-        <form method="post" action="">
+        <form method="post" action="" enctype="multipart">
         
         <div class="form-group">
           <label for="perguruan_tinggi">Jenjang</label>
@@ -123,14 +123,132 @@
 
         <div class="form-group">
             <label for="tahun_lulus">Tahun Lulus</label>
-            <input class="form-control" type="text" name="tahun_lulus">
+            <input class="form-control" type="number" name="tahun_lulus">
         </div>
+       <!--  <div class="form-group">
+            <label for="tahun_lulus">Ijazah</label>
+            <input class="form-control" type="file" name="userfile[]" multiple="multiple">
+        </div>
+        <div class="form-group">
+            <label for="tahun_lulus">Transkrip</label>
+            <input class="form-control" type="file" name="userfile[]" multiple="multiple">
+        </div> -->
         
             
       </div>
       <div class="modal-footer">
         <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button class="btn btn-primary" name="tambahPendidikanDosen" id="tambahPendidikanDosen"><i class="fa fa-plus"></i> Tambah</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAMBAH DATA IJAZAH -->
+<div class="modal fade modal-primary-custom" id="tambahIjazahModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Tambah Data Ijazah</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="" enctype="multipart/form-data">
+        
+        <div class="form-group">
+            <label for="perguruan_tinggi">File Ijazah</label>
+            <input type="hidden" name="id" id="idijazahdosen">
+            <input class="form-control" type="file" name="ijazah" id="ijazahdosen">
+        </div>
+         
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" name="tambahIjazahDosen" id="tambahIjazahDosen" disabled="true"><i class="fa fa-plus"></i> Tambah</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT DATA IJAZAH -->
+<div class="modal fade modal-success-custom" id="editIjazahModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Data Ijazah</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="" enctype="multipart/form-data">
+        
+        <div class="form-group">
+            <label for="perguruan_tinggi">File Ijazah</label>
+            <input type="hidden" name="id" id="ideditijazahdosen">
+            <input type="hidden" name="img" id="imgeditijazahdosen">
+            <input class="form-control" type="file" name="ijazah" id="editfileijazahdosen">
+        </div>
+         
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" name="editIjazahDosen" id="editIjazahDosen" disabled="true"><i class="fa fa-recycle"></i> Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAMBAH DATA TRANSKRIP -->
+<div class="modal fade modal-primary-custom" id="tambahTranskripModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Tambah Data Transkrip</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="" enctype="multipart/form-data">
+        
+        <div class="form-group">
+            <label for="perguruan_tinggi">File Transkrip</label>
+            <input type="hidden" name="id" id="idtranskripdosen">
+            <input class="form-control" type="file" name="transkrip" id="transkripdosen">
+        </div>
+         
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" name="tambahTranskripDosen" id="tambahTranskripDosen" disabled="true"><i class="fa fa-plus"></i> Tambah</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT DATA TRANSKRIP -->
+<div class="modal fade modal-success-custom" id="editTranskripModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Data Transkrip</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="" enctype="multipart/form-data">
+        
+        <div class="form-group">
+            <label for="perguruan_tinggi">File Transkrip</label>
+            <input type="hidden" name="id" id="idedittranskripdosen">
+            <input type="hidden" name="img" id="imgedittranskripdosen">
+            <input class="form-control" type="file" name="transkrip" id="editfiletranskripdosen">
+        </div>
+         
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" name="editTranskripDosen" id="editTranskripDosen" disabled="true"><i class="fa fa-recycle"></i> Update</button>
         </form>
       </div>
     </div>
@@ -218,6 +336,146 @@
 
 
 <!-- PENELITIAN DOSEN -->
+<!-- Tambah data PENGAJARAN dosen -->
+<div class="modal fade modal-primary-custom" id="tambahDataPengajaranDosenModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Tambah Data Penelitian Dosen</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="">
+        
+        <div class="form-group">
+            <label for="perguruan_tinggi">Jenis Kegiatan</label>
+            <input type="hidden" name="nidn" id="nidnTambahPengajaran" value="<?=$this->session->username?>">
+            <input class="form-control" type="text" name="jenis_kegiatan">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Bukti Penugasan</label>
+            <input class="form-control" type="text" name="bukti_penugasan">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">SKS Beban Kerja</label>
+            <input class="form-control" type="number" name="sks_beban_kerja">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Masa Penugasan</label>
+            <input class="form-control" type="text" name="masa_penugasan">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Bukti Dokumen</label>
+            <input class="form-control" type="text" name="bukti_dokumen">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">SKS Kinerja</label>
+            <input class="form-control" type="number" name="sks_kinerja">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Rekomendasi</label>
+            <select name="rekomendasi" class="form-control">
+              <option>---</option>
+              <option value="berlangsung">BERLANGSUNG</option>
+              <option value="selesai">SELESAI</option>
+            </select>
+        </div>
+
+        
+
+            
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" name="tambahPengajaranDosen" id="tambahPenelitianDosen"><i class="fa fa-plus"></i> tambah</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Data PENGAJARAN dosen -->
+<div class="modal fade modal-success-custom" id="editPengajaranDosenModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Data Pengajaran Dosen</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="">
+        
+        <div class="form-group">
+            <label for="perguruan_tinggi">Jenis Kegiatan</label>
+            <input type="hidden" name="id" id="ideditpengajaran">
+            <input class="form-control" type="text" name="jenis_kegiatan" id="editjeniskegiatan">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Bukti Penugasan</label>
+            <input class="form-control" type="text" name="bukti_penugasan" id="editbuktipenugasan">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">SKS Beban Kerja</label>
+            <input class="form-control" type="number" name="sks_beban_kerja" id="editsksbebankerja">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Masa Penugasan</label>
+            <input class="form-control" type="text" name="masa_penugasan" id="editmasapenugasan">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Bukti Dokumen</label>
+            <input class="form-control" type="text" name="bukti_dokumen" id="editbuktidokumen">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">SKS Kinerja</label>
+            <input class="form-control" type="number" name="sks_kinerja" id="editskskinerja">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Rekomendasi</label>
+            <select name="rekomendasi" class="form-control" id="editrekomendasi">
+              <option value="berlangsung">BERLANGSUNG</option>
+              <option value="selesai">SELESAI</option>
+            </select>
+        </div>
+        
+            
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" name="editPengajaranDosen" id="editPengajaranDosen"><i class="fa fa-cloud-upload"></i> update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HAPUS DATA PENGAJARAN DOSEN -->
+<div class="modal modal-danger-custom fade" id="hapusDataPengajaran">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Hapus Data Pengajaran</h4>
+              </div>
+              <div class="modal-body">
+                <p>Apakah anda yakin akan menghapus data?</p>
+              </div>
+              <div class="modal-footer">
+                <form method="post">
+                <input type="hidden" name="id" id="idpengajaran">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger" name="hapusDataPengajaran"><i class="fa fa-trash"></i> delete</button>
+                </form>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+<!-- PENELITIAN DOSEN -->
 <!-- Tambah data PENELITIAN dosen -->
 <div class="modal fade modal-primary-custom" id="tambahDataPenelitianDosenModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -230,29 +488,37 @@
         <form method="post" action="">
         
         <div class="form-group">
-            <label for="perguruan_tinggi">Judul Penelitian</label>
-            <input type="hidden" name="nidn" id="nidnTambahPendidikan" value="<?=$this->session->username?>">
-            <input class="form-control" type="text" name="judul_penelitian">
+            <label for="perguruan_tinggi">Jenis Kegiatan</label>
+            <input type="hidden" name="nidn" id="nidnTambahPenelitian" value="<?=$this->session->username?>">
+            <input class="form-control" type="text" name="jenis_kegiatan">
         </div>
-
         <div class="form-group">
-            <label for="bidang_ilmu">Bidang Ilmu</label>
-            <input class="form-control" type="text" name="bidang_ilmu">
+            <label for="perguruan_tinggi">Bukti Penugasan</label>
+            <input class="form-control" type="text" name="bukti_penugasan">
         </div>
-
         <div class="form-group">
-            <label for="lembaga">Lembaga</label>
-            <input class="form-control" type="text" name="lembaga">
+            <label for="perguruan_tinggi">SKS Beban Kerja</label>
+            <input class="form-control" type="number" name="sks_beban_kerja">
         </div>
-
         <div class="form-group">
-            <label for="penerbit">Penerbit</label>
-            <input class="form-control" type="text" name="penerbit">
+            <label for="perguruan_tinggi">Masa Penugasan</label>
+            <input class="form-control" type="text" name="masa_penugasan">
         </div>
-
         <div class="form-group">
-            <label for="tahun">Tahun</label>
-            <input class="form-control" type="year" name="tahun">
+            <label for="perguruan_tinggi">Bukti Dokumen</label>
+            <input class="form-control" type="text" name="bukti_dokumen">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">SKS Kinerja</label>
+            <input class="form-control" type="number" name="sks_kinerja">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Rekomendasi</label>
+            <select name="rekomendasi" class="form-control">
+              <option>---</option>
+              <option value="berlangsung">BERLANGSUNG</option>
+              <option value="selesai">SELESAI</option>
+            </select>
         </div>
 
             
@@ -278,29 +544,36 @@
         <form method="post" action="">
         
         <div class="form-group">
-            <label for="judul_penelitian">Judul Penelitian</label>
+            <label for="perguruan_tinggi">Jenis Kegiatan</label>
             <input type="hidden" name="id" id="ideditpenelitian">
-            <input class="form-control" type="text" name="judul_penelitian" id="juduleditpenelitian">
+            <input class="form-control" type="text" name="jenis_kegiatan" id="editjeniskegiatanpenelitian">
         </div>
-
         <div class="form-group">
-            <label for="bidang_ilmu">Bidang Ilmu</label>
-            <input class="form-control" type="text" name="bidang_ilmu" id="bidangeditpenelitian">
+            <label for="perguruan_tinggi">Bukti Penugasan</label>
+            <input class="form-control" type="text" name="bukti_penugasan" id="editbuktipenugasanpenelitian">
         </div>
-
         <div class="form-group">
-            <label for="lembaga">Lembaga</label>
-            <input class="form-control" type="text" name="lembaga" id="lembagaeditpenelitian">
+            <label for="perguruan_tinggi">SKS Beban Kerja</label>
+            <input class="form-control" type="number" name="sks_beban_kerja" id="editsksbebankerjapenelitian">
         </div>
-
         <div class="form-group">
-            <label for="penerbit">Penerbit</label>
-            <input class="form-control" type="text" name="penerbit" id="penerbiteditpenelitian">
+            <label for="perguruan_tinggi">Masa Penugasan</label>
+            <input class="form-control" type="text" name="masa_penugasan" id="editmasapenugasanpenelitian">
         </div>
-
         <div class="form-group">
-            <label for="tahun">Tahun</label>
-            <input class="form-control" type="year" name="tahun" id="tahuneditpenelitian">
+            <label for="perguruan_tinggi">Bukti Dokumen</label>
+            <input class="form-control" type="text" name="bukti_dokumen" id="editbuktidokumenpenelitian">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">SKS Kinerja</label>
+            <input class="form-control" type="number" name="sks_kinerja" id="editskskinerjapenelitian">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Rekomendasi</label>
+            <select name="rekomendasi" class="form-control" id="editrekomendasipenelitian">
+              <option value="berlangsung">BERLANGSUNG</option>
+              <option value="selesai">SELESAI</option>
+            </select>
         </div>
         
             
@@ -354,24 +627,37 @@
         <form method="post" action="">
         
         <div class="form-group">
-            <label for="perguruan_tinggi">Program Pengabdian</label>
+            <label for="perguruan_tinggi">Jenis Kegiatan</label>
             <input type="hidden" name="nidn" id="nidnTambahPengabdian" value="<?=$this->session->username?>">
-            <input class="form-control" type="text" name="program" required>
+            <input class="form-control" type="text" name="jenis_kegiatan">
         </div>
-
         <div class="form-group">
-            <label for="bidang_ilmu">Judul</label>
-            <input class="form-control" type="text" name="judul" required>
+            <label for="perguruan_tinggi">Bukti Penugasan</label>
+            <input class="form-control" type="text" name="bukti_penugasan">
         </div>
-
         <div class="form-group">
-            <label for="lembaga">Anggota</label>
-            <input class="form-control" type="text" name="anggota">
+            <label for="perguruan_tinggi">SKS Beban Kerja</label>
+            <input class="form-control" type="number" name="sks_beban_kerja">
         </div>
-
         <div class="form-group">
-            <label for="penerbit">Tahun</label>
-            <input class="form-control" type="text" name="tahun" required>
+            <label for="perguruan_tinggi">Masa Penugasan</label>
+            <input class="form-control" type="text" name="masa_penugasan">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Bukti Dokumen</label>
+            <input class="form-control" type="text" name="bukti_dokumen">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">SKS Kinerja</label>
+            <input class="form-control" type="number" name="sks_kinerja">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Rekomendasi</label>
+            <select name="rekomendasi" class="form-control">
+              <option>---</option>
+              <option value="berlangsung">BERLANGSUNG</option>
+              <option value="selesai">SELESAI</option>
+            </select>
         </div>
 
             
@@ -397,24 +683,36 @@
         <form method="post" action="">
         
         <div class="form-group">
-            <label for="judul_penelitian">Judul Penelitian</label>
-            <input type="hidden" name="id" id="idEditPengabdian">
-            <input class="form-control" type="text" name="program" id="programEditPengabdian" required>
+            <label for="perguruan_tinggi">Jenis Kegiatan</label>
+            <input type="hidden" name="id" id="ideditpengabdian">
+            <input class="form-control" type="text" name="jenis_kegiatan" id="editjeniskegiatanpengabdian">
         </div>
-
         <div class="form-group">
-            <label for="bidang_ilmu">Judul</label>
-            <input class="form-control" type="text" name="judul" id="judulEditPengabdian" required>
+            <label for="perguruan_tinggi">Bukti Penugasan</label>
+            <input class="form-control" type="text" name="bukti_penugasan" id="editbuktipenugasanpengabdian">
         </div>
-
         <div class="form-group">
-            <label for="lembaga">Anggota</label>
-            <input class="form-control" type="text" id="anggotaEditPengabdian" name="anggota">
+            <label for="perguruan_tinggi">SKS Beban Kerja</label>
+            <input class="form-control" type="number" name="sks_beban_kerja" id="editsksbebankerjapengabdian">
         </div>
-
         <div class="form-group">
-            <label for="penerbit">Tahun</label>
-            <input class="form-control" type="text" name="tahun" id="tahunEditPengabdian" required>
+            <label for="perguruan_tinggi">Masa Penugasan</label>
+            <input class="form-control" type="text" name="masa_penugasan" id="editmasapenugasanpengabdian">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Bukti Dokumen</label>
+            <input class="form-control" type="text" name="bukti_dokumen" id="editbuktidokumenpengabdian">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">SKS Kinerja</label>
+            <input class="form-control" type="number" name="sks_kinerja" id="editskskinerjapengabdian">
+        </div>
+        <div class="form-group">
+            <label for="perguruan_tinggi">Rekomendasi</label>
+            <select name="rekomendasi" class="form-control" id="editrekomendasipengabdian">
+              <option value="berlangsung">BERLANGSUNG</option>
+              <option value="selesai">SELESAI</option>
+            </select>
         </div>
         
             

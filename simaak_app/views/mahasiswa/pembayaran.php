@@ -13,7 +13,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content">
+<section class="content">
 <?php
 if ($error == true) {
 ?>
@@ -40,43 +40,74 @@ if ($error == true) {
     <label for="pas_photo" class="col-sm-2 control-label">Bukti Pembayaran</label>
     <div class="col-sm-6">
     <input type="hidden" name="path" value="$upload['pas_photo']">
-<?php
-if (!empty($upload) ) {
-  echo "<div class='alert alert-grey'>";
-  $link = base_url('assets/uploads/documents/mahasiswa/'.$upload['image']);
-  echo "<i class='fa fa-check text-success'></i> ";
-  echo "<a href='".$link."' target='_blank'>".$upload['image']."</a>";
-  if ($upload['status'] == 0) {
-    echo "<button id='btnEditPembayaran' type='button' class='btn btn-success btn-xs pull-right' data-target='#editPembayaranModal' data-toggle='modal' data-nama='".$upload['image']."'>";
-    echo "<i class='fa fa-refresh'></i> Ganti File</button>";
-  }
-  echo "</div>";
-} else {
-?>
-      <input class="form-control" type="file" name="bukti_pembayaran" id="bukti_pembayaran">
-      <button type="submit" name="submit_pembayaran" class="btn btn-success btn-sm"><i class='fa fa-cloud-upload'></i> Upload</button>
-<?php
-}
+    <input class="form-control" type="file" name="bukti_pembayaran" id="bukti_pembayaran">
+    <button type="submit" name="submit_pembayaran" class="btn btn-success btn-sm"><i class='fa fa-cloud-upload'></i> Upload</button>
 
-?>
-    </div>
   </div>
-  <div class="form-group">
-    <label class="col-sm-2 control-label">Status Pembayaran :</label>
-    <div class="col-sm-6">
-      <label class="control-label">
-      <?php
-      if ($upload['status'] == 1){
-        echo "Sudah divalidasi";
-      } else {
-        echo 'Menunggu Validasi';
-      }
-      ?>
-      </label>  
-    </div>
   </div>
 
 </form>
+
+<br/><br/>
+<h3>Histori Pembayaran</h3>
+      <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Bukti Pembayaran</th>
+          <th>Tanggal Upload</th>
+          <th>Status</th>
+          <th>Tanggal Validasi</th>
+          <th>Persentase</th>
+        </tr>
+      </thead>
+      <tbody>
+<?php
+$i = 1;
+foreach ($stt_pembayaran as $key => $value) {
+  $url = base_url('assets/uploads/documents/mahasiswa/'.$value['image']);
+?>
+<tr>
+  <td><?=$i++?></td>
+  <td><a href="<?=$url?>" target="_blank"><?=$value['image']?></a></td>
+  <td><?php
+    echo date("d-M-Y H:i:s", strtotime($value['log']));
+  ?>
+  </td>
+  <td>
+    <?php
+      if ($value['status'] == 1) {
+        echo "Sudah Divalidasi";
+      } else {
+        echo "Menunggu";
+      }
+    ?>
+  </td>
+  <td>
+    <?php
+      if ($value['status'] == 1) {
+        echo date("d-M-Y H:i:s", strtotime($value['tgl_validasi']));
+      } else {
+        echo "";
+      }
+    ?>
+  </td>
+  <td><?=$value['persentase']?> %</td>
+  <!-- <td>
+    <?php 
+    if ($value['status'] == 0) {
+      echo "<button id='btnEditPembayaran' type='button' class='btn btn-success btn-xs' data-target='#editPembayaranModal' data-toggle='modal' data-nama='".$value['image']."' data-id='".$value['id']."'>";
+      echo "<i class='fa fa-refresh'></i> Ganti File</button>";
+    } else {
+      echo "<button type='button' class='btn btn-success btn-xs' disabled='true'>";
+      echo "<i class='fa fa-refresh'></i> Ganti File</button>";
+    }
+    ?>
+  </td> -->
+</tr>
+<?php } ?>
+      </tbody>
+      </table>
 
 
             </div>

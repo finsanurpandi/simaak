@@ -222,16 +222,20 @@ switch ($jenis) {
                   <div class="tab-pane" id="pendidikan">
                     <!-- Post -->
 <button id="btnTambahPendidikanDosen" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahDataPendidikanDosenModal" data-nidn="<?=$this->session->username?>"><i class="fa fa-user-plus"></i> Tambah Data</button>                   
+<div class="table-responsive">
                     <table class="table table-hover">
                       <thead>
                         <tr>
                           <th>No</th>
+                          <th>Jenjang</th>
                           <th>Perguruan Tinggi</th>
                           <th>Fakultas</th>
                           <th>Program Studi</th>
                           <th>IPK</th>
                           <th>Gelar</th>
                           <th>Tahun Lulus</th>
+                          <th>Ijazah</th>
+                          <th>Transkrip</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
@@ -242,6 +246,7 @@ foreach ($pendidikan as $value) {
 ?>
 <tr>
   <td><?=$i?></td>
+  <td><?=$value['jenjang']?></td>
   <td><?=$value['perguruan_tinggi']?></td>
   <td><?=$value['fakultas']?></td>
   <td><?=$value['program_studi']?></td>
@@ -249,19 +254,47 @@ foreach ($pendidikan as $value) {
   <td><?=$value['gelar']?></td>
   <td><?=$value['tahun_lulus']?></td>
   <td>
+  <?php
+    if ($value['ijazah'] == null) {
+?>
+    <button type="button" id="btnTambahIjazahDosen" type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#tambahIjazahModal" data-id="<?=$value['id']?>"><i class='fa fa-plus'></i> Tambah</button>
+<?php   } else {
+    echo "<a href='".base_url('assets/uploads/documents/dosen/').$value['ijazah']."' target='_blank' class='btn btn-primary btn-xs'><i class='fa fa-image'></i></a>";
+?>
+    <button type="button" id="btnEditIjazahDosen" type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#editIjazahModal" data-id="<?=$value['id']?>" data-img="<?=$value['ijazah']?>"><i class="fa fa-pencil"></i></button>
+<?php    }
+?>
+  </td>
+
+  <td>
+  <?php
+    if ($value['transkrip'] == null) {
+?>
+    <button type="button" id="btnTambahTranskripDosen" type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#tambahTranskripModal" data-id="<?=$value['id']?>"><i class="fa fa-plus"></i> Tambah</button>
+<?php   } else {
+    echo "<a href='".base_url('assets/uploads/documents/dosen/').$value['transkrip']."' target='_blank' class='btn btn-primary btn-xs'><i class='fa fa-image'></i></a>";
+?>
+    <button type="button" id="btnEditTranskripDosen" type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#editTranskripModal" data-id="<?=$value['id']?>" data-img="<?=$value['transkrip']?>"><i class="fa fa-pencil"></i></button>
+<?php    }
+?>
+  </td>
+
+  <td></td>
+  <td>
     <button type="button" id="btnEditPendidikanDosen" class="btn btn-success btn-xs" 
   data-toggle="modal" 
   data-target="#editPendidikanDosenModal"
   data-id="<?=$value['id']?>"
+  data-jenjang="<?=$value['jenjang']?>"
   data-perguruantinggi="<?=$value['perguruan_tinggi']?>"
   data-fakultas="<?=$value['fakultas']?>"
   data-programstudi="<?=$value['program_studi']?>"
   data-ipk="<?=$value['ipk']?>"
   data-gelar="<?=$value['gelar']?>"
   data-tahunlulus="<?=$value['tahun_lulus']?>">
-      <i class="fa fa-pencil"></i> edit
+      <i class="fa fa-pencil"></i>
     </button>
-  <button type="button" id="btnHapusDataPendidikanDosen" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapusDataPendidikan" data-id="<?=$value['id']?>"><i class="fa fa-remove"></i> hapus</button>
+  <button type="button" id="btnHapusDataPendidikanDosen" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapusDataPendidikan" data-id="<?=$value['id']?>"><i class="fa fa-remove"></i></button>
   </td>
 </tr>
 <?php
@@ -270,97 +303,10 @@ $i++;
 ?>
                       </tbody>
                     </table>
-
-                  </div>
-
-                  <div class="tab-pane" id="pengajaran">
-                    <!-- Post -->
-                    <table class="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>No</th>
-                          <th>Semester</th>
-                          <th>Kode Mata Kuliah</th>
-                          <th>Nama Mata Kuliah</th>
-                          <th>Kode Kelas</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        
-                      </tbody>
-                    </table>
-
-                  </div>
-
-                  <div class="tab-pane" id="penelitian">
-                    <!-- Post -->
-                    <table class="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>No</th>
-                          <th>Judul Penelitian</th>
-                          <th>Bidang Ilmu</th>
-                          <th>Lembaga</th>
-                          <th>Penerbit</th>
-                          <th>Tahun</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-<?php
-$i = 1;
-foreach ($penelitian as $value) {
-?>
-<tr>
-  <td><?=$i?></td>
-  <td><?=$value['judul_penelitian']?></td>
-  <td><?=$value['bidang_ilmu']?></td>
-  <td><?=$value['lembaga']?></td>
-  <td><?=$value['penerbit']?></td>
-  <td><?=$value['tahun']?></td>
-</tr>
-<?php
-$i++;
-}
-?>
-                      </tbody>
-                    </table>
-
+</div>
                   </div>
 
 
-
-                  <div class="tab-pane" id="pengabdian">
-                    <!-- Post -->
-                    <table class="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>No</th>
-                          <th>Judul Penelitian</th>
-                          <th>Bidang Ilmu</th>
-                          <th>Lembaga</th>
-                          <th>Penerbit</th>
-                          <th>Tahun</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-<?php
-$i = 1;
-foreach ($penelitian as $value) {
-?>
-<tr>
-  <td><?=$i?></td>
-  <td><?=$value['judul_penelitian']?></td>
-  <td><?=$value['bidang_ilmu']?></td>
-  <td><?=$value['lembaga']?></td>
-  <td><?=$value['penerbit']?></td>
-  <td><?=$value['tahun']?></td>
-</tr>
-<?php
-$i++;
-}
-?>
-                      </tbody>
-                    </table>
 
                   </div>
 

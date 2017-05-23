@@ -155,6 +155,7 @@ $('#update_ijazah').change(function(){
 	}
 });
 
+
 $('#btnEditIjazah').click(function(){
 	var nama = $(this).data(nama);
 
@@ -162,10 +163,15 @@ $('#btnEditIjazah').click(function(){
 })
 
 // UPDATE BUTTON PEMBAYARAN
-$('#btnEditPembayaran').click(function(){
+$(document).on("click", '#btnEditPembayaran', function(e){
 	var nama = $(this).data('nama');
+	var id = $(this).data('id');
 	
 	$('#pathPembayaran').val(nama);
+	$('#idPembayaran').val(id);
+	console.log($(this).data());
+
+	$('#editPembayaranModal').modal('show');
 });
 
 $('#update_pembayaran').change(function(){
@@ -318,7 +324,15 @@ $('#kodeMatkul').change(function(){
 	});
 });
 
+// SET SKS OPERATOR JADWAL
+$('#tambahKodeMatkul').change(function(){
+	var str = $(this).find(":selected").val();
+	var newarr = str.split(",");
 
+	sks = newarr[1];
+	console.log(str);
+	console.log(sks);
+});
 
 $('#nidnJadwal').change(function(){
 	var str = $(this).find(":selected").text();
@@ -340,7 +354,7 @@ function addMinutes(time, minToAdd){
 
 $('#waktuMulai').change(function(){
 	var waktu = $(this).val()+':00';
-	var sks = $('#sks').val();
+	// var sks = $('#sks').val();
 	var addTime = sks * 50;
 
 	// $('#waktuSelesai').val(addMinutes(waktu, addTime));
@@ -351,11 +365,88 @@ $('#waktuMulai').change(function(){
 
 //EDIT DOSEN
 // ---------------------------------------------------------
+//PENGAJARAN
+// OPERATOR DOSEN TAMBAH DATA PENGAJARAN
+
+// OPERATOR DOSEN EDIT DATA PENGAJARAN
+$(document).on("click", '#btnEditPengajaranDosen', function(e){
+	var data = $(this).data();
+
+	$('#ideditpengajaran').val(data['id']);
+	$('#editjeniskegiatan').val(data['jeniskegiatan']);
+	$('#editbuktipenugasan').val(data['buktipenugasan']);
+	$('#editsksbebankerja').val(data['sksbebankerja']);
+	$('#editmasapenugasan').val(data['masapenugasan']);
+	$('#editbuktidokumen').val(data['buktidokumen']);
+	$('#editskskinerja').val(data['skskinerja']);
+
+
+	$('#editrekomendasi option').filter(function(){
+		return ($(this).val() == $('#editrekomendasi').val(data['rekomendasi']));
+	}).prop('selected', true);
+
+});
+
+// OPERATOR DOSEN HAPUS DATA PENGAjARAN
+$(document).on("click", '#btnHapusDataPengajaranDosen', function(e){
+	var id = $(this).data('id');
+	$('#idpengajaran').val(id);
+});
+
+
 //PENDIDIKAN
 // OPERATOR DOSEN TAMBAH DATA PENDIDIKAN
 $('#btnTambahPendidikanDosen').click(function(){
 	var nidn = $(this).data('nidn');
 	$('#nidnTambahPendidikan').val(nidn);
+});
+
+// TAMBAH DATA IJAZAH DOSEN
+$(document).on('click', '#btnTambahIjazahDosen', function(e){
+	var id = $(this).data('id');
+
+	$('#idijazahdosen').val(id);
+});
+
+$('#ijazahdosen').change(function(){
+	$('#tambahIjazahDosen').prop('disabled', false);
+});
+
+// EDIT DATA IJAZAH DOSEN
+$(document).on('click', '#btnEditIjazahDosen', function(e){
+	var id = $(this).data('id');
+	var img = $(this).data('img');
+
+	$('#ideditijazahdosen').val(id);
+	$('#imgeditijazahdosen').val(img);
+});
+
+$('#editfileijazahdosen').change(function(){
+	$('#editIjazahDosen').prop('disabled', false);
+});
+
+// TAMBAH DATA Transkrip DOSEN
+$(document).on('click', '#btnTambahTranskripDosen', function(e){
+	var id = $(this).data('id');
+
+	$('#idtranskripdosen').val(id);
+});
+
+$('#transkripdosen').change(function(){
+	$('#tambahTranskripDosen').prop('disabled', false);
+});
+
+// EDIT DATA TRANSKRIP DOSEN
+$(document).on('click', '#btnEditTranskripDosen', function(e){
+	var id = $(this).data('id');
+	var img = $(this).data('img');
+
+	$('#idedittranskripdosen').val(id);
+	$('#imgedittranskripdosen').val(img);
+});
+
+$('#editfiletranskripdosen').change(function(){
+	$('#editTranskripDosen').prop('disabled', false);
 });
 
 // OPERATOR DOSEN EDIT DATA PENDIDIKAN
@@ -387,20 +478,21 @@ $(document).on("click", '#btnHapusDataPendidikanDosen', function(e){
 //PENELITIAN
 // OPERATOR DOSEN EDIT DATA PENELITIAN
 $(document).on("click", '#btnEditPenelitianDosen', function(e){
-	var id = $(this).data('id');
-	var judul = $(this).data('judul');
-	var bidang = $(this).data('bidang');
-	var lembaga = $(this).data('lembaga');
-	var penerbit = $(this).data('penerbit');
-	var tahun = $(this).data('tahun');
+	var data = $(this).data();
 
-	$('#ideditpenelitian').val(id);
-	$('#juduleditpenelitian').val(judul);
-	$('#bidangeditpenelitian').val(bidang);
-	$('#lembagaeditpenelitian').val(lembaga);
-	$('#penerbiteditpenelitian').val(penerbit);
-	$('#tahuneditpenelitian').val(tahun);
-	
+	$('#ideditpenelitian').val(data['id']);
+	$('#editjeniskegiatanpenelitian').val(data['jeniskegiatan']);
+	$('#editbuktipenugasanpenelitian').val(data['buktipenugasan']);
+	$('#editsksbebankerjapenelitian').val(data['sksbebankerja']);
+	$('#editmasapenugasanpenelitian').val(data['masapenugasan']);
+	$('#editbuktidokumenpenelitian').val(data['buktidokumen']);
+	$('#editskskinerjapenelitian').val(data['skskinerja']);
+
+
+	$('#editrekomendasipenelitian option').filter(function(){
+		return ($(this).val() == $('#editrekomendasipenelitian').val(data['rekomendasi']));
+	}).prop('selected', true);
+
 });
 
 // OPERATOR DOSEN HAPUS DATA PENELITIAN
@@ -410,17 +502,25 @@ $(document).on("click", '#btnHapusDataPenelitianDosen', function(e){
 });
 
 
-// ---------------------------------------------------------
-//PENGABDIAN
+/// ---------------------------------------------------------
+// PENGABDIAN
 // OPERATOR DOSEN EDIT DATA PENGABDIAN
 $(document).on("click", '#btnEditPengabdianDosen', function(e){
 	var data = $(this).data();
 
-	$('#idEditPengabdian').val(data['id']);
-	$('#programEditPengabdian').val(data['program']);
-	$('#judulEditPengabdian').val(data['judul']);
-	$('#anggotaEditPengabdian').val(data['anggota']);
-	$('#tahunEditPengabdian').val(data['tahun']);
+	$('#ideditpengabdian').val(data['id']);
+	$('#editjeniskegiatanpengabdian').val(data['jeniskegiatan']);
+	$('#editbuktipenugasanpengabdian').val(data['buktipenugasan']);
+	$('#editsksbebankerjapengabdian').val(data['sksbebankerja']);
+	$('#editmasapenugasanpengabdian').val(data['masapenugasan']);
+	$('#editbuktidokumenpengabdian').val(data['buktidokumen']);
+	$('#editskskinerjapengabdian').val(data['skskinerja']);
+
+
+	$('#editrekomendasipengabdian option').filter(function(){
+		return ($(this).val() == $('#editrekomendasipengabdian').val(data['rekomendasi']));
+	}).prop('selected', true);
+
 });
 
 // OPERATOR DOSEN HAPUS DATA PENGABDIAN
@@ -474,6 +574,27 @@ $(document).on("click", '#editNilaiMahasiswa', function(e){
 	}).prop('selected', true);
 });
 
+
+// BAGIAN KEUANGAN
+//VALIDASI PEMBAYARAN
+$(document).on('click', '#btn-validasi', function(e){
+	var data = $(this).data();
+
+	$("#buktiPembayaran").attr("src", url+data['image']);
+	$('#statusPembayaran').val(data['status']);
+	$('#persentasePembayaran').val(data['persentase']);
+	$('#idpembayaran').val(data['id']);
+	$('#nimpembayaran').val(data['nim']);
+
+	$('#statusPembayaran option').filter(function(){
+		return ($(this).val() == $('#statusPembayaran').val(data['status']));
+	}).prop('selected', true);
+
+	$('#persentasePembayaran option').filter(function(){
+		return ($(this).val() == $('#persentasePembayaran').val(data['persentase']));
+	}).prop('selected', true);
+});
+
 //SET MENU ACTIVE MAHASISWA
 function mhsClearMenu(){
 	$('#menuMhsProfil').remove('.active');
@@ -481,6 +602,7 @@ function mhsClearMenu(){
 	$('#mhsperwalian').remove('.active');
 	$('#mhsjadwal').remove('.active');
 	$('#mhsupload').remove('.active');
+	$('#mhscetak').remove('.active');
 }
 
 if (role == 1) {
@@ -529,6 +651,8 @@ if (role == 1) {
 			// $('#mhsperwalian').remove('.active');
 		} else if (uri == 'pembayaran') {
 			$('#mhsupload').addClass('active');
+		} else if (uri == 'cetak') {
+			$('#mhscetak').addClass('active');
 		}
 	
 };
@@ -576,6 +700,8 @@ if (role == 2) {
 			$('#matakuliahdosen').addClass('active');
 		} else if (uri == 'dokumen') {
 			$('#dokumendosen').addClass('active');
+		} else if (uri == 'histori') {
+			$('#historimatakuliahdosen').addClass('active');
 		};
 };
 	

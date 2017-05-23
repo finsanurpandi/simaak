@@ -13,7 +13,7 @@ class Dosen extends CI_Controller {
 // CONFIGURATION --------------------------------
 // UPLOAD IMAGE  --------------------------------
 
-	function configImage()
+	function configImage($url)
 	{
 		$user = $this->session->username;
 		$nmfile = "img_".$user."_".time();
@@ -106,7 +106,7 @@ class Dosen extends CI_Controller {
 		// $riwayat_pendidikan = $this->m_dosen->getAllData('dosen_pendidikan', array('nidn' => $this->session->username));
 		// $riwayat_penelitian = $this->m_dosen->getAllData('dosen_penelitian', array('nidn' => $this->session->username));
 		$riwayat_pendidikan = $this->m_dosen->getDataOrder('dosen_pendidikan', array('nidn' => $this->session->username), array('tahun_lulus' => 'DESC'));
-		$riwayat_penelitian = $this->m_dosen->getDataOrder('dosen_penelitian', array('nidn' => $this->session->username), array('tahun' => 'DESC'));
+		$riwayat_penelitian = $this->m_dosen->getDataOrder('dosen_penelitian', array('nidn' => $this->session->username), array('tahun_ajaran' => 'DESC'));
 
 		$data['error'] = $this->upload->display_errors();
 
@@ -132,15 +132,17 @@ class Dosen extends CI_Controller {
 		$addPendidikan = $this->input->post('tambahPendidikanDosen');
 
 		if (isset($addPendidikan)) {
+
 			$dosen = array (
 				'nidn' => $this->input->post('nidn'),
+				'jenjang' => $this->input->post('jenjang'),
 				'perguruan_tinggi' => $this->input->post('perguruan_tinggi'),
 				'fakultas' => $this->input->post('fakultas'),
 				'program_studi' => $this->input->post('program_studi'),
 				'ipk' => $this->input->post('ipk'),
 				'gelar' => $this->input->post('gelar'),
 				'tahun_lulus' => $this->input->post('tahun_lulus')
-				);
+			);
 
 			$this->m_dosen->insertAllData('dosen_pendidikan', $dosen);
 
@@ -172,6 +174,56 @@ class Dosen extends CI_Controller {
 			$this->m_dosen->deleteData('dosen_pendidikan', array('id' => $this->input->post('id')));
 
 			redirect($this->uri->uri_string());			
+		}
+
+		// ADD & EDIT IJAZAH
+		$addIjazah = $this->input->post('tambahIjazahDosen');
+		$editIjazah = $this->input->post('editIjazahDosen');
+
+		if (isset($addIjazah) || isset($editIjazah)) {
+			$img_path = $this->input->post('img');
+
+			$this->configDokumen();
+
+			if (!$this->upload->do_upload('ijazah')) {
+				redirect($this->uri->uri_string());			
+			} else {
+
+			$docinfo = $this->upload->data();
+
+			$dosen = array (
+				'ijazah' => $docinfo['file_name']
+				);
+
+			$this->m_dosen->updateDokumen('dosen_pendidikan', $dosen, $this->input->post('id'));
+			@unlink("./assets/uploads/documents/dosen/". $img_path);
+			redirect($this->uri->uri_string());			
+			}
+		}
+
+		// ADD & EDIT TRANSKRIP
+		$addTranskrip = $this->input->post('tambahTranskripDosen');
+		$editTranskrip = $this->input->post('editTranskripDosen');
+
+		if (isset($addTranskrip) || isset($editTranskrip)) {
+			$img_path = $this->input->post('img');
+
+			$this->configDokumen();
+
+			if (!$this->upload->do_upload('transkrip')) {
+				redirect($this->uri->uri_string());			
+			} else {
+
+			$docinfo = $this->upload->data();
+
+			$dosen = array (
+				'transkrip' => $docinfo['file_name']
+				);
+
+			$this->m_dosen->updateDokumen('dosen_pendidikan', $dosen, $this->input->post('id'));
+			@unlink("./assets/uploads/documents/dosen/". $img_path);
+			redirect($this->uri->uri_string());			
+			}
 		}
 	}
 
@@ -257,7 +309,7 @@ class Dosen extends CI_Controller {
 		$user_alamat = $this->m_dosen->getDataUser('dosen_alamat', array('nidn' => $this->session->userdata('username')));
 		$session = $this->session->userdata('login_in');
 
-		$riwayat_pengajaran = $this->m_dosen->getDataOrder('dosen_pengajaran', array('nidn' => $this->session->username), array('tahun_ajaran' => 'DESC'));
+		$riwayat_pengajaran = $this->m_dosen->getDataOrder('dosen_pengajaran', array('nidn' => $this->session->username), array('tahun_ajaran' => 'DESC', 'id' => 'DESC'));
 
 		$data['user'] = $user_akun;
 		$data['pengajaran'] = $riwayat_pengajaran->result_array();
@@ -274,6 +326,55 @@ class Dosen extends CI_Controller {
 			redirect('login', 'refresh');
 		}
 
+		//ADD DATA PENGAJARAN
+		$addPengajaran = $this->input->post('tambahPengajaranDosen');
+		
+		if (isset($addPengajaran)) {
+			$datapengajaran = array(
+				'nidn' => $this->input->post('nidn'),
+				'jenis_kegiatan' => $this->input->post('jenis_kegiatan'),
+				'bukti_penugasan' => $this->input->post('bukti_penugasan'),
+				'sks_beban_kerja' => $this->input->post('sks_beban_kerja'),
+				'masa_penugasan' => $this->input->post('masa_penugasan'),
+				'bukti_dokumen' => $this->input->post('bukti_dokumen'),
+				'sks_kinerja' => $this->input->post('sks_kinerja'),
+				'rekomendasi' => $this->input->post('rekomendasi'),
+				'tahun_ajaran' => $this->session->tahun_ajaran
+			);
+
+			$this->m_dosen->insertAllData('dosen_pengajaran', $datapengajaran);
+
+			redirect($this->uri->uri_string());
+		}
+
+		//EDIT DATA PENGAJARAN
+		$editPengajaran = $this->input->post('editPengajaranDosen');
+		if (isset($editPengajaran)) {
+			$dataEditPengajaran = array (
+				'jenis_kegiatan' => $this->input->post('jenis_kegiatan'),
+				'bukti_penugasan' => $this->input->post('bukti_penugasan'),
+				'sks_beban_kerja' => $this->input->post('sks_beban_kerja'),
+				'masa_penugasan' => $this->input->post('masa_penugasan'),
+				'bukti_dokumen' => $this->input->post('bukti_dokumen'),
+				'sks_kinerja' => $this->input->post('sks_kinerja'),
+				'rekomendasi' => $this->input->post('rekomendasi')
+			);
+
+			$this->m_dosen->updateDokumen('dosen_pengajaran', $dataEditPengajaran, $this->input->post('id'));
+
+			redirect($this->uri->uri_string());
+		}
+
+		//DELETE DATA PENGAJARAN
+		$deletePengajaran = $this->input->post('hapusDataPengajaran');
+
+		if (isset($deletePengajaran)) {
+			$hapus = array('id' => $this->input->post('id'));
+
+			$this->m_dosen->deleteData('dosen_pengajaran', $hapus);			
+			redirect($this->uri->uri_string());	
+		}
+
 	}
 
 
@@ -284,7 +385,7 @@ class Dosen extends CI_Controller {
 		$user_alamat = $this->m_dosen->getDataUser('dosen_alamat', array('nidn' => $this->session->userdata('username')));
 		$session = $this->session->userdata('login_in');
 		
-		$riwayat_penelitian = $this->m_dosen->getDataOrder('dosen_penelitian', array('nidn' => $this->session->username), array('tahun' => 'DESC'));
+		$riwayat_penelitian = $this->m_dosen->getDataOrder('dosen_penelitian', array('nidn' => $this->session->username), array('tahun_ajaran' => 'DESC', 'id' => 'DESC'));
 
 		$data['user'] = $user_akun;
 		$data['penelitian'] = $riwayat_penelitian->result_array();
@@ -307,11 +408,14 @@ class Dosen extends CI_Controller {
 		if (isset($addPenelitian)) {
 			$dosen = array (
 				'nidn' => $this->input->post('nidn'),
-				'judul_penelitian' => $this->input->post('judul_penelitian'),
-				'bidang_ilmu' => $this->input->post('bidang_ilmu'),
-				'lembaga' => $this->input->post('lembaga'),
-				'penerbit' => $this->input->post('penerbit'),
-				'tahun' => $this->input->post('tahun')
+				'jenis_kegiatan' => $this->input->post('jenis_kegiatan'),
+				'bukti_penugasan' => $this->input->post('bukti_penugasan'),
+				'sks_beban_kerja' => $this->input->post('sks_beban_kerja'),
+				'masa_penugasan' => $this->input->post('masa_penugasan'),
+				'bukti_dokumen' => $this->input->post('bukti_dokumen'),
+				'sks_kinerja' => $this->input->post('sks_kinerja'),
+				'rekomendasi' => $this->input->post('rekomendasi'),
+				'tahun_ajaran' => $this->session->tahun_ajaran
 				);
 
 			$this->m_dosen->insertAllData('dosen_penelitian', $dosen);
@@ -325,12 +429,14 @@ class Dosen extends CI_Controller {
 
 		if (isset($editPenelitian)) {
 			$dosen = array (
-				'judul_penelitian' => $this->input->post('judul_penelitian'),
-				'bidang_ilmu' => $this->input->post('bidang_ilmu'),
-				'lembaga' => $this->input->post('lembaga'),
-				'penerbit' => $this->input->post('penerbit'),
-				'tahun' => $this->input->post('tahun')
-				);
+				'jenis_kegiatan' => $this->input->post('jenis_kegiatan'),
+				'bukti_penugasan' => $this->input->post('bukti_penugasan'),
+				'sks_beban_kerja' => $this->input->post('sks_beban_kerja'),
+				'masa_penugasan' => $this->input->post('masa_penugasan'),
+				'bukti_dokumen' => $this->input->post('bukti_dokumen'),
+				'sks_kinerja' => $this->input->post('sks_kinerja'),
+				'rekomendasi' => $this->input->post('rekomendasi')
+			);
 
 			$this->m_dosen->updateData('dosen_penelitian', $dosen, array('id' => $this->input->post('id')));
 
@@ -353,7 +459,7 @@ class Dosen extends CI_Controller {
 		
 		$session = $this->session->userdata('login_in');
 		
-		$riwayat_pengabdian = $this->m_dosen->getDataOrder('dosen_pengabdian', array('nidn' => $this->session->username), array('tahun' => 'DESC'));
+		$riwayat_pengabdian = $this->m_dosen->getDataOrder('dosen_pengabdian', array('nidn' => $this->session->username), array('tahun_ajaran' => 'DESC', 'id' => 'DESC'));
 
 		$data['user'] = $user_akun;
 		$data['pengabdian'] = $riwayat_pengabdian->result_array();
@@ -376,10 +482,14 @@ class Dosen extends CI_Controller {
 		if (isset($addPengabdian)) {
 			$dosen = array (
 				'nidn' => $this->input->post('nidn'),
-				'program' => $this->input->post('program'),
-				'judul' => $this->input->post('judul'),
-				'anggota' => $this->input->post('anggota'),
-				'tahun' => $this->input->post('tahun')
+				'jenis_kegiatan' => $this->input->post('jenis_kegiatan'),
+				'bukti_penugasan' => $this->input->post('bukti_penugasan'),
+				'sks_beban_kerja' => $this->input->post('sks_beban_kerja'),
+				'masa_penugasan' => $this->input->post('masa_penugasan'),
+				'bukti_dokumen' => $this->input->post('bukti_dokumen'),
+				'sks_kinerja' => $this->input->post('sks_kinerja'),
+				'rekomendasi' => $this->input->post('rekomendasi'),
+				'tahun_ajaran' => $this->session->tahun_ajaran
 				);
 
 			$this->m_dosen->insertAllData('dosen_pengabdian', $dosen);
@@ -393,11 +503,14 @@ class Dosen extends CI_Controller {
 
 		if (isset($editPengabdian)) {
 			$dosen = array (
-				'program' => $this->input->post('program'),
-				'judul' => $this->input->post('judul'),
-				'anggota' => $this->input->post('anggota'),
-				'tahun' => $this->input->post('tahun')
-				);
+				'jenis_kegiatan' => $this->input->post('jenis_kegiatan'),
+				'bukti_penugasan' => $this->input->post('bukti_penugasan'),
+				'sks_beban_kerja' => $this->input->post('sks_beban_kerja'),
+				'masa_penugasan' => $this->input->post('masa_penugasan'),
+				'bukti_dokumen' => $this->input->post('bukti_dokumen'),
+				'sks_kinerja' => $this->input->post('sks_kinerja'),
+				'rekomendasi' => $this->input->post('rekomendasi')
+			);
 
 			$this->m_dosen->updateData('dosen_pengabdian', $dosen, array('id' => $this->input->post('id')));
 
@@ -564,6 +677,32 @@ class Dosen extends CI_Controller {
 		}
 	}
 
+// MENU RIWAYAT PENGAJARAN ----------------------------------
+	function histori()
+	{
+		$user_akun = $this->m_dosen->getDosen($this->session->userdata('username'));
+		$user_alamat = $this->m_dosen->getDataUser('dosen_alamat', array('nidn' => $this->session->userdata('username')));
+		$session = $this->session->userdata('login_in');
+
+		$riwayat_pengajaran = $this->m_dosen->getHistoriMatkul($this->session->username)->result_array();
+
+		$data['user'] = $user_akun;
+		$data['pengajaran'] = $riwayat_pengajaran;
+
+		$data['role'] = $this->session->role;
+
+		if ($session == TRUE && $this->session->role == 2) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('dosen/riwayat-pengajaran', $data);
+			$this->load->view('dosen/modal', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
+
+	}
+
 // MENU NILAI
 
 	function nilai()
@@ -718,11 +857,17 @@ class Dosen extends CI_Controller {
 		$key_nim = $this->encrypt->decode($nim);
 		$mhs = $this->m_dosen->getDataUser('mhs', array('nim' => $key_nim));
 		$alamat = $this->m_dosen->getDataUser('mhs_alamat', array('nim' => $key_nim));
+		$ortu = $this->m_dosen->getDataUser('mhs_orangtua', array('nim' => $key_nim));
+		$profil = $this->m_dosen->getDataUser('mhs_profil', array('nim' => $key_nim));
+		$nilai = $this->m_dosen->getMatkulKeseluruhan($key_nim)->result_array();
 
 		$data['user'] = $user_akun;
 		$data['mhs'] = $mhs;
 		$data['alamat'] = $alamat;
+		$data['ortu'] = $ortu;
+		$data['profil'] = $profil;
 		$data['role'] = $this->session->role;
+		$data['nilai'] = $nilai;
 		
 		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);

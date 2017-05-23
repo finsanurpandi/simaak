@@ -3,7 +3,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Hasil Studi Mahasiswa Per-Semester
+        Hasil Studi Mahasiswa
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url()?>"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -25,8 +25,8 @@
 <div class="row">
         <div class="col-md-2 text-center">
                 <?php
-                  if ($user['image'] == null) {
-                    if ($user['jenis_kelamin'] == 'L') {
+                  if ($mhs['image'] == null) {
+                    if ($mhs['jenis_kelamin'] == 'L') {
                       echo "<img src='".base_url('assets/uploads/profiles/default_male.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
                     } else {
                       echo "<img src='".base_url('assets/uploads/profiles/default_female.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
@@ -43,24 +43,29 @@
         </div>
 
         <div class="col-md-10">
-          <strong>NIM</strong>
+                  <strong>NIM</strong>
                   <p class="text-muted">
-                    <?=$user['nim']?>
+                    <?=$mhs['nim']?>
+                  </p>
+                  
+                  <strong>Nama</strong>
+                  <p class="text-muted">
+                    <?=$mhs['nama']?>
                   </p>
 
                   <strong>Program Studi</strong>
                   <p class="text-muted">
-                    <?=$user['jenjang'].' - '.$user['kode_prodi']?>
+                    <?=$mhs['jenjang'].' - '.$mhs['kode_prodi']?>
                   </p>
 
                   <strong>Angkatan</strong>
                   <p class="text-muted">
-                    <?=$user['angkatan']?>
+                    <?=$mhs['angkatan']?>
                   </p>
 
                   <strong>Kelas</strong>
                   <p class="text-muted">
-                    <?=$user['kelas']?>
+                    <?=$mhs['kelas']?>
                   </p>
 
                   <!-- <strong>IP Terakhir</strong>
@@ -73,6 +78,16 @@
       </div>
 
 <hr>
+
+<div class="nav-tabs-custom">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#semester" data-toggle="tab">Semester</a></li>
+    <li><a href="#kumulatif" data-toggle="tab">Kumulatif</a></li>
+  </ul>
+  
+  <div class="tab-content">
+      <div class="active tab-pane" id="semester">
+<!-- SEMESTER -->
 
 <form method="post" class="form-inline">
   <div class="form-group">
@@ -110,7 +125,7 @@ if ($tahun_ajaran[0]['tahun_ajaran'] !== $this->session->tahun_ajaran) {
 $i = 1;
 $totalsks = 0;
 $ip = 0;
-foreach ($nilai as $key => $value) {
+foreach ($nilais as $key => $value) {
 ?>
 
   <tr>
@@ -174,38 +189,6 @@ if (!empty($value['nilai'])) {
   </tr>
 
 <?php
-// switch (@$value['nilai']) {
-//   case 'A':
-//     $ip += (4*$value['sks']);
-//     break;
-//   case 'AB':
-//     $ip += (3.5*$value['sks']);
-//     break;
-//   case 'B':
-//     $ip += (3*$value['sks']);
-//     break;
-//   case 'BC':
-//     $ip += (2.5*$value['sks']);
-//     break;
-//   case 'C':
-//     $ip += (2*$value['sks']);
-//     break;
-//   case 'CD':
-//     $ip += (1.5*$value['sks']);
-//     break;
-//   case 'D':
-//     $ip += (1*$value['sks']);
-//     break;
-//   case 'DE':
-//     $ip += (0.5*$value['sks']);
-//     break;
-//   case 'E':
-//     $ip += 0;
-//     break;
-//   default:
-//     $ip += 0;
-//     break;
-// }
 $totalsks += $value['sks'];
 $i++;
 }
@@ -229,10 +212,129 @@ $i++;
   <strong><?=round($totalip, 2)?></strong>
 </p>
 
-<a href="<?=base_url('cetak/cetak_kartu_hasil_studi/')?><?=$this->encrypt->encode($this->session->username)."/".$this->encrypt->encode($ta)?>" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>
-
+<a href="<?=base_url('cetak/cetak_kartu_hasil_studi/')?><?=$this->encrypt->encode($nim)."/".$this->encrypt->encode($ta)?>" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i> CETAK</a>
 
 <hr/>
+
+
+      </div>
+
+      <div class="tab-pane" id="kumulatif">
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>NO.</th>
+      <th>MATA KULIAH</th>
+      <th>KODE</th>
+      <th>SKS</th>
+      <th>NILAI</th>
+    </tr>
+  </thead>
+  <tbody>
+
+<?php
+$i = 1;
+$totalsks = 0;
+$ip = 0;
+foreach ($nilaik as $key => $value) {
+?>
+
+  <tr>
+    <td><?=$i?></td>
+    <td><?=$value['nama_matkul']?></td>
+    <td><?=$value['kode_matkul']?></td>
+    <td><?=$value['sks']?></td>
+    <td>
+<?php
+if (!empty($value['nilai'])) {
+  
+    switch ($value['nilai']) {
+      case 4:
+        $ip += ($value['nilai']*$value['sks']);
+        echo 'A';
+        break;
+      case 3.5:
+        $ip += ($value['nilai']*$value['sks']);
+        echo 'AB';
+        break;
+      case 3:
+        $ip += ($value['nilai']*$value['sks']);
+        echo 'B';
+        break;
+      case 2.5:
+        $ip += ($value['nilai']*$value['sks']);
+        echo 'BC';
+        break;
+      case 2:
+        $ip += ($value['nilai']*$value['sks']);
+        echo 'C';
+        break;
+      case 1.5:
+        $ip += ($value['nilai']*$value['sks']);
+        echo 'CD';
+        break;
+      case 1:
+        $ip += ($value['nilai']*$value['sks']);
+        echo 'D';
+        break;
+      case 0.5:
+        $ip += ($value['nilai']*$value['sks']);
+        echo 'DE';
+        break;
+      case 0:
+        $ip += ($value['nilai']*$value['sks']);
+        echo 'E';
+        break;
+      case -1:
+        $ip += 0;
+        echo 'T';
+        break;
+      default:
+        $ip += 0;
+        break;
+    }
+}    
+
+    ?>
+    </td>
+  </tr>
+
+<?php
+$totalsks += $value['sks'];
+$i++;
+}
+@$totalip = $ip/$totalsks;
+?>
+
+  </tbody>
+</table>
+<hr/>
+<p>
+  Jumlah SKS : 
+  <strong><?=$totalsks?></strong>
+</p>
+
+<p>
+  IPK : 
+  <strong><?=round($totalip, 2)?></strong>
+</p>
+
+<a href="<?=base_url('cetak/cetak_kartu_hasil_studi/')?><?=$this->encrypt->encode($nim)."/".$this->encrypt->encode($ta)?>" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i> CETAK</a>
+<hr/>
+      </div>
+
+<a href="<?=base_url('operator/mahasiswa')?>" class="btn btn-primary btn-xs"><i class="fa fa-arrow-left"></i> kembali</a>
+
+  </div>
+
+
+
+</div>
+
+
+
+
 
 
             </div>

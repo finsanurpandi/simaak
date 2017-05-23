@@ -147,10 +147,62 @@ class M_operator extends CI_Model {
 	// 	}
 	// }
 
+	function getLeftJoinDosen($table, $order = null, $limit = null, $offset = null)
+	{
+		$con = 'dosen.nidn = '.$table.'.nidn';
+		$this->db->select('*');
+		$this->db->from($table);
+		$this->db->join('dosen', $con);
+
+		if (($limit !== null) && ($offset !== null)) {
+			$this->db->limit($limit, $offset);
+		}
+
+		if ($order !== null) {
+			foreach ($order as $key => $value) {
+				$this->db->order_by($key, $value);
+			}
+		}
+
+		$query = $this->db->get();
+
+		return $query->result_array();
+	}
+
+	function getSisaDosen($table)
+	{
+		// $this->db->select('*');
+		// $this->db->from('dosen');
+		// $this->db->join($table, 'dosen.nidn = '.$table.'.nidn');
+		// $this->db->where($table.'.nidn IS NULL', null, false);
+
+		// $query = $this->db->get();
+		$sql = 'SELECT a.* FROM dosen a LEFT JOIN '.$table.' b ON a.nidn = b.nidn WHERE b.nidn IS null';
+		// $sql = 'SELECT a.* FROM dosen a LEFT JOIN dosen_es b ON a.nidn = b.nidn WHERE b.nidn IS null';
+		$query = $this->db->query($sql);
+
+		return $query->result_array();
+	}
+
 	function searchData ($table, $where, $key, $row)
 	{
 		$this->db->like($row, $key);
 		$query = $this->db->get_where($table, $where);
+
+		$query = $query->result_array();
+
+		return $query;
+	}
+
+	function searchDataJoin($table, $key, $row)
+	{
+		$con = 'dosen.nidn = '.$table.'.nidn';
+		$this->db->select('*');
+		$this->db->from($table);
+		$this->db->join('dosen', $con);
+
+		$this->db->like($row, $key);
+		$query = $this->db->get();
 
 		$query = $query->result_array();
 

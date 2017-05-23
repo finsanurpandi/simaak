@@ -152,7 +152,8 @@ class M_mahasiswa extends CI_Model {
 
 	function getMatkulKeseluruhan($user)
 	{
-		$sql = 'SELECT a.* FROM nilai a INNER JOIN (SELECT kode_matkul, MAX(nilai) AS max_nilai FROM nilai GROUP BY kode_matkul) b ON a.kode_matkul = b.kode_matkul AND a.nilai = b.max_nilai AND a.nim = '.$user.' ORDER BY a.kode_matkul ASC';
+		// $sql = 'SELECT a.* FROM nilai a INNER JOIN (SELECT kode_matkul, MAX(nilai) AS max_nilai FROM nilai GROUP BY kode_matkul) b ON a.kode_matkul = b.kode_matkul AND a.nilai = b.max_nilai AND a.nim = '.$user.' ORDER BY a.kode_matkul ASC';
+		$sql = 'SELECT a.* FROM nilai a INNER JOIN (SELECT kode_matkul, MAX(nilai) AS max_nilai FROM nilai GROUP BY kode_matkul) b ON a.kode_matkul = b.kode_matkul AND a.nim = '.$user.' ORDER BY a.kode_matkul ASC';
 		$query = $this->db->query($sql);
 		return $query;
 	}

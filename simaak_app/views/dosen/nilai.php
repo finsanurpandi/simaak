@@ -62,7 +62,6 @@ if (!empty($gelardepan)) {
                   <th>Nama Matakuliah</th>
                   <th>SKS</th>
                   <th>Kelas</th>
-                  <th>Status</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -76,7 +75,6 @@ if (!empty($gelardepan)) {
                   echo "<td>".$value['nama_matkul']."</td>";
                   echo "<td>".$value['sks']."</td>";
                   echo "<td>".$value['kelas']."</td>";
-                  echo "<td>Belum ada input</td>";
                   echo "<td><a href='".base_url()."dosen/detailnilai/".$this->encrypt->encode($value['kode_matkul'])."/".$this->encrypt->encode($value['nama_matkul'])."/".$this->encrypt->encode($value['kelas'])."' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i> input nilai</a></td>";
                   echo "</tr>";
                 }

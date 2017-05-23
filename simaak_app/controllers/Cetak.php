@@ -7,6 +7,7 @@ class Cetak extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('m_mahasiswa');
+		$this->load->model('m_operator');
 		$this->load->library('pdf');
 	}
 
@@ -63,7 +64,7 @@ class Cetak extends CI_Controller {
 		$user = $this->encrypt->decode($e_user);
 		$ta = $this->encrypt->decode($e_ta);
 
-		$datanilai = $this->m_mahasiswa->getAllData('nilai', array('nim' => $this->session->username, 'tahun_ajaran' => $ta))->result_array();	
+		$datanilai = $this->m_mahasiswa->getAllData('nilai', array('nim' => $user, 'tahun_ajaran' => $ta))->result_array();	
 
 		$data['user'] = $this->m_mahasiswa->getMahasiswa($user);
 		$data['nilai'] = $datanilai;
@@ -97,6 +98,41 @@ class Cetak extends CI_Controller {
 		$this->pdf->load_view('cetak/cetak_jadwal_kuliah', $data, 'A4', $margin);
 
 		$filename = 'Perkuliahan - '.$this->encrypt->decode($e_user).'.pdf';
+		$this->pdf->Output($filename, 'I');
+	}
+
+	function cetak_daftar_hadir_kuliah($e_kodematkul, $e_namamatkul, $e_kelas, $e_nidn, $e_idjadwal)
+	{
+		$nidn = $this->encrypt->decode($e_nidn);
+		$kode_matkul = $this->encrypt->decode($e_kodematkul);
+		$nama_matkul = $this->encrypt->decode($e_namamatkul);
+		$kelas = $this->encrypt->decode($e_kelas);
+		$user_akun = $this->m_operator->getDataUser('dosen', array('nidn' => $nidn));
+		$session = $this->session->userdata('login_in');
+		$jadwal = $this->m_operator->getDataOrder('perwalian', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('log' => 'ASC'))->result_array();
+		$ta = substr($this->session->tahun_ajaran, 4);
+		$matkul = $this->m_operator->getDataUser('jadwal', array('id_jadwal' => $this->encrypt->decode($e_idjadwal)));
+
+		if ($ta % 2) {
+			$semester = 'ganjil';
+		} else {
+			$semester = 'genap';
+		}
+
+		$data['user'] = $user_akun;
+		$data['role'] = $this->session->role;
+		$data['jadwal'] = $jadwal;
+		$data['matkul'] = $matkul;
+		$data['kelas'] = $kelas;
+		$data['semester'] = $semester;
+
+		// margin (left, right, top, bottom)
+		$margin = array(10,10,5,10);
+
+		//load_view (view, data, paper_size, margin_array)
+		$this->pdf->load_view('cetak/cetak_daftar_hadir_kuliah', $data, 'A4', $margin);
+
+		$filename = 'DHK - '.$kode_matkul.' - '.$nama_matkul.' - '.$kelas.'.pdf';
 		$this->pdf->Output($filename, 'I');
 	}
 

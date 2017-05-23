@@ -28,12 +28,11 @@ Content Wrapper. Contains page content -->
 <form method="post" class="form-inline pull-right">
   <div class="form-group form-group-sm">
   <select class="form-control" name="search_category">
-        <option value="nidn">NIDN</option>
-        <option value="nik">NIK</option>
-        <option value="nama">Nama</option>
-        <option value="prodi">Program Studi</option>
-        <option value="jabatan_fungsional">Jabatan Fungsional</option>
-        <option value="golongan">Golongan</option>
+        <option value="dosen.nidn">NIDN</option>
+        <option value="dosen.nik">NIK</option>
+        <option value="dosen.nama">Nama</option>
+        <option value="dosen.jabatan_fungsional">Jabatan Fungsional</option>
+        <option value="dosen.golongan">Golongan</option>
       </select>
     <div class="input-group">
       <input type="text" name="search_key" class="form-control">
@@ -46,7 +45,6 @@ Content Wrapper. Contains page content -->
 
             </div>
             <br/>
-
             <div class="table-responsive">
             <table class="table table-hover">
               <thead>
@@ -55,13 +53,13 @@ Content Wrapper. Contains page content -->
                   <th>NIDN</th>
                   <th>NIK</th>
                   <th>Nama</th>
-                  <th>Gelar Depan</th>
-                  <th>Gelar Belakang</th>
+                  <!-- <th>Gelar Depan</th>
+                  <th>Gelar Belakang</th> -->
                   <!-- <th>Program Studi</th> -->
                   <th>Jenis Kelamin</th>
                   <th>Jabatan Fungsional</th>
-                  <th>Golongan</th>
                   <th>Jabatan Struktural</th>
+                  <th>Keterangan</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -73,21 +71,67 @@ Content Wrapper. Contains page content -->
                   echo "<td>".$i++."</td>";
                   echo "<td>".$value['nidn']."</td>";
                   echo "<td>".$value['nik']."</td>";
-                  echo "<td>".$value['nama']."</td>";
-                  echo "<td>".$value['gelar_depan']."</td>";
-                  echo "<td>".$value['gelar_belakang']."</td>";
+                  echo "<td>".$value['gelar_depan'].''.$value['nama'].', '.$value['gelar_belakang']."</td>";
                   // echo "<td>".$value['kode_prodi']."</td>";
                   echo "<td>".$value['jenis_kelamin']."</td>";
                   echo "<td>".$value['jabatan_fungsional']."</td>";
-                  echo "<td>".$value['golongan']."</td>";
                   echo "<td>".$value['jabatan_struktural']."</td>";
-                  echo "<td><a href='".base_url()."operator/detailDosen/".$this->encrypt->encode($value['nidn'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> edit</a></td>";
-                  echo "</tr>";
-                }
+                  echo "<td>";
+                  switch ($value['status_dosen']) {
+                    case 0:
+                      echo "Dosen Tetap";
+                      break;
+                    case 1:
+                      echo "Dosen Tetap di luar Bidang Keahlian";
+                      break;
+                    case 2:
+                      echo "Dosen Tidak Tetap";
+                      break;
+                    case 3:
+                      echo "Dosen Tidak Tetap Struktural";
+                      break;
+                  }
+                  echo "</td>";
+                  // echo "<td><a href='".base_url()."operator/detailDosen/".$this->encrypt->encode($value['nidn'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> edit</a></td>";
+                  // echo "</tr>";
+                //}
+                // $no = 1;
+                // for ($i=0; $i < count($dosen) ; $i++) { 
+                //   if ($dosen[$i]['status_dosen'] == 0) {
+                //       echo "<tr>";
+                //       echo "<td>".$no++."</td>";
+                //       echo "<td>".$dosen[$i]['nidn']."</td>";
+                //       echo "<td>".$dosen[$i]['nik']."</td>";
+                //       echo "<td>".$dosen[$i]['nama']."</td>";
+                //       echo "<td>".$dosen[$i]['gelar_depan']."</td>";
+                //       echo "<td>".$dosen[$i]['gelar_belakang']."</td>";
+                //       // echo "<td>".$value['kode_prodi']."</td>";
+                //       echo "<td>".$dosen[$i]['jenis_kelamin']."</td>";
+                //       echo "<td>".$dosen[$i]['jabatan_fungsional']."</td>";
+                //       echo "<td>".$dosen[$i]['golongan']."</td>";
+                //       echo "<td>".$dosen[$i]['jabatan_struktural']."</td>";
+?>
+<td>
+<a href="<?=base_url('operator/detailDosen/').$this->encrypt->encode($value['nidn'])?>" class="btn btn-primary btn-xs"><i class='fa fa-pencil'></i> detail</a>
+  <form method="post">
+    <input type="hidden" name="nidn" value="<?=$value['nidn']?>">
+    <button class="btn btn-danger btn-xs" name="hapusDosen"><i class='fa fa-trash'></i> hapus</button>
+  </form>
+</td>
+
+<?php
+                      echo "</tr>";
+                  }
+              
                 ?>
               </tbody>
 
             </table>
+<hr/>
+
+
+
+
             </div>
 <?php
   if ($dosen == null) {

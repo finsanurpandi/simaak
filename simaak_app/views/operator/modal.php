@@ -204,91 +204,41 @@
       <div class="modal-body">
         <form method="post" action="">
         
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="nidn">NIDN</label>
             <input class="form-control" type="text" name="nidn" id="nidn" maxlength="10" onchange="checkUsername();">
             <div id="statusUsername"></div>
+        </div> -->
+        
+        <div class="form-group">
+            <label for="nik">NIDN</label>
+            <select name="nidn" class="form-control">
+            <option></option>
+              <?php
+foreach ($alldosen as $key => $value) {
+  echo "<option value=".$value['nidn'].">".$value['nidn']." - ".$value['gelar_depan']." ".$value['nama'].", ".$value['gelar_belakang']."</option>";
+}
+              ?>
+            </select>
         </div>
         
         <div class="form-group">
-            <label for="nik">NIK</label>
-            <input class="form-control" type="text" name="nik" maxlength="10">
-        </div>
-
-        <div class="form-group">
-            <label for="nama">Nama</label>
-            <input class="form-control" type="text" name="nama">
-        </div>
-
-        <div class="form-group">
-            <label for="gelar_depan">Gelar Depan</label>
-            <input class="form-control" type="text" name="gelar_depan">
-        </div>
-
-        <div class="form-group">
-            <label for="gelar_belakang">Gelar Belakang</label>
-            <input class="form-control" type="text" name="gelar_belakang">
-        </div>
-
-        <div class="form-group">
-            <label for="prodi">Program Studi</label>
-            <select class="form-control" name="kode_prodi" id="kodeprodidosen">
-              <option value="MPI">Manajemen Pendidikan Islam</option>
-              <option value="ES">Ekonomi Syariah</option>
-              <option value="PBS">Perbankan Syariah</option>
+            <label for="nik">Status Dosen</label>
+            <select name="status_dosen" class="form-control">
+            <option></option>
+            <option value="0">Dosen Tetap</option>
+            <option value="1">Dosen Tetap diluar bidang keahlian</option>
+            <option value="3">Dosen Tidak Tetap Struktural</option>
+            <option value="2">Dosen Tidak Tetap</option>
             </select>
         </div>
-
-        <div class="form-group">
-            <label for="jenjang">Jenis Kelamin</label><br/>
-            <label class="radio-inline">
-              <input type="radio" name="jenis_kelamin" value="L"> Laki-Laki
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="jenis_kelamin" value="P"> Perempuan
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label for="jabatan_fungsional">Jabatan Fungsional</label>
-            <select class="form-control" name="jabatan_fungsional" id="jabfung" onchange="selectJabfung()">
-              <option>---</option>
-              <option value="Asisten Ahli">Asisten Ahli</option>
-              <option value="Lektor">Lektor</option>
-              <option value="Lektor Kepala">Lektor Kepala</option>
-              <option value="Guru Besar">Guru Besar</option>
-            </select>
-        </div>
-
-        <div class="form-group" disabled="true">
-            <label for="jabatan_fungsional">Golongan</label>
-            <select class="form-control" name="golongan" disabled="true" id="golongan">
-              <!-- <option>---</option> -->
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="jabatan_fungsional">Jenis Dosen</label>
-            <select class="form-control" name="jenis_dosen" id="jenisdosen">
-              <option>---</option>
-              <option value="DS">Dosen Biasa</option>
-              <option value="PS">Professor</option>
-              <option value="DT">Dosen dengan Tugas Tambahan</option>
-              <option value="PT">Professor dengan Tugas Tambahan</option>
-            </select>
-        </div>
-
-
-        <div class="form-group">
-            <label for="jabatan_struktural">Jabatan Struktural</label>
-            <input class="form-control" type="text" name="jabatan_struktural">
-        </div>
+        
         
             
       </div>
       <div class="modal-footer">
         <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button class="btn btn-primary" name="tambahDosen" id="btnTambahDosen" disabled="true">Tambah</button>
+        <button class="btn btn-primary" name="tambahDosen" id="btnTambahDosen">Tambah</button>
         </form>
       </div>
     </div>
@@ -588,18 +538,35 @@
         
         <div class="form-group">
             <label for="nidn">Matakuliah</label>
-            <select id="kodeMatkul" class="form-control" name="kode_matkul" onclick="loadKodeMatkul();">
+            <!-- <select id="kodeMatkul" class="form-control" name="kode_matkul" onclick="loadKodeMatkul();">
                 <option>---</option>
+            </select> -->
+            <select class="form-control" name="kode_matkul" id="tambahKodeMatkul">
+            <option></option>
+<?php
+foreach ($matkul_modal as $key => $value) {
+?>
+<option value="<?=$value['kode_matkul'].','.$value['sks'].','.$value['nama_matkul'].','.$value['semester']?>"> 
+  <?=$value['kode_matkul'].' - Semester '. $value['semester'].' - '.$value['nama_matkul']?> 
+</option>
+<?php } ?>
             </select>
-            <input class="form-control" type="hidden" name="nama_matkul" id="namaMatkul">
+            <!-- <input class="form-control" type="hidden" name="nama_matkul" id="namaMatkul">
             <input class="form-control" type="hidden" name="semester" id="semester">
-            <input class="form-control" type="hidden" name="sks" id="sks">
+            <input class="form-control" type="hidden" name="sks" id="sks"> -->
         </div>
 
         <div class="form-group">
             <label for="nidn">Dosen</label>
-            <select id="nidnJadwal" class="form-control" name="nidn" onclick="loadNidn();">
-                <option>---</option>
+            <select id="nidnJadwal" class="form-control" name="nidn">
+                <option></option>
+<?php
+foreach ($dosen_modal as $key => $value) {
+?>
+<option value="<?=$value['nidn'].'-'.$value['gelar_depan'].' '.$value['nama'].', '.$value['gelar_belakang']?>"> 
+  <?=$value['nidn'].' - '.$value['gelar_depan'].' '.$value['nama'].', '.$value['gelar_belakang']?> 
+</option>
+<?php } ?>
             </select>
             <input class="form-control" type="hidden" name="nama_dosen" id="namaDosen">
         </div>
@@ -706,11 +673,6 @@
             <input class="form-control" type="text" name="waktu" id="waktuMulai" placeholder="hh.mm">
         </div>
 
-       <!--  <div class="form-group">
-            <label for="nidn">Selesai</label>
-            <input class="form-control" type="hidden" name="waktuSelesai" id="waktuSelesai" disabled="true" placeholder="hh:mm">
-        </div> -->
-
         <div class="form-group">
             <label for="nidn">Ruangan</label>
             <select name="ruangan" class="form-control">
@@ -739,7 +701,13 @@
 
   var kodeprodi = "<?=$this->session->kode_prodi?>";
 
-  var ta = "<?=substr($this->session->tahun_ajaran, 5)?>";
+  var periode = "<?=substr($this->session->tahun_ajaran, 4)?>"; 
+
+  if (periode % 2) {
+    var ta = 'ganjil';
+  } else {
+    ta = 'genap';
+  }
 
   var pm = document.getElementById('kodeprodimhs');
 
@@ -764,32 +732,38 @@
 var visitMatkul = 0;
 var visitDosen = 0;
 var visitEditDosen = 0;
+var sks = 0;
 
 function loadKodeMatkul(){
-  var kodeMatkul = document.getElementById('kodeMatkul');
+  // var kodeMatkul = document.getElementById('kodeMatkul');
   
-  $.ajax({
-    method: "post",
-    url: baseurl+"ajax/loadMatkul/"+ta,
-    dataType: 'json',
-    success: function(res){
-      visitMatkul += 1;
-      if (visitMatkul == 1) {
-        for (var i = 0; i < res.length; i++) {
-          // kodeMatkul.appendChild("<option value='"+res[i]['kode_matkul']+"'>"+res[i]['kode_matkul']+"</option>");
-          var x = document.createElement("option");
-          x.setAttribute('value', res[i]['kode_matkul']);
-          var t = document.createTextNode(res[i]['kode_matkul']+' - Semester '+res[i]['semester']+' - '+res[i]['nama_matkul']);
-          x.appendChild(t);
-          document.getElementById('kodeMatkul').appendChild(x);
-        };
-      };
+  // $.ajax({
+  //   method: "post",
+  //   url: baseurl+"ajax/loadMatkul/"+ta,
+  //   dataType: 'json',
+  //   success: function(res){
+  //     visitMatkul += 1;
+  //     if (visitMatkul == 1) {
+  //       for (var i = 0; i < res.length; i++) {
+  //         // kodeMatkul.appendChild("<option value='"+res[i]['kode_matkul']+"'>"+res[i]['kode_matkul']+"</option>");
+  //         var x = document.createElement("option");
+  //         x.setAttribute('value', res[i]['kode_matkul']);
+  //         var t = document.createTextNode(res[i]['kode_matkul']+' - Semester '+res[i]['semester']+' - '+res[i]['nama_matkul']);
+  //         x.appendChild(t);
+  //         document.getElementById('kodeMatkul').appendChild(x);
+  //       };
+  //     console.log(res);
+  //     console.log('hey');
+  //     };
 
-    },
-    error: function(error){
-      console.log(error);
-    }
-  });
+  //   },
+  //   error: function(jqXHR, status, err){
+  //     console.log(jqXHR);
+  //     console.log(status);
+  //     console.log(err);
+  //   }
+  // });
+    
 
 };
 
@@ -808,9 +782,11 @@ function loadNidn(){
           x.setAttribute('value', res[i]['nidn']);
           var t = document.createTextNode(res[i]['nidn']+' - '+res[i]['gelar_depan']+' '+res[i]['nama']+'., '+res[i]['gelar_belakang']);
           x.appendChild(t);
-          document.getElementById('nidnJadwal').appendChild(x);
+          nidn.appendChild(x);
         };
       };
+      console.log('hello');
+      console.log(res);
 
     },
     error: function(error){
@@ -820,31 +796,31 @@ function loadNidn(){
 
 };
 
-function loadEditNidn(){
-var nidn = document.getElementById('editNidnJadwal');
+// function loadEditNidn(){
+// var editnidn = document.getElementById('editNidnJadwal');
 
-  $.ajax({
-    method: "post",
-    url: baseurl+"ajax/loadNidn",
-    dataType: 'json',
-    success: function(res){
-      visitEditDosen += 1;
-      if (visitEditDosen == 1) {
-        for (var i = 0; i < res.length; i++) {
-          var x = document.createElement("option");
-          x.setAttribute('value', res[i]['nidn']);
-          var t = document.createTextNode(res[i]['nidn']+' - '+res[i]['gelar_depan']+' '+res[i]['nama']+'., '+res[i]['gelar_belakang']);
-          x.appendChild(t);
-          document.getElementById('editNidnJadwal').appendChild(x);
-        };
-      };
+//   $.ajax({
+//     method: "post",
+//     url: baseurl+"ajax/loadNidn",
+//     dataType: 'json',
+//     success: function(res){
+//       visitEditDosen += 1;
+//       if (visitEditDosen == 1) {
+//         for (var i = 0; i < res.length; i++) {
+//           var x = document.createElement("option");
+//           x.setAttribute('value', res[i]['nidn']);
+//           var t = document.createTextNode(res[i]['nidn']+' - '+res[i]['gelar_depan']+' '+res[i]['nama']+'., '+res[i]['gelar_belakang']);
+//           x.appendChild(t);
+//           document.getElementById('editNidnJadwal').appendChild(x);
+//         };
+//       };
 
-    },
-    error: function(error){
-      console.log(error);
-    }
-  });
-}
+//     },
+//     error: function(error){
+//       console.log(error);
+//     }
+//   });
+// }
   
 
 </script>

@@ -39,7 +39,8 @@ class Mahasiswa extends CI_Controller {
 	function check_pembayaran()
 	{
 
-		$this->pembayaran = $this->m_mahasiswa->getAllData('mhs_pembayaran', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran, 'status' => 1))->result_array();	
+		// $this->pembayaran = $this->m_mahasiswa->getAllData('mhs_pembayaran', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran, 'status' => 1))->result_array();
+		$this->pembayaran = $this->m_mahasiswa->getDataOrder('mhs_pembayaran', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran, 'status' => 1), array('id' => 'DESC'))->result_array();	
 
 		return $this->pembayaran;
 
@@ -518,7 +519,7 @@ function ips()
 		// $data['semester'] = $semester;
 		$data['role'] = $this->session->role;
 		// $data['statusperwalian'] = @$statusperwalian[0];
-		$data['ta'] = $nilai[0]['tahun_ajaran'];
+		$data['ta'] = @$nilai[0]['tahun_ajaran'];
 		$data['tahun_ajaran'] = $tahun_ajaran;
 		$data['nilai'] = $nilai;
 		// $data['totalsks'] = $totalSks;
@@ -704,6 +705,7 @@ function perwalian()
 		
 		$this->check_pembayaran();
 		$data['pembayaran'] = $this->pembayaran;
+		$data['stt_pembayaran'] = $this->m_mahasiswa->getDataOrder('mhs_pembayaran', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran), array('id' => 'DESC'))->result_array();	
 
 		if ($session == TRUE && $this->session->role == 1 && $this->session->mhs_profil == TRUE && $this->session->mhs_ortu == TRUE && $this->session->mhs_upload == TRUE) {
 			$this->load->view('header', $data);
@@ -726,12 +728,18 @@ function perwalian()
 		} else {
 			$image_info = $this->upload->data();
 
+			//set date
+			date_default_timezone_set("Asia/Bangkok");
+			$date = new DateTime();
+			$log = $date->format('Y-m-d H:i:s');
+
 			$bukti = array (
 				'nim' => $this->session->username,
 				'kode_prodi' => $this->session->kode_prodi,
 				'tahun_ajaran' => $this->session->tahun_ajaran,
 				'image' => $image_info['file_name'],
-				'status' => 'Menunggu Validasi'
+				'status' => 'Menunggu Validasi',
+				'log' => $log
 				);
 
 			$this->m_mahasiswa->insertAllData('mhs_pembayaran', $bukti);
@@ -760,8 +768,38 @@ function perwalian()
 			@unlink("./assets/uploads/documents/mahasiswa/". $img_path);
 			redirect('mahasiswa/pembayaran', 'refresh');
 		}
- 
-			
+
+	}
+
+// MENU CETAK ----------------------------------
+	function cetak()
+	{
+		$user_akun = $this->m_mahasiswa->getMahasiswa($this->session->userdata('username'));
+		// $user_alamat = $this->m_mahasiswa->getAlamatMahasiswa($this->session->userdata('username'));
+		$user_upload = @$this->m_mahasiswa->getAllData('mhs_pembayaran', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array()[0];
+		
+		$session = $this->session->userdata('login_in');
+
+		$data['user'] = $user_akun;
+		// $data['alamat'] = $user_alamat;
+		$data['upload'] = @$user_upload;
+
+		$data['role'] = $this->session->role;
+		
+		$this->check_pembayaran();
+		$data['pembayaran'] = @$this->pembayaran;
+		$data['stt_pembayaran'] = $this->m_mahasiswa->getDataOrder('mhs_pembayaran', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran), array('id' => 'DESC'))->result_array();	
+
+		if ($session == TRUE && $this->session->role == 1 && $this->session->mhs_profil == TRUE && $this->session->mhs_ortu == TRUE && $this->session->mhs_upload == TRUE) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('mahasiswa/cetak', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
+
+
 	}
 
 }

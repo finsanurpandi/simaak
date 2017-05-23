@@ -32,14 +32,15 @@ class Ajax extends CI_Controller {
     function loadMatkul($ta)
     {
 
-        $matkul = $this->m_operator->getDataWhere('matakuliah', array('kode_prodi' => $this->session->kode_prodi, 'periode' => $ta));
+        $matkul = $this->m_operator->getDataWhere('matakuliah', array('kode_prodi' => strtolower($this->session->kode_prodi), 'periode' => $ta));
 
         echo json_encode($matkul);
     }
 
     function loadNidn()
     {
-        $dosen = $this->m_operator->getDataWhere('dosen', array('kode_prodi' => $this->session->kode_prodi));
+        $kdprodi = strtolower($this->session->kode_prodi);
+        $dosen = $dosen = $this->m_operator->getLeftJoinDosen('dosen_'.$kdprodi);    
 
         echo json_encode($dosen);
     }

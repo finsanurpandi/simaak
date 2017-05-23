@@ -99,11 +99,11 @@
           </a>
           <ul class="treeview-menu">
             <li id="mhsSemester" class=""><a href="<?=base_url('mahasiswa/ips');?>"><i class="fa fa-circle-o"></i> Semester</a></li>
-            <li id="mhsKeseluruhan" class=""><a href="<?=base_url('mahasiswa/ipk');?>"><i class="fa fa-circle-o"></i> Keseluruhan</a></li>
+            <li id="mhsKeseluruhan" class=""><a href="<?=base_url('mahasiswa/ipk');?>"><i class="fa fa-circle-o"></i> Kumulatif</a></li>
           </ul>
         </li>
 <?php
-if (!empty($pembayaran)) {
+if (!empty($pembayaran) && $pembayaran[0]['persentase'] >= 25) {
 ?>
         <li id="mhsperwalian" class="">
           <a href="<?=base_url('mahasiswa/perwalian');?>">
@@ -120,6 +120,11 @@ if (!empty($pembayaran)) {
         <li id="mhsupload" class="">
           <a href="<?=base_url('mahasiswa/pembayaran');?>">
             <i class="fa fa-upload"></i> <span>Upload Pembayaran</span>
+          </a>
+        </li>
+        <li id="mhscetak" class="">
+          <a href="<?=base_url('mahasiswa/cetak');?>">
+            <i class="fa fa-print"></i> <span>Cetak</span>
           </a>
         </li>
         <?php } ?>
@@ -171,6 +176,11 @@ if (!empty($pembayaran)) {
         <li id="matakuliahdosen">
           <a href="<?=base_url('dosen/matakuliah');?>">
             <i class="fa fa-graduation-cap"></i> <span>Matakuliah</span>
+          </a>
+        </li>
+        <li id="historimatakuliahdosen">
+          <a href="<?=base_url('dosen/histori');?>">
+            <i class="fa fa-graduation-cap"></i> <span>Riwayat Mengajar</span>
           </a>
         </li>
         <!-- <li id="kinerja">
@@ -241,7 +251,6 @@ if (!empty($pembayaran)) {
           <ul class="treeview-menu">
             <li id="operatorJadwal" class=""><a href="<?=base_url('operator/jadwal');?>"><i class="fa fa-circle-o"></i> Jadwal</a></li>
             <li id="operatorMatakuliah" class=""><a href="<?=base_url('operator/matakuliah');?>"><i class="fa fa-circle-o"></i> Matakuliah</a></li>
-            <li id="operatorHasil" class=""><a href="<?=base_url('operator/hasilstudi');?>"><i class="fa fa-circle-o"></i> Hasil Studi</a></li>
           </ul>
         </li>
         
@@ -251,7 +260,7 @@ if (!empty($pembayaran)) {
   } else if($role == 4){
 ?>
 
-         <li id="profil">
+        <li id="profil">
           <a href="<?=base_url('dosen/profil');?>">
             <i class="fa fa-dashboard"></i> <span>Profil</span>
           </a>
@@ -284,8 +293,61 @@ if (!empty($pembayaran)) {
         </li>
 
 <?php
-  }
+  } else if ($role == 5) {
 ?>
+
+<!-- MENU KEUANGAN -->
+
+        <li id="profilkeuangan">
+          <a href="<?=base_url('keuangan/profil');?>">
+            <i class="fa fa-dashboard"></i> <span>Profil</span>
+          </a>
+        </li>
+        <li id="pembayarankeuangan">
+          <a href="<?=base_url('keuangan/pembayaran');?>">
+            <i class="fa fa-pencil-square-o"></i>
+            <span>Mahasiswa</span>
+          </a>
+        </li>
+
+<?php
+  } else if ($role == 6) {
+?>
+
+<!-- MENU AKADEMIK -->
+
+        <li id="profil">
+          <a href="<?=base_url('dosen/profil');?>">
+            <i class="fa fa-dashboard"></i> <span>Profil</span>
+          </a>
+        </li>
+        <li id="nilai">
+          <a href="<?=base_url('dosen/nilai');?>">
+            <i class="fa fa-pencil-square-o"></i>
+            <span>Nilai Mahasiswa</span>
+          </a>
+        </li>
+        <li id="perwalian">
+          <a href="<?=base_url('dosen/perwalian');?>">
+            <i class="fa fa-user-plus"></i> <span>Perwalian</span>
+          </a>
+        </li>
+        <li id="mahasiswa">
+          <a href="<?=base_url('dosen/mahasiswa');?>">
+            <i class="fa fa-graduation-cap"></i> <span>Daftar Mahasiswa</span>
+          </a>
+        </li>
+        <li id="matakuliah">
+          <a href="<?=base_url('dosen/matakuliah');?>">
+            <i class="fa fa-graduation-cap"></i> <span>Daftar Matakuliah</span>
+          </a>
+        </li>
+        <li id="kinerja">
+          <a href="<?=base_url('dosen/kinerja');?>">
+            <i class="fa fa-graduation-cap"></i> <span>Laporan Kinerja</span>
+          </a>
+        </li>
+<?php } ?>
       </ul>
       
     </section>

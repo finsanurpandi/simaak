@@ -7,6 +7,7 @@ class Operator extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('m_operator');
+		$this->load->model('m_mahasiswa');
 		$this->load->library('upload');
 	}
 
@@ -62,6 +63,21 @@ class Operator extends CI_Controller {
 
 	}
 
+	function checkSession($url, $data)
+	{
+		$session = $this->session->userdata('login_in');
+
+		if ($session == TRUE) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('operator/'.$url, $data);
+			$this->load->view('operator/modal', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}	
+	}
+
 
 // MENU HOME ----------------------------------
 	function index()
@@ -75,14 +91,15 @@ class Operator extends CI_Controller {
 
 		$data['role'] = $this->session->role;
 
-		if ($session == TRUE) {
-			$this->load->view('header', $data);
-			$this->load->view('sidenav', $data);
-			$this->load->view('operator/home', $data);
-			$this->load->view('footer');
-		} else {
-			redirect('login', 'refresh');
-		}	
+		// if ($session == TRUE) {
+		// 	$this->load->view('header', $data);
+		// 	$this->load->view('sidenav', $data);
+		// 	$this->load->view('operator/home', $data);
+		// 	$this->load->view('footer');
+		// } else {
+		// 	redirect('login', 'refresh');
+		// }	
+		$this->checkSession('home', $data);
 	}
 
 
@@ -91,7 +108,7 @@ class Operator extends CI_Controller {
 	{
 		$user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
 		$user_alamat = $this->m_operator->getDataUser('operator_alamat', array('username' => $this->session->userdata('username')));
-		$session = $this->session->userdata('login_in');
+		// $session = $this->session->userdata('login_in');
 
 		$data['error'] = $this->upload->display_errors();
 
@@ -101,15 +118,16 @@ class Operator extends CI_Controller {
 		$data['role'] = $this->session->role;
 		$data['prodi'] = $this->m_operator->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
 
-		if ($session == TRUE) {
-			$this->load->view('header', $data);
-			$this->load->view('sidenav', $data);
-			$this->load->view('operator/profil', $data);
-			$this->load->view('operator/modal', $data);
-			$this->load->view('footer');
-		} else {
-			redirect('login', 'refresh');
-		}
+		// if ($session == TRUE) {
+		// 	$this->load->view('header', $data);
+		// 	$this->load->view('sidenav', $data);
+		// 	$this->load->view('operator/profil', $data);
+		// 	$this->load->view('operator/modal', $data);
+		// 	$this->load->view('footer');
+		// } else {
+		// 	redirect('login', 'refresh');
+		// }
+		$this->checkSession('profil', $data);
 	}
 
 	
@@ -319,6 +337,73 @@ class Operator extends CI_Controller {
 		}	
 	}
 
+	function detailStudi($nim)
+	{
+		$nim = $this->encrypt->decode($nim);
+
+		$user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
+		$mhs = $this->m_operator->getAllData('mhs', array('nim' => $nim))->result_array();
+		$session = $this->session->userdata('login_in');
+		
+		$tahun_ajaran = $this->m_mahasiswa->getDistinctDataOrder('nilai', array('nim' => $nim), 'tahun_ajaran', array('tahun_ajaran' => 'DESC'))->result_array();
+
+		$t_ajaran = $this->input->post('submit_ta');
+		
+		$historinilai = $this->m_mahasiswa->getAllData('nilai', array('nim' => $nim, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();				
+
+		if (isset($t_ajaran)) {
+
+			$datanilai = $this->m_mahasiswa->getAllData('nilai', array('nim' => $nim, 'tahun_ajaran' => $this->input->post('tahun_ajaran')))->result_array();				
+
+			if (empty($datanilai)) {
+				$nilais = $this->m_mahasiswa->getAllData('perwalian', array('nim' => $nim, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+			} else {
+				$nilais = $datanilai;
+			}
+			
+		} else {
+			// if ($tahun_ajaran[0]['tahun_ajaran'] !== $this->session->tahun_ajaran) {
+			// 	$nilai = $this->m_mahasiswa->getAllData('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+			// } 
+			if (empty($historinilai)) {
+				$nilais = $this->m_mahasiswa->getAllData('perwalian', array('nim' => $nim, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+			} else {
+				$nilais = $this->m_mahasiswa->getAllData('nilai', array('nim' => $nim, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();				
+			}
+		}
+
+		$nilaik = $this->m_mahasiswa->getMatkulKeseluruhan($nim)->result_array();
+
+
+
+		// $perwalian = $this->m_mahasiswa->getAllData('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+		// $totalSks = $this->m_mahasiswa->getTotalSks('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran));
+
+		$data['user'] = $user_akun;
+		$data['mhs'] = $mhs[0];
+		$data['nim'] = $nim;
+		// $data['alamat'] = $user_alamat;
+		// $data['jadwal'] = $jadwal;
+		// $data['semester'] = $semester;
+		$data['role'] = $this->session->role;
+		// $data['statusperwalian'] = @$statusperwalian[0];
+		$data['ta'] = @$nilais[0]['tahun_ajaran'];
+		$data['tahun_ajaran'] = $tahun_ajaran;
+		$data['nilais'] = $nilais;
+		$data['nilaik'] = $nilaik;
+		// $data['totalsks'] = $totalSks;
+
+		if ($session == TRUE && $this->session->role == 3) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('operator/detailStudi', $data);
+			$this->load->view('operator/modal', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
+	}
+
 // MENU DOSEN ----------------------------------------
 
 	function dosen()
@@ -338,15 +423,29 @@ class Operator extends CI_Controller {
 		//SEARCH 
 		$search = $this->input->post('search');
 
+		$kdprodi = strtolower($this->session->kode_prodi);
+		$alldosen = $this->m_operator->getSisaDosen('dosen_'.$kdprodi);
+
+		// if (isset($search)) {
+		// 	if ($this->input->post('search_key') == null) {
+		// 		$dosen = $this->m_operator->getAllData('dosen', array('kode_prodi' => $this->session->kode_prodi),$limit, $data['page'])->result_array();	
+		// 		$data['link'] = $this->pagination->create_links();
+		// 	} else {
+		// 		$dosen = $this->m_operator->searchData('dosen', array('kode_prodi' => $this->session->kode_prodi),$this->input->post('search_key'), $this->input->post('search_category'));
+		// 	}
+		// } else {
+		// 	$dosen = $this->m_operator->getAllData('dosen', array('kode_prodi' => $this->session->kode_prodi),$limit, $data['page'])->result_array();	
+		// 	$data['link'] = $this->pagination->create_links();
+		// }
 		if (isset($search)) {
 			if ($this->input->post('search_key') == null) {
-				$dosen = $this->m_operator->getAllData('dosen', array('kode_prodi' => $this->session->kode_prodi),$limit, $data['page'])->result_array();	
+				$dosen = $this->m_operator->getLeftJoinDosen('dosen_'.$kdprodi, array('status_dosen' => 'ASC'), $limit, $data['page']);	
 				$data['link'] = $this->pagination->create_links();
 			} else {
-				$dosen = $this->m_operator->searchData('dosen', array('kode_prodi' => $this->session->kode_prodi),$this->input->post('search_key'), $this->input->post('search_category'));
+				$dosen = $this->m_operator->searchDataJoin('dosen_'.$kdprodi, $this->input->post('search_key'), $this->input->post('search_category'));
 			}
 		} else {
-			$dosen = $this->m_operator->getAllData('dosen', array('kode_prodi' => $this->session->kode_prodi),$limit, $data['page'])->result_array();	
+			$dosen = $this->m_operator->getLeftJoinDosen('dosen_'.$kdprodi, array('status_dosen' => 'ASC'), $limit, $data['page']);	
 			$data['link'] = $this->pagination->create_links();
 		}
 		
@@ -358,6 +457,7 @@ class Operator extends CI_Controller {
 		$data['dosen'] = $dosen;
 		$data['role'] = $this->session->role;
 		$data['prodi'] = $prodi;
+		$data['alldosen'] = $alldosen;
 		// $data['link'] = $this->pagination->create_links();
 
 		if ($session == TRUE) {
@@ -374,31 +474,45 @@ class Operator extends CI_Controller {
 		$tambah = $this->input->post('tambahDosen');	
 
 		if (isset($tambah)) {
-			$nidn = $this->input->post('nidn');
+			// $nidn = $this->input->post('nidn');
 
-			$account = array (
-				'username' => $nidn,
-				'password' => md5($nidn),
-				'role' => 2,
-				'kode_prodi' => $this->input->post('kode_prodi'),
-				'status' => 1
-				);
+			// $account = array (
+			// 	'username' => $nidn,
+			// 	'password' => md5($nidn),
+			// 	'role' => 2,
+			// 	'kode_prodi' => $this->input->post('kode_prodi'),
+			// 	'status' => 1
+			// 	);
 
-			$dosen = array (
+			// $dosen = array (
+			// 	'nidn' => $this->input->post('nidn'),
+			// 	'nik' => $this->input->post('nik'),
+			// 	'nama' => $this->input->post('nama'),
+			// 	'gelar_depan' => $this->input->post('gelar_depan'),
+			// 	'gelar_belakang' => $this->input->post('gelar_belakang'),
+			// 	'kode_prodi' => $this->input->post('kode_prodi'),
+			// 	'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+			// 	'jabatan_fungsional' => $this->input->post('jabatan_fungsional'),
+			// 	'golongan' => $this->input->post('golongan'),
+			// 	'jenis_dosen' => $this->input->post('jenis_dosen'),
+			// 	'jabatan_struktural' => $this->input->post('jabatan_struktural')
+			// 	);
+
+			// $this->m_operator->insertDosen($account, $dosen);
+			$data = array(
 				'nidn' => $this->input->post('nidn'),
-				'nik' => $this->input->post('nik'),
-				'nama' => $this->input->post('nama'),
-				'gelar_depan' => $this->input->post('gelar_depan'),
-				'gelar_belakang' => $this->input->post('gelar_belakang'),
-				'kode_prodi' => $this->input->post('kode_prodi'),
-				'jenis_kelamin' => $this->input->post('jenis_kelamin'),
-				'jabatan_fungsional' => $this->input->post('jabatan_fungsional'),
-				'golongan' => $this->input->post('golongan'),
-				'jenis_dosen' => $this->input->post('jenis_dosen'),
-				'jabatan_struktural' => $this->input->post('jabatan_struktural')
-				);
+				'status_dosen' => $this->input->post('status_dosen')
+			);
 
-			$this->m_operator->insertDosen($account, $dosen);
+			$this->m_operator->insertAllData('dosen_'.$kdprodi, $data);
+			redirect($this->uri->uri_string());
+		}
+
+		//HAPUS DATA DOSEN
+		$hapus = $this->input->post('hapusDosen');
+
+		if (isset($hapus)) {
+			$this->m_operator->deleteData('dosen_'.$kdprodi, array('nidn' => $this->input->post('nidn')));
 			redirect($this->uri->uri_string());
 		}
 	}
@@ -415,7 +529,7 @@ class Operator extends CI_Controller {
 		$golongan = $this->m_operator->getDataWhere('golongan', array('jabatan_fungsional' => $dosen['jabatan_fungsional']));
 		// $pendidikan = $this->m_operator->getAllData('dosen_pendidikan', array('nidn' => $key_nidn), null, null, array('tahun_lulus' => 'DESC'));
 		$pendidikan = $this->m_operator->getDataOrder('dosen_pendidikan', array('nidn' => $key_nidn), array('tahun_lulus' => 'DESC'));
-		$penelitian = $this->m_operator->getDataOrder('dosen_penelitian', array('nidn' => $key_nidn), array('tahun' => 'DESC'));
+		// $penelitian = $this->m_operator->getDataOrder('dosen_penelitian', array('nidn' => $key_nidn), array('tahun' => 'DESC'));
 
 		$data['user'] = $user_akun;
 		$data['dosen'] = $dosen;
@@ -426,7 +540,7 @@ class Operator extends CI_Controller {
 		$data['key'] = $key_nidn;
 		$data['nidndosen'] = $dosen['nidn'];
 		$data['pendidikan'] = $pendidikan->result_array();
-		$data['penelitian'] = $penelitian->result_array();
+		// $data['penelitian'] = $penelitian->result_array();
 
 		if ($session == TRUE) {
 			$this->load->view('header', $data);
@@ -624,11 +738,19 @@ class Operator extends CI_Controller {
 		$jadwal = $this->m_operator->getDataOrder('jadwal', array('kode_prodi' => $this->session->kode_prodi, 'tahun_ajaran' => $this->session->tahun_ajaran), array('semester' => 'ASC', 'kode_matkul' => 'ASC', 'kelas' => 'ASC'))->result_array();
 		$matkul = $this->m_operator->getDataWhere('matakuliah', array('kode_prodi' => $this->session->kode_prodi));
 		$semester = $this->m_operator->getDistinctData('jadwal', 'semester')->result_array();
+		$periode = substr($this->session->tahun_ajaran, 4);
+		$kdprodi = strtolower($this->session->kode_prodi);
+
+		if ($periode % 2) {
+		    $ta = 'ganjil';
+		} else {
+		    $ta = 'genap';
+		}
 
 		$data['user'] = $user_akun;
-
 		$data['role'] = $this->session->role;
-
+		$data['matkul_modal'] = $this->m_operator->getDataWhere('matakuliah', array('kode_prodi' => strtolower($this->session->kode_prodi), 'periode' => $ta));
+		$data['dosen_modal'] = $dosen = $this->m_operator->getLeftJoinDosen('dosen_'.$kdprodi);    
 		$data['jadwal'] = $jadwal;
 		$data['semester'] = $semester;
 		$data['prodi'] = $this->m_operator->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
@@ -643,22 +765,24 @@ class Operator extends CI_Controller {
 			redirect('login', 'refresh');
 		}
 
+		//ADD JADWAL
 		$submit_jadwal = $this->input->post('tambahJadwal');
 
 		if (isset($submit_jadwal)) {
 			// $waktu = $this->input->post('waktuMulai').' - '.$this->input->post('waktuSelesai');
-
+			$tdata = explode(",", $this->input->post('kode_matkul'));
+			$tdosen = explode("-", $this->input->post('nidn'));
 			$jadwal = array (
-				'kode_matkul' => $this->input->post('kode_matkul'),
-				'nama_matkul' => $this->input->post('nama_matkul'),
-				'sks' => $this->input->post('sks'),
-				'nidn' => $this->input->post('nidn'),
-				'nama_dosen' => $this->input->post('nama_dosen'),
+				'kode_matkul' => $tdata[0],
+				'nama_matkul' => $tdata[2],
+				'sks' => $tdata[1],
+				'nidn' => $tdosen[0],
+				'nama_dosen' => $tdosen[1],
 				'kelas' => $this->input->post('kelas'),
 				'hari' => $this->input->post('hari'),
 				'waktu' => $this->input->post('waktu'),
 				'ruangan' => $this->input->post('ruangan'),
-				'semester' => $this->input->post('semester'),
+				'semester' => $tdata[3],
 				'tahun_ajaran' => $this->session->tahun_ajaran,
 				'kode_prodi' => $this->session->kode_prodi
 				);
@@ -666,7 +790,56 @@ class Operator extends CI_Controller {
 			$this->m_operator->insertAllData('jadwal', $jadwal);
 
 			redirect($this->uri->uri_string());
+			
 		}
+
+		//HAPUS JADWAL
+		$hapus = $this->input->post('hapusJadwal');
+
+		if (isset($hapus)) {
+			$this->m_operator->deleteData('jadwal', array('id_jadwal' => $this->input->post('id_jadwal')));
+			redirect($this->uri->uri_string());
+		}
+	}
+
+	function matakuliah()
+	{
+		$user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
+		// $session = $this->session->userdata('login_in');
+		$jadwal = $this->m_operator->getDataOrder('jadwal', array('kode_prodi' => $this->session->kode_prodi, 'tahun_ajaran' => $this->session->tahun_ajaran), array('semester' => 'ASC', 'kode_matkul' => 'ASC', 'kelas' => 'ASC'))->result_array();
+		$matkul = $this->m_operator->getDataWhere('matakuliah', array('kode_prodi' => $this->session->kode_prodi));
+		$semester = $this->m_operator->getDistinctData('jadwal', 'semester')->result_array();
+
+		$data['user'] = $user_akun;
+
+		$data['role'] = $this->session->role;
+
+		$data['jadwal'] = $jadwal;
+		$data['semester'] = $semester;
+		$data['prodi'] = $this->m_operator->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
+
+		$this->checkSession('matakuliah', $data);
+	}
+
+	function detailmatakuliah($kode_matkul, $nama_matkul, $kelas, $nidn, $id_jadwal)
+	{
+		$nidn = $this->encrypt->decode($nidn);
+		$kode_matkul = $this->encrypt->decode($kode_matkul);
+		$nama_matkul = $this->encrypt->decode($nama_matkul);
+		$kelas = $this->encrypt->decode($kelas);
+		$user_akun = $this->m_operator->getDataUser('dosen', array('nidn' => $nidn));
+		$session = $this->session->userdata('login_in');
+		$jadwal = $this->m_operator->getDataOrder('perwalian', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('log' => 'ASC'))->result_array();
+		$matkul = $this->m_operator->getDataUser('jadwal', array('id_jadwal' => $this->encrypt->decode($id_jadwal)));
+
+		$data['user'] = $user_akun;
+		$data['role'] = $this->session->role;
+		$data['jadwal'] = $jadwal;
+		$data['nama_matkul'] = $nama_matkul;
+		$data['matkul'] = $matkul;
+		$data['kelas'] = $kelas;
+
+		$this->checkSession('detailMatakuliah', $data);
 	}
 
 

@@ -43,7 +43,7 @@
     </div>
   </div>
 </form>
-
+<hr/>
             </div>
             <br/>
 
@@ -77,7 +77,8 @@
                   echo "<td>".$value['tempat_lahir']."</td>";
                   echo "<td>".$value['tanggal_lahir']."</td>";
                   echo "<td>".$value['nidn']."</td>";
-                  echo "<td><a href='".base_url()."operator/detailMahasiswa/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> edit</a></td>";
+                  echo "<td><a href='".base_url()."operator/detailMahasiswa/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> edit</a>";
+                  echo "&nbsp;<a href='".base_url()."operator/detailStudi/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-mortar-board'></i> studi</a></td>";
                   echo "</tr>";
                 }
                 ?>

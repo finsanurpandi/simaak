@@ -18,26 +18,34 @@
     <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Riwayat Mengajar Dosen</h3>
+              <h3 class="box-title">Kinerja Bidang Pendidikan</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
             
 <div>
 
+<button id="btnTambahPengajaranDosen" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahDataPengajaranDosenModal" data-nidn="<?=$this->session->username?>"><i class="fa fa-user-plus"></i> Tambah Data</button>                   
 
 </div>
             <br/>
 
             <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table table-bordered table-custom-header">
                       <thead>
                         <tr>
-                          <th>No</th>
-                          <th>Semester</th>
-                          <th>Tahun Ajaran</th>
-                          <th>Kode Matakuliah</th>
-                          <th>Nama Matakuliah</th>
+                          <th rowspan="2">No</th>
+                          <th rowspan="2">Jenis Kegiatan</th>
+                          <th colspan="2">Beban Kerja</th>
+                          <th rowspan="2">Masa</th>
+                          <th colspan="2">Kinerja</th>
+                          <th rowspan="2">Rekomendasi</th>
+                          <th rowspan="2">Aksi</th>
+                        </tr>
+                        <tr>
+                          <th>Bukti Penugasan</th>
+                          <th>SKS</th>
+                          <th>Bukti Dokumen</th>
                           <th>SKS</th>
                         </tr>
                       </thead>
@@ -48,12 +56,27 @@ $i = 1;
 foreach ($pengajaran as $value) {
 ?>
 <tr>
-  <td><?=$i?></td>
-  <td><?=$value['semester']?></td>
-  <td><?=$value['tahun_ajaran']?></td>
-  <td><?=$value['kode_matkul']?></td>
-  <td><?=$value['nama_matkul']?></td>
-  <td><?=$value['sks']?></td>
+  <td align="center"><?=$i?></td>
+  <td><?=$value['jenis_kegiatan']?></td>
+  <td><?=$value['bukti_penugasan']?></td>
+  <td align="center"><?=$value['sks_beban_kerja']?></td>
+  <td><?=$value['masa_penugasan']?></td>
+  <td><?=$value['bukti_dokumen']?></td>
+  <td align="center"><?=$value['sks_kinerja']?></td>
+  <td align="center"><strong><?=strtoupper($value['rekomendasi'])?></strong></td>
+  <td align="center">
+    <button id="btnEditPengajaranDosen" class="btn btn-success btn-xs" data-toggle="modal" data-target="#editPengajaranDosenModal" 
+    data-id="<?=$value['id']?>"
+    data-jeniskegiatan="<?=$value['jenis_kegiatan']?>"
+    data-buktipenugasan="<?=$value['bukti_penugasan']?>"
+    data-sksbebankerja="<?=$value['sks_beban_kerja']?>"
+    data-masapenugasan="<?=$value['masa_penugasan']?>"
+    data-buktidokumen="<?=$value['bukti_dokumen']?>"
+    data-skskinerja="<?=$value['sks_kinerja']?>"
+    data-rekomendasi="<?=$value['rekomendasi']?>"
+    ><i class="fa fa-pencil"></i></button>
+    <button id="btnHapusDataPengajaranDosen" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapusDataPengajaran" data-id="<?=$value['id']?>"><i class="fa fa-trash"></i></button>
+  </td>
 </tr>
 <?php
 $i++;

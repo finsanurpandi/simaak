@@ -32,3 +32,8 @@
 .alert.alert-grey > a:hover {
 	text-decoration: underline;
 }
+
+.table-bordered.table-custom-header > thead > tr > th {
+  text-align: center;
+  vertical-align: middle;
+}

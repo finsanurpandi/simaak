@@ -63,6 +63,13 @@
                     <?=$user['kelas']?>
                   </p>
 
+                  <strong>Dosen Wali</strong>
+                  <p class="text-muted" id="mhsdosenwali">
+                    <?php
+                    echo $dosenwali[0]['gelar_depan'].' '.$dosenwali[0]['nama'].', '.$dosenwali[0]['gelar_belakang'];
+                    ?>
+                  </p>
+
                   <!-- <strong>IP Terakhir</strong>
                   <p class="text-muted">
 

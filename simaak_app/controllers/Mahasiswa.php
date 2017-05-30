@@ -134,7 +134,7 @@ class Mahasiswa extends CI_Controller {
 		$data['profil'] = $user_profil;
 		$data['ortu'] = $user_ortu;
 		$data['upload'] = $user_upload;
-
+		$data['dosenwali'] = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun['nidn']))->result_array();
 		$data['role'] = $this->session->role;
 
 		if (!empty($user_profil)) {
@@ -522,6 +522,7 @@ function ips()
 		$data['ta'] = @$nilai[0]['tahun_ajaran'];
 		$data['tahun_ajaran'] = $tahun_ajaran;
 		$data['nilai'] = $nilai;
+		$data['dosenwali'] = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun['nidn']))->result_array();
 		// $data['totalsks'] = $totalSks;
 
 		$this->check_pembayaran();
@@ -560,6 +561,7 @@ function ipk()
 		// $data['semester'] = $semester;
 		$data['role'] = $this->session->role;
 		$data['nilai'] = $nilai;
+		$data['dosenwali'] = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun['nidn']))->result_array();
 
 		$this->check_pembayaran();
 		$data['pembayaran'] = $this->pembayaran;
@@ -597,6 +599,7 @@ function perwalian()
 		$data['role'] = $this->session->role;
 		$data['statusperwalian'] = @$statusperwalian[0];
 		$data['perwalian'] = $perwalian;
+		$data['dosenwali'] = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun['nidn']))->result_array();
 		// $data['totalsks'] = $totalSks;
 
 		$this->check_pembayaran();
@@ -665,6 +668,7 @@ function perwalian()
 		$data['jadwal'] = $jadwalmhs;
 		$data['role'] = $this->session->role;
 		$data['statusperwalian'] = @$statusperwalian[0];
+		$data['dosenwali'] = $this->m_mahasiswa->getAllData('dosen', array('nidn' => $user_akun['nidn']))->result_array();
 
 		$this->check_pembayaran();
 		$data['pembayaran'] = $this->pembayaran;

@@ -26,7 +26,6 @@
 <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                   <li id="doseninfo" class="active"><a href="#info" data-toggle="tab">Informasi Dasar</a></li>
-                  <li id="dosenalamat"><a href="#alamat" data-toggle="tab">Alamat</a></li>
                   <li id="dosenpendidikan"><a href="#pendidikan" data-toggle="tab">Riwayat Pendidikan</a></li>
                   <li id="dosenpengajaran"><a href="#pengajaran" data-toggle="tab">Riwayat Mengajar</a></li>
                   <li id="dosenpenelitian"><a href="#penelitian" data-toggle="tab">Penelitian</a></li>
@@ -156,11 +155,7 @@
 <!-- END OF TAB INFO -->
                   </div>
 
-                  <div class="tab-pane" id="alamat">
-<!-- CONTENT TAB ALAMAT -->                    
 
-<!-- END OF CONTENT TAB ALAMAT -->
-                  </div> <!-- END DIV TAB ALAMAT -->
 
                   <div class="tab-pane" id="pendidikan">
 <!-- CONTENT TAB PENDIDIKAN --> 

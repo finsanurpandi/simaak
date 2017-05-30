@@ -541,7 +541,7 @@ foreach ($alldosen as $key => $value) {
             <!-- <select id="kodeMatkul" class="form-control" name="kode_matkul" onclick="loadKodeMatkul();">
                 <option>---</option>
             </select> -->
-            <select class="form-control" name="kode_matkul" id="tambahKodeMatkul">
+            <select class="form-control select2" name="kode_matkul" id="tambahKodeMatkul">
             <option></option>
 <?php
 foreach ($matkul_modal as $key => $value) {

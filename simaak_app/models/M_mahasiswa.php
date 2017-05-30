@@ -22,6 +22,21 @@ class M_mahasiswa extends CI_Model {
 		}
 	}
 
+	function getMhsDosen($nim)
+	{
+		$this->db->select('mhs.nim, mhs.nama, mhs.angkatan, mhs.kode_prodi, mhs.kelas, mhs.nidn, mhs.image, mhs.jenis_kelamin, mhs.jenjang, dosen.nidn, dosen.nama, dosen.gelar_depan, dosen.gelar_belakang');
+		$this->db->from('mhs');
+		$this->db->join('dosen', 'mhs.nidn = dosen.nidn');
+		
+		// foreach ($where as $key => $value) {
+		// 	$this->db->where($key, $value);
+		// }
+		$this->db->where('mhs.nim', $nim);
+		$query = $this->db->get();
+
+		return $query->result_array();
+	}
+
 	function getAlamatMahasiswa ($mhs)
 	{
 		$query = $this->db->get_where($this->alamat, array('nim' => $mhs));
@@ -153,7 +168,8 @@ class M_mahasiswa extends CI_Model {
 	function getMatkulKeseluruhan($user)
 	{
 		// $sql = 'SELECT a.* FROM nilai a INNER JOIN (SELECT kode_matkul, MAX(nilai) AS max_nilai FROM nilai GROUP BY kode_matkul) b ON a.kode_matkul = b.kode_matkul AND a.nilai = b.max_nilai AND a.nim = '.$user.' ORDER BY a.kode_matkul ASC';
-		$sql = 'SELECT a.* FROM nilai a INNER JOIN (SELECT kode_matkul, MAX(nilai) AS max_nilai FROM nilai GROUP BY kode_matkul) b ON a.kode_matkul = b.kode_matkul AND a.nim = '.$user.' ORDER BY a.kode_matkul ASC';
+		// $sql = 'SELECT a.* FROM nilai a INNER JOIN (SELECT kode_matkul, MAX(nilai) AS max_nilai FROM nilai GROUP BY kode_matkul) b ON a.kode_matkul = b.kode_matkul AND a.nim = '.$user.' ORDER BY a.kode_matkul ASC';
+		$sql = 'SELECT a.* FROM nilai a INNER JOIN (SELECT nim, kode_matkul, MAX(nilai) AS max_nilai FROM nilai WHERE nim = '.$user.' GROUP BY kode_matkul) b ON a.kode_matkul = b.kode_matkul AND a.nilai = b.max_nilai AND a.nim = b.nim ORDER BY a.kode_matkul ASC';
 		$query = $this->db->query($sql);
 		return $query;
 	}

@@ -79,14 +79,13 @@
   Cetak Kartu UTS
 </h3>
 <?php
-if (@$pembayaran[0]['persentase'] >= 50) {
+if (@$pembayaran[0]['persentase'] >= 75) {
 ?>
 <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-print"></i> Cetak Kartu UTS</a>
-<p class="text-muted">*Kartu hanya bisa dicetak jika telah membayar <u><</u> 50% dari ketentuan yang harus dibayarkan</p>
 <?php } else { ?>
 <a href="#" class="btn btn-primary btn-xs" disabled="true"><i class="fa fa-print"></i> Cetak Kartu UTS</a>
-<p class="text-muted">*Kartu hanya bisa dicetak jika telah membayar <u><</u> 50% dari ketentuan yang harus dibayarkan</p>
 <?php } ?>
+<p class="text-muted">*Kartu hanya bisa dicetak jika telah membayar <u><</u> 75% dari ketentuan yang harus dibayarkan</p>
 <hr/>
 
 <h3>
@@ -96,11 +95,10 @@ if (@$pembayaran[0]['persentase'] >= 50) {
 if (@$pembayaran[0]['persentase'] == 100) {
 ?>
 <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-print"></i> Cetak Kartu UAS</a>
-<p class="text-muted">*Kartu hanya bisa dicetak jika telah melunasi pembayaran</p>
 <?php } else { ?>
 <a href="#" class="btn btn-primary btn-xs" disabled="true"><i class="fa fa-print"></i> Cetak Kartu UAS</a>
-<p class="text-muted">*Kartu hanya bisa dicetak jika telah melunasi pembayaran</p>
 <?php } ?>
+<p class="text-muted">*Kartu hanya bisa dicetak jika telah melunasi pembayaran</p>
             </div>
             <!-- /.box-body -->
           </div>

@@ -827,7 +827,9 @@ class Operator extends CI_Controller {
 		$kode_matkul = $this->encrypt->decode($kode_matkul);
 		$nama_matkul = $this->encrypt->decode($nama_matkul);
 		$kelas = $this->encrypt->decode($kelas);
-		$user_akun = $this->m_operator->getDataUser('dosen', array('nidn' => $nidn));
+		// $user_akun = $this->m_operator->getDataUser('dosen', array('nidn' => $nidn));
+		$dosen = $this->m_operator->getAllData('dosen', array('nidn' => $nidn))->result_array();
+		$user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
 		$session = $this->session->userdata('login_in');
 		$jadwal = $this->m_operator->getDataOrder('perwalian', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('log' => 'ASC'))->result_array();
 		$matkul = $this->m_operator->getDataUser('jadwal', array('id_jadwal' => $this->encrypt->decode($id_jadwal)));
@@ -838,6 +840,7 @@ class Operator extends CI_Controller {
 		$data['nama_matkul'] = $nama_matkul;
 		$data['matkul'] = $matkul;
 		$data['kelas'] = $kelas;
+		$data['dosen'] = $dosen;
 
 		$this->checkSession('detailMatakuliah', $data);
 	}

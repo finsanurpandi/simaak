@@ -100,7 +100,20 @@ foreach ($mhs as $key => $value) {
     data-status="<?=$value['status']?>"
     data-persentase="<?=$value['persentase']?>"
     id="btn-validasi"
-    >validasi</button>
+    ><i class="fa fa-check"></i> Validasi</button>
+<?php
+if ($value['persentase'] == 0) {
+?>
+    <button id="btn-hapus-validasi"
+    class="btn btn-danger btn-xs"
+    data-toggle="modal"
+    data-target="#hapusValidasiModal"
+    data-id="<?=$value['id']?>"
+    ><i class="fa fa-close"></i> Hapus</button>
+<?php } else {
+echo "<button class='btn btn-danger btn-xs' disabled='true'><i class='fa fa-close'></i> Hapus</button>";
+}
+?>
   </td>
 </tr>
 <?php } ?>

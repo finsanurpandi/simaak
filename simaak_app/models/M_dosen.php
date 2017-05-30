@@ -136,6 +136,14 @@ class M_dosen extends CI_Model {
 		return $query->result_array();	
 	}
 
+	function getMhsBelumPerwalian($nidn)
+	{
+		$sql = 'SELECT a.* FROM mhs a LEFT JOIN status_perwalian b ON a.nim = b.nim WHERE a.nidn ='.$nidn.' AND b.nidn IS null';
+		$query = $this->db->query($sql);
+
+		return $query->result_array();
+	}
+
 	function getMatkulKeseluruhan($user)
 	{
 		// $sql = 'SELECT a.* FROM nilai a INNER JOIN (SELECT kode_matkul, MAX(nilai) AS max_nilai FROM nilai GROUP BY kode_matkul) b ON a.kode_matkul = b.kode_matkul AND a.nilai = b.max_nilai AND a.nim = '.$user.' ORDER BY a.kode_matkul ASC';

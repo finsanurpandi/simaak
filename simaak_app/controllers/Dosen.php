@@ -573,10 +573,11 @@ class Dosen extends CI_Controller {
 		$session = $this->session->userdata('login_in');
 		$statusperwalian = $this->m_dosen->getPerwalianMhs(array('mhs.nidn' => $this->session->username));
 
-
 		$data['user'] = $user_akun;
 		$data['role'] = $this->session->role;
 		$data['statusperwalian'] = $statusperwalian;
+		$data['totalmhs'] = $this->m_dosen->getAllData('mhs', array('nidn' => $this->session->username))->num_rows();
+		$data['mhsblmperwalian'] = $this->m_dosen->getMhsBelumPerwalian($this->session->username);
 
 		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);

@@ -111,9 +111,9 @@ class M_operator extends CI_Model {
 		return $query;
 	}
 
-	function getPerwalianMhs($where = null, $limit = null, $offset = null)
+	function getPerwalianMhs($search = null, $limit = null, $offset = null)
 	{
-		$this->db->select('mhs.nim, mhs.nama, mhs.angkatan, mhs.kelas, status_perwalian.v_dosen');
+		$this->db->select('mhs.nim, mhs.nama, mhs.angkatan, mhs.kelas, mhs.kode_prodi, status_perwalian.v_dosen');
 		$this->db->from('mhs');
 		$this->db->join('status_perwalian', 'status_perwalian.nim = mhs.nim');
 		
@@ -125,11 +125,13 @@ class M_operator extends CI_Model {
 
 		if (($limit !== null) && ($offset !== null)) {
 			$this->db->limit($limit, $offset);
-		} elseif ($where !== null) {
-			foreach ($where as $key => $value) {
+		} elseif ($search !== null) {
+			foreach ($search as $key => $value) {
 				$this->db->like($key, $value);
 			}
 		} 
+
+		$this->db->where('kode_prodi', $this->session->kode_prodi);
 
 		$query = $this->db->get();
 		

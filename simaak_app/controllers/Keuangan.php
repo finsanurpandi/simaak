@@ -130,7 +130,7 @@ class Keuangan extends CI_Controller {
 	{
 		$nim = $this->encrypt->decode($nim);
 		$user_akun = $this->m_keuangan->getAllData('staf', array('username' => $this->session->username))->result_array();
-		$mhs = $this->m_keuangan->getAllData('mhs_pembayaran', array('nim' => $nim), array('persentase' => 'DESC'), null, null)->result_array();
+		$mhs = $this->m_keuangan->getAllData('mhs_pembayaran', array('nim' => $nim), array('id' => 'DESC'), null, null)->result_array();
 
 		$datamhs = $this->m_keuangan->getAllData('mhs', array('nim' => $nim), null,null,null)->result_array();
 
@@ -163,6 +163,16 @@ class Keuangan extends CI_Controller {
 			$where2 = array('nim' => $this->input->post('nim'));
 
 			$this->m_keuangan->updateValidasi($data1, $where1, $data2, $where2);
+			redirect($this->uri->uri_string());
+		}
+
+		//HAPUS VALIDASI
+		$hapusvalidasi = $this->input->post('hapusDataValidasi');
+
+		if (isset($hapusvalidasi)) {
+			$where = array('id' => $this->input->post('id'));
+
+			$this->m_keuangan->deleteData('mhs_pembayaran', $where);
 			redirect($this->uri->uri_string());
 		}
 	}

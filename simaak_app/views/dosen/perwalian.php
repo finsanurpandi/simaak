@@ -67,21 +67,51 @@ if (!empty($gelardepan)) {
               </thead>
               <tbody>
                 <?php
-                $i = 1;
-                foreach ($statusperwalian as $key => $value) {
-                  echo "<tr>";
-                  echo "<td>".$i++."</td>";
-                  echo "<td>".$value['nim']."</td>";
-                  echo "<td>".$value['nama']."</td>";
-                  echo "<td>".$value['angkatan']."</td>";
+                $blmperwalian = $totalmhs - count($statusperwalian);
+                $no = 1;
+                // foreach ($statusperwalian as $key => $value) {
+                //   echo "<tr>";
+                //   echo "<td>".$i++."</td>";
+                //   echo "<td>".$value['nim']."</td>";
+                //   echo "<td>".$value['nama']."</td>";
+                //   echo "<td>".$value['angkatan']."</td>";
 
-                  if (empty($value['v_dosen'])) {
-                  	echo "Belum perwalian";
-                  } else {
-                  	echo "<td>".$value['v_dosen']."</td>";
-              		}
+                //   if (empty($value['v_dosen'])) {
+                //   	echo "Belum perwalian";
+                //   } else {
+                //   	echo "<td>".$value['v_dosen']."</td>";
+              		// }
               		
-                  echo "<td><a href='".base_url()."dosen/validasi_perwalian/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a></td>";
+                //   echo "<td><a href='".base_url()."dosen/validasi_perwalian/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a></td>";
+                //   echo "</tr>";
+                // }
+
+                for ($i=0; $i < count($statusperwalian); $i++) { 
+                  echo "<tr>";
+                  echo "<td>".$no++."</td>";
+                  echo "<td>".$statusperwalian[$i]['nim']."</td>";
+                  echo "<td>".$statusperwalian[$i]['nama']."</td>";
+                  echo "<td>".$statusperwalian[$i]['angkatan']."</td>";
+
+                  if (empty($statusperwalian[$i]['v_dosen'])) {
+                   echo "Belum perwalian";
+                  } else {
+                   echo "<td>".$statusperwalian[$i]['v_dosen']."</td>";
+                  }
+                  
+                  echo "<td><a href='".base_url()."dosen/validasi_perwalian/".$this->encrypt->encode($statusperwalian[$i]['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a></td>";
+                  echo "</tr>";
+                }
+
+                for ($j=0; $j < $blmperwalian; $j++) { 
+                  echo "<tr>";
+                  echo "<td>".$no++."</td>";
+                  echo "<td>".$mhsblmperwalian[$j]['nim']."</td>";
+                  echo "<td>".$mhsblmperwalian[$j]['nama']."</td>";
+                  echo "<td>".$mhsblmperwalian[$j]['angkatan']."</td>";
+                  echo "<td>Belum Perwalian</td>";
+                  
+                  echo "<td><a href='#' class='btn btn-success btn-xs' disabled='true'><i class='fa fa-pencil'></i> detail</a></td>";
                   echo "</tr>";
                 }
                 ?>

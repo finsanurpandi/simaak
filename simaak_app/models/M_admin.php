@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class M_keuangan extends CI_Model {
+class M_admin extends CI_Model {
 
 	function __construct()
 	{
@@ -13,7 +13,9 @@ class M_keuangan extends CI_Model {
 
         if (($limit !== null) && ($offset !== null)) {
             $this->db->limit($limit, $offset);
-        } elseif ($where !== null) {
+        } 
+
+        if ($where !== null) {
             foreach ($where as $key => $value) {
                 $this->db->where($key, $value);
             }
@@ -38,7 +40,9 @@ class M_keuangan extends CI_Model {
 
         if (($limit !== null) && ($offset !== null)) {
             $this->db->limit($limit, $offset);
-        } elseif ($where !== null) {
+        } 
+
+        if ($where !== null) {
             foreach ($where as $key => $value) {
                 $this->db->where($key, $value);
             }

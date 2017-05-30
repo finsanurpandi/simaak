@@ -63,6 +63,20 @@ Content Wrapper. Contains page content -->
                     <?=$user['kelas']?>
                   </p>
 
+                  <strong>Dosen Wali</strong>
+                  <p class="text-muted" id="mhsdosenwali">
+                    <?php
+                    echo $dosenwali[0]['gelar_depan'].' '.$dosenwali[0]['nama'].', '.$dosenwali[0]['gelar_belakang'];
+                    ?>
+                  </p>
+
+                  <!-- <strong>Dosen Wali</strong>
+                  <p class="text-muted">
+                    <?php
+                      echo $user['gelar_depan'].' '.$user['nama'].', '.$user['gelar_belakang'];
+                    ?>
+                  </p> -->
+
                   <!-- <strong>IP Terakhir</strong>
                   <p class="text-muted">
 
@@ -136,7 +150,7 @@ $totalsks += $value['sks'];
 //   } else {
 //     echo $statusperwalian['v_dosen'];
 //   }
-if ($statusperwalian['v_dosen'] == 'Menunggu') {
+if ($statusperwalian['v_dosen'] !== 'Menunggu') {
 
 ?>
 </p>
@@ -226,4 +240,5 @@ $i++;
     </section>
     <!-- /.content -->
   </div>
-  <!-- /.content-wrapper
+  <!-- /.content-wrapper-->
+

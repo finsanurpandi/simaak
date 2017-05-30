@@ -330,10 +330,55 @@ foreach ($nilai as $key => $value) {
 	<td style="padding-right:20;text-align:center;">
 		Cianjur, 
 	<?php
-	setlocale(LC_TIME, 'id_ID');
-	$date = strftime( "%d %B %Y");
-	echo $date;
+	// setlocale(LC_TIME, 'id_ID');
+	// $date = strftime( "%d %B %Y");
+	// echo $date;
 	// date("d - m - Y");
+	$day = date("d");
+	$month = date("M");
+	$year = date("Y");
+
+	switch ($month) {
+		case 'January':
+			$month = "Januari";
+			break;
+		case 'February':
+			$month = "Februari";
+			break;
+		case 'March':
+			$month = "Maret";
+			break;
+		case 'April':
+			$month = "April";
+			break;
+		case 'May':
+			$month = "Mei";
+			break;
+		case 'June':
+			$month = "Juni";
+			break;
+		case 'July':
+			$month = "Juli";
+			break;
+		case 'August':
+			$month = "Agustus";
+			break;
+		case 'September':
+			$month = "September";
+			break;
+		case 'October':
+			$month = "Oktober";
+			break;
+		case 'November':
+			$month = "November";
+			break;
+		case 'December':
+			$month = "Desember";
+			break;
+		
+	}
+
+	echo $day." ".$month." ".$year;
 	?>
 	</td>
 	<td></td>
@@ -353,7 +398,7 @@ foreach ($nilai as $key => $value) {
 	<td></td>
 	<td>
 		<td style="padding-right:20;text-align:center;">
-			Wakil Dekan I
+			Kasubag Akademik,
 			<br/><br/><br/><br/><br/><br/>
 			<strong><u>Erni Nurhayati, S.Pd.I</u></strong>
 		</td>

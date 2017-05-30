@@ -136,12 +136,27 @@ class Cetak extends CI_Controller {
 		$this->pdf->Output($filename, 'I');
 	}
 
+	function cetak_kartu_uts()
+	{
+		$data['hello'] = 'hello';
+
+		
+		$pdf = $this->pdf->load();
+		$html = $this->load->view('cetak/cetak_tes', $data, TRUE);
+		$pdf->AddPage('A5-L', '', '', '', '', 5, 10, 5, 10, 18, 12);
+		$pdf->WriteHTML($html);
+		$pdf->Output('hello.pdf', 'I');
+
+	}	
+
 	function cetak_test()
 	{
 		$pdf = $this->pdf->load();
-		$html = $this->load->view('cetak/cetak_kartu_rencana_studi', '', TRUE);
+		$html = $this->load->view('cetak/cetak_tes', 'A5', TRUE);
+		$pdf->AddPage('L', '', '', '', '', 5, 10, 5, 10, 18, 12);
 		$pdf->WriteHTML($html);
-		$pdf->Output('hello', 'I');
+		$pdf->Output('hello.pdf', 'I');
+
 	}
 
 }

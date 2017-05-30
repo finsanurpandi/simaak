@@ -301,6 +301,7 @@ function checkGolongan(){
     });
 };
 
+
 // LOAD DATA KODE MATKUL
 $('#kodeMatkul').change(function(){
 	var str = $(this).find(":selected").text();
@@ -595,6 +596,12 @@ $(document).on('click', '#btn-validasi', function(e){
 	}).prop('selected', true);
 });
 
+$(document).on('click', '#btn-hapus-validasi', function(e){
+	var data = $(this).data();
+
+	$('#idhapusvalidasi').val(data['id']);
+})
+
 //SET MENU ACTIVE MAHASISWA
 function mhsClearMenu(){
 	$('#menuMhsProfil').remove('.active');
@@ -703,6 +710,43 @@ if (role == 2) {
 		} else if (uri == 'histori') {
 			$('#historimatakuliahdosen').addClass('active');
 		};
+};
+
+
+// MENU OPERATOR
+function OperatorClearMenu(){
+	$('#operatorProfil').remove('.active');
+	$('#operatorMahasiswa').remove('.active');
+	$('#operatorDosen').remove('.active');
+	$('#operatorPerwalian').remove('.active');
+	$('#operatorPerkuliahan').remove('.active');
+	$('#operatorUjian').remove('.active');
+}
+
+if (role == 3) {
+	if (uri == '') {
+			OperatorClearMenu();
+		} else if (uri == 'profil') { 
+			$('#operatorProfil').addClass('active');
+		} else if (uri == 'mahasiswa' || uri == 'detailStudi' || uri == 'detailMahasiswa') { 
+			$('#operatorMahasiswa').addClass('active');
+		} else if (uri == 'dosen' || uri == 'detailDosen') {
+			$('#operatorDosen').addClass('active');
+		} else if (uri == 'perwalian') {
+			$('#operatorPerwalian').addClass('active');
+		} else if (uri == 'jadwal') {
+			$('#operatorJadwal').addClass('active');
+			$('#operatorPerkuliahan').addClass('active');
+		} else if (uri == 'matakuliah') {
+			$('#operatorMatakuliah').addClass('active');
+			$('#operatorPerkuliahan').addClass('active');
+		} else if (uri == 'uts') {
+			$('#operatorUts').addClass('active');
+			$('#operatorUjian').addClass('active');
+		} else if (uri == 'uas') {
+			$('#operatorUas').addClass('active');
+			$('#operatorUjian').addClass('active');
+		}
 };
 	
 

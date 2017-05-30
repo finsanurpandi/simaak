@@ -29,10 +29,10 @@
 
 </div>
 <strong>NIDN</strong>
-<p class="text-muted"><?=$user['nidn']?></p>
+<p class="text-muted"><?=$dosen[0]['nidn']?></p>
 
 <strong>Nama Dosen</strong>
-<p class="text-muted"><?=$user['gelar_depan']?><?=$user['nama'].', '?><?=$user['gelar_belakang']?></p>
+<p class="text-muted"><?=$dosen[0]['gelar_depan']?><?=$dosen[0]['nama'].', '?><?=$dosen[0]['gelar_belakang']?></p>
 
 
 

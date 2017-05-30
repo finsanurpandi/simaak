@@ -282,10 +282,55 @@ for ($i=0; $i < $totalrow; $i++) {
 	<td>
 		Cianjur, 
 	<?php
-	setlocale(LC_TIME, 'id_ID');
-	$date = strftime( "%d %B %Y");
-	echo $date;
+	// setlocale(LC_TIME, 'id_ID');
+	// $date = strftime( "%d %B %Y");
+	// echo $date;
 	// date("d - m - Y");
+	$day = date("d");
+	$month = date("M");
+	$year = date("Y");
+
+	switch ($month) {
+		case 'January':
+			$month = "Januari";
+			break;
+		case 'February':
+			$month = "Februari";
+			break;
+		case 'March':
+			$month = "Maret";
+			break;
+		case 'April':
+			$month = "April";
+			break;
+		case 'May':
+			$month = "Mei";
+			break;
+		case 'June':
+			$month = "Juni";
+			break;
+		case 'July':
+			$month = "Juli";
+			break;
+		case 'August':
+			$month = "Agustus";
+			break;
+		case 'September':
+			$month = "September";
+			break;
+		case 'October':
+			$month = "Oktober";
+			break;
+		case 'November':
+			$month = "November";
+			break;
+		case 'December':
+			$month = "Desember";
+			break;
+		
+	}
+
+	echo $day." ".$month." ".$year;
 	?>
 	</td>
 </tr>

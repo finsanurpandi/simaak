@@ -35,27 +35,36 @@
   if ($role == 0) {
 ?>
 
-        <li>
-          <a href="profil-mahasiswa.html">
-            <i class="fa fa-dashboard"></i> <span>Profil Dosen</span>
+        
+        <!-- <li id="adminMahasiswa" class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Mahasiswa</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="adminMhsEs" class=""><a href="<?=base_url('admin/mahasiswa/').$this->encrypt->encode('es');?>"><i class="fa fa-circle-o"></i> ES</a></li>
+            <li id="adminMhsMpi" class=""><a href="<?=base_url('admin/mahasiswa/').$this->encrypt->encode('mpi');?>"><i class="fa fa-circle-o"></i> MPI</a></li>
+            <li id="adminMhsPbs" class=""><a href="<?=base_url('admin/mahasiswa/').$this->encrypt->encode('pbs');?>"><i class="fa fa-circle-o"></i> PBS</a></li>
+          </ul>
+        </li> -->
+        <li id="adminDosen" class="">
+          <a href="<?=base_url('admin/dosen');?>">
+            <i class="fa fa-graduation-cap"></i> <span>Dosen</span>
           </a>
         </li>
-        <li>
-          <a href="hasil-studi.html">
-            <i class="fa fa-pencil-square-o"></i>
-            <span>Hasil Studi</span>
+        <li id="adminMahasiswa" class="">
+          <a href="<?=base_url('admin/mahasiswa');?>">
+            <i class="fa fa-graduation-cap"></i> <span>Mahasiswa</span>
           </a>
         </li>
-        <li>
-          <a href="perwalian.html">
-            <i class="fa fa-user-plus"></i> <span>Perwalian</span>
+        <li id="adminMatakuliah" class="">
+          <a href="<?=base_url('admin/matakuliah');?>">
+            <i class="fa fa-graduation-cap"></i> <span>Matakuliah</span>
           </a>
         </li>
-        <li>
-          <a href="perkuliahan.html">
-            <i class="fa fa-graduation-cap"></i> <span>Perkuliahan</span>
-          </a>
-        </li>
+        
 
 <!-- MENU MAHASISWA -->
 <?php
@@ -209,25 +218,27 @@ if (!empty($pembayaran) && $pembayaran[0]['persentase'] >= 25) {
           </a>
         </li>
 
+
 <!-- MENU OPERATOR -->
 <?php
   } else if($role == 3){
 ?>
 
-         <li id="operatorProfil">
+         <li id="operatorProfil" class="">
           <a href="<?=base_url('operator/profil');?>">
             <i class="fa fa-dashboard"></i> <span>Profil</span>
           </a>
         </li>
-        <li id="operatorMahasiswa">
+        
+        <li id="operatorDosen" class="">
+          <a href="<?=base_url('operator/dosen');?>">
+            <i class="fa fa-user-plus"></i> <span>Dosen</span>
+          </a>
+        </li>
+        <li id="operatorMahasiswa" class="">
           <a href="<?=base_url('operator/mahasiswa');?>">
             <i class="fa fa-pencil-square-o"></i>
             <span>Mahasiswa</span>
-          </a>
-        </li>
-        <li id="operatorDosen">
-          <a href="<?=base_url('operator/dosen');?>">
-            <i class="fa fa-user-plus"></i> <span>Dosen</span>
           </a>
         </li>
         <!-- <li id="operatorJadwal">
@@ -235,7 +246,7 @@ if (!empty($pembayaran) && $pembayaran[0]['persentase'] >= 25) {
             <i class="fa fa-user-plus"></i> <span>Jadwal</span>
           </a>
         </li> -->
-        <li id="operatorPerwalian">
+        <li id="operatorPerwalian" class="">
           <a href="<?=base_url('operator/perwalian');?>">
             <i class="fa fa-user-plus"></i> <span>perwalian</span>
           </a>
@@ -251,6 +262,19 @@ if (!empty($pembayaran) && $pembayaran[0]['persentase'] >= 25) {
           <ul class="treeview-menu">
             <li id="operatorJadwal" class=""><a href="<?=base_url('operator/jadwal');?>"><i class="fa fa-circle-o"></i> Jadwal</a></li>
             <li id="operatorMatakuliah" class=""><a href="<?=base_url('operator/matakuliah');?>"><i class="fa fa-circle-o"></i> Matakuliah</a></li>
+          </ul>
+        </li>
+
+        <li id="operatorUjian" class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Ujian</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="operatorUts" class=""><a href="<?=base_url('operator/uts');?>"><i class="fa fa-circle-o"></i> UTS</a></li>
+            <li id="operatorUas" class=""><a href="<?=base_url('operator/uas');?>"><i class="fa fa-circle-o"></i> UAS</a></li>
           </ul>
         </li>
         

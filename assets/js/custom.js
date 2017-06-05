@@ -184,9 +184,9 @@ $('#update_pembayaran').change(function(){
 
 //SELECT JABFUNG
 function selectJabfung(){
-	$('#golongan option').remove();
+	$('#golonganAdmin option').remove();
 
-	$('#golongan').prop('disabled', false);
+	$('#golonganAdmin').prop('disabled', false);
 
 	var asistenAhli = [ {'value':'III/a', 'text':'III/a'},
 						{'value':'III/b', 'text':'III/b'}
@@ -204,33 +204,75 @@ function selectJabfung(){
     var guruBesar = [ {'value':'IV/d', 'text':'IV/d'},
 						{'value':'IV/e', 'text':'IV/e'}
 					  ]; 
-  	
-  	if ($('#jabfung').val() == 'Asisten Ahli') {
+
+	var jabfung = $('#jabfung').find(":selected").text();
+
+  	// if ($('#jabfung').val() == 'Asisten Ahli') {
+  	// 	$.each(asistenAhli, function(i){
+  	// 		$('#golongan').append($('<option></option>')
+  	// 					.attr('value', asistenAhli[i]['value'])
+  	// 					.text(asistenAhli[i]['text']));
+  	// 	});
+  	// 	console.log('hello');
+  	// } else if ($('#jabfung').val() == 'Lektor') {
+  	// 	$.each(lektor, function(i){
+  	// 		$('#golongan').append($('<option></option>')
+  	// 					.attr('value', lektor[i]['value'])
+  	// 					.text(lektor[i]['text']));
+  	// 	});
+  	// } else if ($('#jabfung').val() == 'Lektor Kepala') {
+  	// 	$.each(lektorKepala, function(i){
+  	// 		$('#golongan').append($('<option></option>')
+  	// 					.attr('value', lektorKepala[i]['value'])
+  	// 					.text(lektorKepala[i]['text']));
+  	// 	});
+  	// } else if ($('#jabfung').val() == 'Guru Besar') {
+  	// 	$.each(guruBesar, function(i){
+  	// 		$('#golongan').append($('<option></option>')
+  	// 					.attr('value', guruBesar[i]['value'])
+  	// 					.text(guruBesar[i]['text']));
+  	// 	});
+  	// };
+
+  	if (jabfung == 'Asisten Ahli') {
   		$.each(asistenAhli, function(i){
-  			$('#golongan').append($('<option></option>')
+  			$('#golonganAdmin').append($('<option></option>')
   						.attr('value', asistenAhli[i]['value'])
   						.text(asistenAhli[i]['text']));
   		});
-  	} else if ($('#jabfung').val() == 'Lektor') {
+  	} else if (jabfung == 'Lektor') {
   		$.each(lektor, function(i){
-  			$('#golongan').append($('<option></option>')
+  			$('#golonganAdmin').append($('<option></option>')
   						.attr('value', lektor[i]['value'])
   						.text(lektor[i]['text']));
   		});
-  	} else if ($('#jabfung').val() == 'Lektor Kepala') {
+  	} else if (jabfung == 'Lektor Kepala') {
   		$.each(lektorKepala, function(i){
-  			$('#golongan').append($('<option></option>')
+  			$('#golonganAdmin').append($('<option></option>')
   						.attr('value', lektorKepala[i]['value'])
   						.text(lektorKepala[i]['text']));
   		});
-  	} else if ($('#jabfung').val() == 'Guru Besar') {
+  	} else if (jabfung == 'Guru Besar') {
   		$.each(guruBesar, function(i){
-  			$('#golongan').append($('<option></option>')
+  			$('#golonganAdmin').append($('<option></option>')
   						.attr('value', guruBesar[i]['value'])
   						.text(guruBesar[i]['text']));
   		});
   	};
 };  // END OF FUNCTION SELECT JABFUNG
+
+
+// SELECT JABATAN STRUKTURAL
+function selectJabStruk()
+{
+	var jenisdosen = $('#jenisDosen').find(":selected").val();
+
+	if (jenisdosen == 'DT' || jenisdosen == 'PT') {
+		$('#jabstruk').prop('disabled', false);
+	} else {
+		$('#jabstruk').prop('disabled', true);
+	}
+}
 
 
 // CHECK NIM AVAILABILITY
@@ -268,6 +310,26 @@ function checkUsername(){
           } else {
             $('#statusUsername').html("<p class='text-success'>NIDN tersedia <span class='glyphicon glyphicon-ok'></span></p>");
             $('#btnTambahDosen').prop('disabled', false);
+          }
+      }
+    });
+};
+
+// CHECK NIDN AVAILABILITY
+function checkNidn(){
+    var username = $('#nidnAdmin').val();
+
+    $.ajax({
+      method: "post",
+      url: baseurl+"ajax/usernameAvailability",
+      data: { username:username },
+      success: function(res){
+          if (res == 1) {
+            $('#statusUsernameAdmin').html("<p class='text-danger'>NIDN telah digunakan <span class='glyphicon glyphicon-remove'></span></p> ");
+            $('#btnTambahDosenAdmin').prop('disabled', true);
+          } else {
+            $('#statusUsernameAdmin').html("<p class='text-success'>NIDN tersedia <span class='glyphicon glyphicon-ok'></span></p>");
+            $('#btnTambahDosenAdmin').prop('disabled', false);
           }
       }
     });
@@ -342,6 +404,44 @@ $('#nidnJadwal').change(function(){
 	$('#namaDosen').val(res);
 });
 
+
+// EDIT JADWAL MATKUL
+$(document).on("click", '#btn-editjadwal', function(e){
+	var data = $(this).data();
+
+	$('#editIdJadwal').val(data['id']);
+	$('#editKodeMatkulJadwal').val(data['kdmatkul']);
+	$('#editNamaMatkulJadwal').val(data['matkul']);
+
+	$('#editDosenJadwal option').filter(function(){
+		return ($(this).val().substring(11) == data['dosen']);
+	}).prop('selected', true);
+
+	$('#editKelasJadwal option').filter(function(){
+		return ($(this).val() == data['kelas']);
+	}).prop('selected', true);
+
+	$('#editHariJadwal option').filter(function(){
+		return ($(this).val() == data['hari']);
+	}).prop('selected', true);
+
+	$('#editWaktuJadwal').val(data['waktu']);
+
+	$('#editRuanganJadwal option').filter(function(){
+		return ($(this).val() == data['ruangan']);
+	}).prop('selected', true);
+
+});
+
+
+// HAPUS JADWAL MATKUL
+$(document).on("click", '#btn-hapusjadwal', function(e){
+	var data = $(this).data();
+
+	$('#idjadwal').val(data['id']);
+	$('#namamatkul').text(data['matkul']);
+});
+
 //ADD MINUTES
 function addMinutes(time, minToAdd){
 	function D(J){ return (J<10? '0':'') + J};
@@ -366,6 +466,13 @@ $('#waktuMulai').change(function(){
 
 //EDIT DOSEN
 // ---------------------------------------------------------
+// HAPUS DATA DOSEN
+$(document).on("click", '#btn-hapusDosen', function(e){
+	var data = $(this).data();
+
+	$('#iddosen').val(data['nidn']);
+	$('#namadosen').text(data['dosen']);
+});
 //PENGAJARAN
 // OPERATOR DOSEN TAMBAH DATA PENGAJARAN
 
@@ -600,7 +707,15 @@ $(document).on('click', '#btn-hapus-validasi', function(e){
 	var data = $(this).data();
 
 	$('#idhapusvalidasi').val(data['id']);
-})
+});
+
+
+// ALERT AUTOCLOSED
+window.setTimeout(function() {
+    $(".alert.alert-success").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+}, 4000);
 
 //SET MENU ACTIVE MAHASISWA
 function mhsClearMenu(){
@@ -721,6 +836,7 @@ function OperatorClearMenu(){
 	$('#operatorPerwalian').remove('.active');
 	$('#operatorPerkuliahan').remove('.active');
 	$('#operatorUjian').remove('.active');
+	$('#operatorLaporan').remove('.active');
 }
 
 if (role == 3) {
@@ -746,7 +862,9 @@ if (role == 3) {
 		} else if (uri == 'uas') {
 			$('#operatorUas').addClass('active');
 			$('#operatorUjian').addClass('active');
-		}
+		} else if (uri == 'laporan') {
+			$('#operatorLaporan').addClass('active');
+		};
 };
 	
 

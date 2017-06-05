@@ -226,18 +226,18 @@ if (!empty($pembayaran) && $pembayaran[0]['persentase'] >= 25) {
 
          <li id="operatorProfil" class="">
           <a href="<?=base_url('operator/profil');?>">
-            <i class="fa fa-dashboard"></i> <span>Profil</span>
+            <i class="fa fa-user"></i> <span>Profil</span>
           </a>
         </li>
         
         <li id="operatorDosen" class="">
           <a href="<?=base_url('operator/dosen');?>">
-            <i class="fa fa-user-plus"></i> <span>Dosen</span>
+            <i class="fa fa-user"></i> <span>Dosen</span>
           </a>
         </li>
         <li id="operatorMahasiswa" class="">
           <a href="<?=base_url('operator/mahasiswa');?>">
-            <i class="fa fa-pencil-square-o"></i>
+            <i class="fa fa-user"></i>
             <span>Mahasiswa</span>
           </a>
         </li>
@@ -254,28 +254,33 @@ if (!empty($pembayaran) && $pembayaran[0]['persentase'] >= 25) {
 
         <li id="operatorPerkuliahan" class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Perkuliahan</span>
+            <i class="fa fa-mortar-board"></i> <span>Perkuliahan</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li id="operatorJadwal" class=""><a href="<?=base_url('operator/jadwal');?>"><i class="fa fa-circle-o"></i> Jadwal</a></li>
-            <li id="operatorMatakuliah" class=""><a href="<?=base_url('operator/matakuliah');?>"><i class="fa fa-circle-o"></i> Matakuliah</a></li>
+            <li id="operatorJadwal" class=""><a href="<?=base_url('operator/jadwal');?>"><i class="fa fa-calendar"></i> Jadwal</a></li>
+            <li id="operatorMatakuliah" class=""><a href="<?=base_url('operator/matakuliah');?>"><i class="fa fa-tasks"></i> Matakuliah</a></li>
           </ul>
         </li>
 
         <li id="operatorUjian" class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Ujian</span>
+            <i class="fa fa-pencil-square-o"></i> <span>Ujian</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li id="operatorUts" class=""><a href="<?=base_url('operator/uts');?>"><i class="fa fa-circle-o"></i> UTS</a></li>
-            <li id="operatorUas" class=""><a href="<?=base_url('operator/uas');?>"><i class="fa fa-circle-o"></i> UAS</a></li>
+            <li id="operatorUts" class=""><a href="<?=base_url('operator/uts');?>"><i class="fa fa-pencil-square"></i> UTS</a></li>
+            <li id="operatorUas" class=""><a href="<?=base_url('operator/uas');?>"><i class="fa fa-pencil-square"></i> UAS</a></li>
           </ul>
+        </li>
+        <li id="operatorLaporan" class="">
+          <a href="<?=base_url('operator/laporan');?>">
+            <i class="fa fa-file-text-o"></i> <span>laporan</span>
+          </a>
         </li>
         
 

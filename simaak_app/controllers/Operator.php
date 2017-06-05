@@ -40,7 +40,7 @@ class Operator extends CI_Controller {
         $config["num_links"] = floor($choice);
 
 		//config for bootstrap pagination class integration
-        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_open'] = '<ul class="pagination pagination-sm">';
         $config['full_tag_close'] = '</ul>';
         $config['first_link'] = false;
         $config['last_link'] = false;
@@ -67,7 +67,7 @@ class Operator extends CI_Controller {
 	{
 		$session = $this->session->userdata('login_in');
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 3) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('operator/'.$url, $data);
@@ -207,7 +207,7 @@ class Operator extends CI_Controller {
 		$data['prodi'] = $prodi;
 		// $data['link'] = $this->pagination->create_links();
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 3) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('operator/mahasiswa', $data);
@@ -291,8 +291,11 @@ class Operator extends CI_Controller {
 
 		$key_nim = $this->encrypt->decode($nim);
 		$mhs = $this->m_operator->getDataUser('mhs', array('nim' => $key_nim));
+		$profil = $this->m_operator->getAllData('mhs_profil', array('nim' => $key_nim))->result_array();
 		$dosen = $this->m_operator->getAllData('dosen', array('kode_prodi' => $this->session->kode_prodi))->result_array();
 		$prodi = $this->m_operator->getAllData('program_studi')->result_array();
+		$dokumen = $this->m_operator->getAllData('mhs_upload', array('nim' => $key_nim))->result_array();
+		$ortu = $this->m_operator->getAllData('mhs_orangtua', array('nim' => $key_nim))->result_array();
 		// $jenjang = $this->m_operator->getAllData('jenjang_akademik')->result_array();
 		
 
@@ -303,8 +306,11 @@ class Operator extends CI_Controller {
 		// $data['jenjang'] = $jenjang;
 		$data['role'] = $this->session->role;
 		$data['key'] = $key_nim;
+		$data['profil'] = $profil[0];
+		$data['dokumen'] = $dokumen[0];
+		$data['ortu'] = $ortu[0];
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 3) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('operator/detailMahasiswa', $data);
@@ -334,7 +340,42 @@ class Operator extends CI_Controller {
 			
 			redirect($this->uri->uri_string());
 
-		}	
+		}
+
+		$sprofil = $this->input->post('submit_profil');
+		if (isset($sprofil)) {
+			$profil = array(
+				'nik' => $this->input->post('nik'),
+				'alamat_lengkap' => $this->input->post('alamat_lengkap'),
+				'golongan_darah' => $this->input->post('golongan_darah'),
+				'no_tlp' => $this->input->post('no_tlp'),
+				'email' => $this->input->post('email'),
+				'asal_sekolah' => $this->input->post('asal_sekolah'),
+				'nomor_induk' => $this->input->post('nomor_induk')
+			);
+
+			$this->m_operator->updateData('mhs_profil', $profil, array('nim' => $key_nim));
+
+			$this->session->set_flashdata('success', true);
+			
+			redirect($this->uri->uri_string());
+		}
+
+		$sortu = $this->input->post('submit_ortu');
+		if (isset($sortu)) {
+			$ortu = array(
+
+			);
+		}
+	
+	}
+
+	function dl_dokumen($file)
+	{
+		$file = $this->encrypt->decode($file);
+		$path = 'assets/uploads/documents/mahasiswa/'.$file;
+
+		force_download($path, NULL);
 	}
 
 	function detailStudi($nim)
@@ -410,7 +451,7 @@ class Operator extends CI_Controller {
 	{
 		//pagination
 		$total = $this->m_operator->getAllData('dosen', array('kode_prodi' => $this->session->kode_prodi))->num_rows();
-		$limit = 20;
+		$limit = 10;
 		$url = 'operator/dosen';
 		$config = $this->configPagination($total, $limit, $url);
 		//-------
@@ -460,7 +501,7 @@ class Operator extends CI_Controller {
 		$data['alldosen'] = $alldosen;
 		// $data['link'] = $this->pagination->create_links();
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 3) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('operator/dosen', $data);
@@ -509,7 +550,7 @@ class Operator extends CI_Controller {
 		}
 
 		//HAPUS DATA DOSEN
-		$hapus = $this->input->post('hapusDosen');
+		$hapus = $this->input->post('hapusDataDosen');
 
 		if (isset($hapus)) {
 			$this->m_operator->deleteData('dosen_'.$kdprodi, array('nidn' => $this->input->post('nidn')));
@@ -521,8 +562,11 @@ class Operator extends CI_Controller {
 	{
 		$user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
 		$session = $this->session->userdata('login_in');
+		$kdprodi = strtolower($this->session->kode_prodi);
 
 		$key_nidn = $this->encrypt->decode($nidn);
+		$sttdosen = $this->m_operator->getAllData('dosen_'.$kdprodi, array('nidn' => $key_nidn))->result_array();
+
 		$dosen = $this->m_operator->getDataUser('dosen', array('nidn' => $key_nidn));
 		$prodi = $this->m_operator->getAllData('program_studi')->result_array();
 		$jabfung = $this->m_operator->getAllData('jabatan_fungsional')->result_array();
@@ -530,6 +574,7 @@ class Operator extends CI_Controller {
 		// $pendidikan = $this->m_operator->getAllData('dosen_pendidikan', array('nidn' => $key_nidn), null, null, array('tahun_lulus' => 'DESC'));
 		$pendidikan = $this->m_operator->getDataOrder('dosen_pendidikan', array('nidn' => $key_nidn), array('tahun_lulus' => 'DESC'));
 		// $penelitian = $this->m_operator->getDataOrder('dosen_penelitian', array('nidn' => $key_nidn), array('tahun' => 'DESC'));
+		
 
 		$data['user'] = $user_akun;
 		$data['dosen'] = $dosen;
@@ -538,11 +583,12 @@ class Operator extends CI_Controller {
 		$data['golongan'] = $golongan;
 		$data['role'] = $this->session->role;
 		$data['key'] = $key_nidn;
+		$data['status'] = $sttdosen[0];
 		$data['nidndosen'] = $dosen['nidn'];
 		$data['pendidikan'] = $pendidikan->result_array();
 		// $data['penelitian'] = $penelitian->result_array();
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 3) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('operator/detailDosen', $data);
@@ -568,7 +614,12 @@ class Operator extends CI_Controller {
 				'jabatan_struktural' => $this->input->post('jabatan_struktural')
 				);
 
-			$this->m_operator->updateData('dosen', $dosen, array('nidn' => $key_nidn));
+			$db = 'dosen_'.$kdprodi;
+
+			$status = array('status_dosen' => $this->input->post('status_dosen'));
+
+			// $this->m_operator->updateData('dosen', $dosen, array('nidn' => $key_nidn));
+			$this->m_operator->updateDosen($db, $dosen, $status, array('nidn' => $key_nidn));
 
 			$this->session->set_flashdata('success', true);
 
@@ -717,7 +768,7 @@ class Operator extends CI_Controller {
 		$data['role'] = $this->session->role;
 		$data['statusperwalian'] = $statusperwalian;
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 3) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('operator/perwalian', $data);
@@ -728,6 +779,24 @@ class Operator extends CI_Controller {
 		}
 
 
+	}
+
+	function detailPerwalian($npm)
+	{
+		$user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
+		$npm = $this->encrypt->decode($npm);
+		$mhs = $this->m_operator->getAllData('mhs', array('nim' => $npm))->result_array();
+		$perwalian = $perwalian = $this->m_operator->getAllData('perwalian', array('nim' => $npm, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+		$statusperwalian = $this->m_operator->getAllData('status_perwalian', array('nim' => $npm, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+
+		$data['user'] = $user_akun;
+		$data['role'] = $this->session->role;
+		$data['mhs'] = $mhs[0];
+		$data['dosenwali'] = $this->m_operator->getAllData('dosen', array('nidn' => $mhs[0]['nidn']))->result_array();
+		$data['perwalian'] = $perwalian;
+		$data['statusperwalian'] = $statusperwalian[0];
+
+		$this->checkSession('detailPerwalian', $data);
 	}
 
 
@@ -754,8 +823,9 @@ class Operator extends CI_Controller {
 		$data['jadwal'] = $jadwal;
 		$data['semester'] = $semester;
 		$data['prodi'] = $this->m_operator->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
+		$data['dosen'] = $this->m_operator->getLeftJoinDosen('dosen_'.$kdprodi, array('status_dosen' => 'ASC'));	
 
-		if ($session == TRUE) {
+		if ($session == TRUE && $this->session->role == 3) {
 			$this->load->view('header', $data);
 			$this->load->view('sidenav', $data);
 			$this->load->view('operator/jadwal', $data);
@@ -791,6 +861,25 @@ class Operator extends CI_Controller {
 
 			redirect($this->uri->uri_string());
 			
+		}
+
+		// EDIT JADWAL
+		$edit = $this->input->post('editJadwal');
+
+		if (isset($edit)) {
+			$datadosen = explode("-", $this->input->post('dosen'));
+
+			$data = array (
+				'nidn' => $datadosen[0],
+				'nama_dosen' => $datadosen[1],
+				'kelas' => $this->input->post('kelas'),
+				'hari' => $this->input->post('hari'),
+				'waktu' => $this->input->post('waktu'),
+				'ruangan' => $this->input->post('ruangan')
+			);
+
+			$this->m_operator->updateData('jadwal', $data, array('id_jadwal' => $this->input->post('id_jadwal')));
+			redirect($this->uri->uri_string());
 		}
 
 		//HAPUS JADWAL

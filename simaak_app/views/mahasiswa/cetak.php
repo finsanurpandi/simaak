@@ -85,7 +85,7 @@ if (@$pembayaran[0]['persentase'] >= 75) {
 <?php } else { ?>
 <a href="#" class="btn btn-primary btn-xs" disabled="true"><i class="fa fa-print"></i> Cetak Kartu UTS</a>
 <?php } ?>
-<p class="text-muted">*Kartu hanya bisa dicetak jika telah membayar <u><</u> 75% dari ketentuan yang harus dibayarkan</p>
+<p class="text-muted">*Kartu hanya bisa dicetak jika telah membayar <u>></u> 75% dari ketentuan yang harus dibayarkan</p>
 <hr/>
 
 <h3>

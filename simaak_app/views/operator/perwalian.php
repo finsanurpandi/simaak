@@ -79,12 +79,11 @@
                   echo "<td>";
                   if ($value['v_dosen'] !== 'Menunggu') {
                     echo "<a href='".base_url()."cetak/cetak_kartu_rencana_studi/".$this->encrypt->encode($value['nim'])."' class='btn btn-primary btn-xs' target='_blank'><i class='fa fa-print'></i> Cetak KRS</a>";
-                    echo "&nbsp;<a href='".base_url()."cetak/validasi_perwalian/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a>";
-
                   } else {
                     echo "<a href='#' class='btn btn-primary btn-xs' disabled='true'><i class='fa fa-print'></i> Cetak KRS</a>";
-                    echo "&nbsp;<a href='".base_url()."dosen/validasi_perwalian/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a>";
                   }
+                  
+                  echo "&nbsp;<a href='".base_url()."operator/detailPerwalian/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a>";
                   
                   echo "</td>";
                   echo "</tr>";

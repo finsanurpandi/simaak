@@ -67,6 +67,14 @@ class M_admin extends CI_Model {
         return $query;
     }
 
+    function insertDosen($acc, $dosen)
+    {
+        $this->db->trans_start();
+        $this->db->insert('account', $acc);
+        $this->db->insert('dosen', $dosen);
+        $this->db->trans_complete();
+    }
+
     function updateValidasi($data1, $where1, $data2, $where2)
     {
         $this->db->trans_start();

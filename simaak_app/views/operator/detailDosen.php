@@ -146,6 +146,18 @@
   </div>
   
   <div class="form-group">
+    <label for="jabatan_fungsional" class="col-sm-2 control-label">Tipe Dosen</label>
+    <div class="col-sm-6">
+      <select class="form-control" name="status_dosen" id="statusdosen">
+        <option value="0">Dosen Tetap</option>
+        <option value="1">Dosen Tetap di Luar Bidang Keahlian</option>
+        <option value="2">Dosen Tidak Tetap</option>
+        <option value="3">Dosen Tidak Tetap Struktural</option>
+      </select>
+      </div>
+  </div>
+  
+  <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       
       <button type="submit" name="submit" class="btn btn-success btn-sm"><i class="fa fa-refresh"></i> Update</button>
@@ -315,6 +327,14 @@ if (ds.value == "<?=$dosen['jenis_dosen']?>") {
   pt.setAttribute('selected', 'true');
 };
 
+// STATUS DOSEN
+var e = document.getElementById('statusdosen');
+
+for (var i = 0; i < e.options.length; i++) {
+  if (e.options[i].value == "<?=$status['status_dosen']?>") {
+    e.options[i].setAttribute('selected', 'true');
+  };
+};
 
 // PROGRAM STUDI
 // var prodi = document.getElementById('prodi');

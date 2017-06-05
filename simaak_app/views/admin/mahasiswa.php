@@ -75,8 +75,8 @@
                   echo "<td>".$value['kode_prodi']."</td>";
                   echo "<td>".$value['jenis_kelamin']."</td>";
                   echo "<td>".$value['nidn']."</td>";
-                  echo "<td><a href='".base_url()."operator/detailMahasiswa/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a>";
-                  echo "&nbsp;<a href='".base_url()."operator/detailStudi/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-mortar-board'></i> studi</a></td>";
+                  echo "<td><a href='".base_url()."admin/detailMahasiswa/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a>";
+                  echo "&nbsp;<a href='".base_url()."admin/detailStudi/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-mortar-board'></i> studi</a></td>";
                   echo "</tr>";
                 }
                 ?>

@@ -17,7 +17,7 @@ Content Wrapper. Contains page content -->
     <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Data Dosen Prodi <?=$prodi['prodi']?></h3>
+              <h3 class="box-title">Data Dosen</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
@@ -56,10 +56,10 @@ Content Wrapper. Contains page content -->
                   <!-- <th>Gelar Depan</th>
                   <th>Gelar Belakang</th> -->
                   <!-- <th>Program Studi</th> -->
+                  <th>Prodi</th>
                   <th>Jenis Kelamin</th>
                   <th>Jabatan Fungsional</th>
                   <th>Jabatan Struktural</th>
-                  <th>Keterangan</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -73,30 +73,11 @@ Content Wrapper. Contains page content -->
                   echo "<td>".$value['nik']."</td>";
                   echo "<td>".$value['gelar_depan'].''.$value['nama'].', '.$value['gelar_belakang']."</td>";
                   // echo "<td>".$value['kode_prodi']."</td>";
+                  echo "<td>".$value['kode_prodi']."</td>";
                   echo "<td>".$value['jenis_kelamin']."</td>";
                   echo "<td>".$value['jabatan_fungsional']."</td>";
                   echo "<td>".$value['jabatan_struktural']."</td>";
-                  echo "<td>";
                   
-                  switch ($value['status_dosen']) {
-                    case 0:
-                      $status = "Dosen Tetap";
-                      echo $status;
-                      break;
-                    case 1:
-                      $status = "Dosen Tetap di luar Bidang Keahlian";
-                      echo $status;
-                      break;
-                    case 2:
-                      $status = "Dosen Tidak Tetap";
-                      echo $status;
-                      break;
-                    case 3:
-                      $status = "Dosen Tidak Tetap Struktural";
-                      echo $status;
-                      break;
-                  }
-                  echo "</td>";
                   // echo "<td><a href='".base_url()."operator/detailDosen/".$this->encrypt->encode($value['nidn'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> edit</a></td>";
                   // echo "</tr>";
                 //}
@@ -120,12 +101,7 @@ Content Wrapper. Contains page content -->
 <a href="<?=base_url('operator/detailDosen/').$this->encrypt->encode($value['nidn'])?>" class="btn btn-primary btn-xs"><i class='fa fa-pencil'></i> detail</a>
   <form method="post">
     <input type="hidden" name="nidn" value="<?=$value['nidn']?>">
-    <button id="btn-hapusDosen" type="button" class="btn btn-danger btn-xs"
-    data-toggle="modal"
-    data-target="#hapusDosenModal"
-    data-nidn="<?=$value['nidn']?>"
-    data-dosen="<?=$value['gelar_depan'].''.$value['nama'].', '.$value['gelar_belakang']?>"
-    ><i class='fa fa-trash'></i> hapus</button>
+    <button class="btn btn-danger btn-xs" name="hapusDosen"><i class='fa fa-trash'></i> hapus</button>
   </form>
 </td>
 
@@ -138,6 +114,9 @@ Content Wrapper. Contains page content -->
 
             </table>
 <hr/>
+<p>
+<strong>Jumlah Dosen :</strong>
+<?=$total?></p>
 
 
 

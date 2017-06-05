@@ -255,6 +255,16 @@ class M_operator extends CI_Model {
 		$this->db->update($this->account, $data);
 	}
 
+	function updateDosen($table, $data1, $data2, $where)
+    {
+        $this->db->trans_start();
+        $this->db->where($where);
+        $this->db->update('dosen', $data1);
+        $this->db->where($where);
+        $this->db->update($table, $data2);
+        $this->db->trans_complete();
+    }
+
 	function deleteData($table, $where)
 	{
 		$this->db->delete($table, $where); 

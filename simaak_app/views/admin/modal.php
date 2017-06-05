@@ -145,8 +145,113 @@
         <!-- /.modal -->
 
 
+<!-- TAMBAH DATA DOSEN -->
+<div class="modal fade modal-primary-custom" id="tambahDataDosenModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Tambah Data Dosen</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+  
+  <div class="form-group">
+    <label for="nim">NIDN</label>
+    <input class="form-control" type="text" name="nidn" id="nidnAdmin" onchange="checkNidn();">
+    <div id="statusUsernameAdmin"></div>
+  </div>
+
+  <div class="form-group">
+    <label for="nama">NIK</label>
+    <input class="form-control" name="nik">
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Nama</label>
+    <input class="form-control" name="nama">
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Gelar Depan</label>
+    <input class="form-control" name="gelar_depan">
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Gelar Belakang</label>
+    <input class="form-control" name="gelar_belakang">
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Prodi</label>
+    <select class="form-control" name="kode_prodi">
+      <option></option>
+      <option value="ES">Ekonomi Syariah</option>
+      <option value="MPI">Manajemen Pendidikan Islam</option>
+      <option value="PBS">Perbankan Syariah</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Jenis Kelamin</label>
+    <select class="form-control" name="jenis_kelamin">
+      <option></option>
+      <option value="L">Laki-Laki</option>
+      <option value="P">Perempuan</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Jabatan Fungsional</label>
+    <select class="form-control" name="jabatan_fungsional" id="jabfung" onchange="selectJabfung();">
+      <option></option>
+      <option value="Asisten Ahli">Asisten Ahli</option>
+      <option value="Lektor">Lektor</option>
+      <option value="Lektor Kepala">Lektor Kepala</option>
+      <option value="Guru Besar">Guru Besar</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Golongan</label>
+    <select class="form-control" name="golongan" id="golonganAdmin" disabled="true">
+      <option></option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Jenis Dosen</label>
+    <select class="form-control" name="jenis_dosen" id="jenisDosen" onchange="selectJabStruk();">
+      <option></option>
+      <option value="DS">Dosen Biasa</option>
+      <option value="DT">Dosen Dengan Tugas Tambahan</option>
+      <option value="PR">Profesor</option>
+      <option value="PT">Profesor Dengan Tugas Tambahan</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Jabatan Struktural</label>
+    <input class="form-control" name="jabatan_struktural" id="jabstruk" disabled="true">
+  </div>
+
+       
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" name="id" id="idpembayaran">
+        <input type="hidden" name="nim" id="nimpembayaran">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" name="tambahDosenAdmin" id="btnTambahDosenAdmin" disabled="true"><i class="fa fa-plus"></i> tambah</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 <script>
   var pass = "<?=$this->session->pass?>";
   var url = "<?=base_url('assets/uploads/documents/mahasiswa/')?>";
+  var baseurl = "<?=base_url()?>";
 </script>

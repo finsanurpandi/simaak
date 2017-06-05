@@ -75,6 +75,105 @@ class Admin extends CI_Controller {
 		// redirect('login', 'refresh');
 	}
 
+	function dosen()
+	{
+		//pagination
+		$total = $this->m_admin->getAllData('dosen')->num_rows();
+		$limit = 10;
+		$url = 'admin/dosen';
+		$config = $this->configPagination($total, $limit, $url);
+		//-------
+
+		$data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;		
+
+		$user_akun = $this->m_admin->getAllData('staf', array('username' => $this->session->userdata('username')))->result_array();
+		$session = $this->session->userdata('login_in');
+
+		//SEARCH 
+		$search = $this->input->post('search');
+
+		// $kdprodi = strtolower($this->session->kode_prodi);
+		// $alldosen = $this->m_operator->getSisaDosen('dosen_'.$kdprodi);
+
+		if (isset($search)) {
+			if ($this->input->post('search_key') == null) {
+				$dosen = $this->m_admin->getAllData('dosen', null, array('nidn' => 'ASC'), $limit, $data['page'])->result_array();	
+				$data['link'] = $this->pagination->create_links();
+			} else {
+				$dosen = $this->m_admin->searchData('dosen', array($this->input->post('search_category') => $this->input->post('search_key')))->result_array();
+			}
+		} else {
+			$dosen = $this->m_admin->getAllData('dosen', null, array('nidn' => 'ASC'), $limit, $data['page'])->result_array();	
+			$data['link'] = $this->pagination->create_links();
+		}
+		// if (isset($search)) {
+		// 	if ($this->input->post('search_key') == null) {
+		// 		$dosen = $this->m_operator->getLeftJoinDosen('dosen_'.$kdprodi, array('status_dosen' => 'ASC'), $limit, $data['page']);	
+		// 		$data['link'] = $this->pagination->create_links();
+		// 	} else {
+		// 		$dosen = $this->m_operator->searchDataJoin('dosen_'.$kdprodi, $this->input->post('search_key'), $this->input->post('search_category'));
+		// 	}
+		// } else {
+		// 	$dosen = $this->m_operator->getLeftJoinDosen('dosen_'.$kdprodi, array('status_dosen' => 'ASC'), $limit, $data['page']);	
+		// 	$data['link'] = $this->pagination->create_links();
+		// }
+		
+		// $dosen = $this->m_operator->getAllData('dosen')->result_array();
+		// $prodi = $this->m_operator->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
+		
+
+		$data['user'] = $user_akun[0];
+		// $data['mhs'] = $mhs;
+		$data['dosen'] = $dosen;
+		$data['role'] = $this->session->role;
+		// $data['prodi'] = $prodi;
+		// $data['alldosen'] = $alldosen;
+		// $data['link'] = $this->pagination->create_links();
+		$data['total'] = $total;
+
+		$this->set_view('dosen', $data);
+
+		//TAMBAH DATA DOSEN
+		$tambah = $this->input->post('tambahDosenAdmin');	
+
+		if (isset($tambah)) {
+			$nidn = $this->input->post('nidn');
+
+			$account = array (
+				'username' => $nidn,
+				'password' => md5($nidn),
+				'role' => 2,
+				'kode_prodi' => $this->input->post('kode_prodi'),
+				'status' => 1
+				);
+
+			$dosen = array (
+				'nidn' => $this->input->post('nidn'),
+				'nik' => $this->input->post('nik'),
+				'nama' => $this->input->post('nama'),
+				'gelar_depan' => $this->input->post('gelar_depan'),
+				'gelar_belakang' => $this->input->post('gelar_belakang'),
+				'kode_prodi' => $this->input->post('kode_prodi'),
+				'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+				'jabatan_fungsional' => $this->input->post('jabatan_fungsional'),
+				'golongan' => $this->input->post('golongan'),
+				'jenis_dosen' => $this->input->post('jenis_dosen'),
+				'jabatan_struktural' => $this->input->post('jabatan_struktural')
+				);
+
+			$this->m_admin->insertDosen($account, $dosen);
+			redirect($this->uri->uri_string());
+		}
+
+		//HAPUS DATA DOSEN
+		$hapus = $this->input->post('hapusDosen');
+
+		if (isset($hapus)) {
+			$this->m_admin->deleteData('account', array('username' => $this->input->post('nidn')));
+			redirect($this->uri->uri_string());
+		}
+	}
+
 	function mahasiswa()
 	{
 		//pagination

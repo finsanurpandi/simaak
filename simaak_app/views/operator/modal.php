@@ -245,6 +245,32 @@ foreach ($alldosen as $key => $value) {
   </div>
 </div>
 
+<!-- HAPUS DATA DOSEN -->
+<div class="modal modal-danger-custom fade" id="hapusDosenModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Hapus Data Dosen</h4>
+              </div>
+              <div class="modal-body">
+                <p>Apakah anda yakin akan menghapus data dengan nama <strong><span id="namadosen"></span></strong> ?</p>
+              </div>
+              <div class="modal-footer">
+                <form method="post">
+                <input type="hidden" name="nidn" id="iddosen">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger" name="hapusDataDosen">Delete</button>
+                </form>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
 
 <!-- PENDIDIKAN DOSEN -->
 <!-- Tambah data pendidikan dosen -->
@@ -562,11 +588,18 @@ foreach ($matkul_modal as $key => $value) {
                 <option></option>
 <?php
 foreach ($dosen_modal as $key => $value) {
+  if ($value['gelar_depan'] !== '') {
 ?>
 <option value="<?=$value['nidn'].'-'.$value['gelar_depan'].' '.$value['nama'].', '.$value['gelar_belakang']?>"> 
   <?=$value['nidn'].' - '.$value['gelar_depan'].' '.$value['nama'].', '.$value['gelar_belakang']?> 
 </option>
-<?php } ?>
+<?php } else {
+?>
+<option value="<?=$value['nidn'].'-'.$value['nama'].', '.$value['gelar_belakang']?>"> 
+  <?=$value['nidn'].' - '.$value['gelar_depan'].' '.$value['nama'].', '.$value['gelar_belakang']?> 
+</option>
+<?php }
+  } ?>
             </select>
             <input class="form-control" type="hidden" name="nama_dosen" id="namaDosen">
         </div>
@@ -629,27 +662,44 @@ foreach ($dosen_modal as $key => $value) {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Tambah Data Jadwal</h4>
+        <h4 class="modal-title" id="myModalLabel">Edit Data Jadwal Perkuliahan</h4>
       </div>
       <div class="modal-body">
         <form method="post" action="">
+        
+        <div class="form-group">
+          <label>Kode Matakuliah</label>
+          <input class="form-control" id="editKodeMatkulJadwal" disabled="true">
+        </div>
 
         <div class="form-group">
           <label>Matakuliah</label>
-          <input class="form-control" id="editMatakuliah" disabled="true">
+          <input class="form-control" id="editNamaMatkulJadwal" disabled="true">
         </div>
 
         <div class="form-group">
             <label for="nidn">Dosen</label>
-            <select id="editNidnJadwal" class="form-control" name="nidn" onclick="loadEditNidn();">
+            <select id="editDosenJadwal" class="form-control" name="dosen">
                 <option>---</option>
+<?php
+  foreach ($dosen as $key => $value) {
+    if ($value['gelar_depan'] !== '') {
+?>
+    <option value="<?=$value['nidn'].'-'.$value['gelar_depan'].' '.$value['nama'].', '.$value['gelar_belakang']?>"><?=$value['nidn'].' - '.$value['gelar_depan'].' '.$value['nama'].', '.$value['gelar_belakang']?></option>
+
+<?php } else { ?>
+    
+    <option value="<?=$value['nidn'].'-'.$value['nama'].', '.$value['gelar_belakang']?>"><?=$value['nidn'].' - '.$value['gelar_depan'].' '.$value['nama'].', '.$value['gelar_belakang']?></option>
+
+<?php } } ?>
+
             </select>
             <input class="form-control" type="hidden" name="nama_dosen" id="editNamaDosen">
         </div>
 
         <div class="form-group">
             <label for="nidn">Kelas</label>
-            <select name="kelas" class="form-control">
+            <select name="kelas" class="form-control" id="editKelasJadwal">
               <option value="A">A</option>
               <option value="B">B</option>
               <option value="C">C</option>
@@ -658,7 +708,7 @@ foreach ($dosen_modal as $key => $value) {
 
         <div class="form-group">
             <label for="nidn">Hari</label>
-            <select name="hari" class="form-control">
+            <select name="hari" class="form-control" id="editHariJadwal">
               <option value="senin">Senin</option>
               <option value="selasa">Selasa</option>
               <option value="rabu">Rabu</option>
@@ -669,13 +719,13 @@ foreach ($dosen_modal as $key => $value) {
         </div>
 
         <div class="form-group">
-            <label for="nidn">Mulai</label>
-            <input class="form-control" type="text" name="waktu" id="waktuMulai" placeholder="hh.mm">
+            <label for="nidn">Waktu</label>
+            <input class="form-control" type="text" name="waktu" id="editWaktuJadwal" placeholder="hh.mm">
         </div>
 
         <div class="form-group">
             <label for="nidn">Ruangan</label>
-            <select name="ruangan" class="form-control">
+            <select name="ruangan" class="form-control" id="editRuanganJadwal">
               <option value="ruangan-1">Ruangan-1</option>
               <option value="ruangan-2">Ruangan-2</option>
               <option value="ruangan-3">Ruangan-3</option>
@@ -686,13 +736,40 @@ foreach ($dosen_modal as $key => $value) {
             
       </div>
       <div class="modal-footer">
+        <input type="hidden" name="id_jadwal" id="editIdJadwal">
         <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button class="btn btn-primary" name="tambahJadwal" id="btnTambahJadwal"><i class="fa fa-plus"></i> Tambah</button>
+        <button class="btn btn-success" name="editJadwal" id="btnEditJadwal"><i class="fa fa-recycle"></i> Edit</button>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<!-- HAPUS DATA DOSEN -->
+<div class="modal modal-danger-custom fade" id="hapusJadwalModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Hapus Data Dosen</h4>
+              </div>
+              <div class="modal-body">
+                <p>Apakah anda yakin akan menghapus data jadwal dengan matakuliah <strong><span id="namamatkul"></span></strong> ?</p>
+              </div>
+              <div class="modal-footer">
+                <form method="post">
+                <input type="hidden" name="id_jadwal" id="idjadwal">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger" name="hapusJadwal">Delete</button>
+                </form>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
 
 <script>
   var pass = "<?=$this->session->pass?>";

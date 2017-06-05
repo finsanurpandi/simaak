@@ -61,11 +61,29 @@ foreach ($semester as $data) {
                   echo "<td class='text-center'>".$value['kelas']."</td>";
                   echo "<td>".ucfirst($value['hari']).", ".$value['waktu']." WIB</td>";
                   echo "<td>".ucfirst($value['ruangan'])."</td>";
-                  echo "<td><button class='btn btn-success btn-xs' data-toggle='modal' data-target='#editJadwalModal' data-id='".$value['id_jadwal']."'><i class='fa fa-pencil'></i> edit</button>";
+                  echo "<td>";
 ?>
   <form method="post">
     <input type="hidden" name="id_jadwal" value="<?=$value['id_jadwal']?>">
-    <button class="btn btn-danger btn-xs" name="hapusJadwal"><i class='fa fa-trash'></i> hapus</button>
+    <button id="btn-editjadwal" class="btn btn-success btn-xs" type="button"
+    data-toggle="modal"
+    data-target="#editJadwalModal"
+    data-id="<?=$value['id_jadwal']?>"
+    data-kdmatkul="<?=$value['kode_matkul']?>"
+    data-matkul="<?=$value['nama_matkul']?>"
+    data-nidn="<?=$value['nidn']?>"
+    data-dosen="<?=$value['nama_dosen']?>"
+    data-kelas="<?=$value['kelas']?>"
+    data-hari="<?=$value['hari']?>"
+    data-waktu="<?=$value['waktu']?>"
+    data-ruangan="<?=$value['ruangan']?>"
+    ><i class='fa fa-pencil'></i> edit</button>
+    <button id="btn-hapusjadwal" class="btn btn-danger btn-xs" type="button"
+    data-toggle="modal"
+    data-target="#hapusJadwalModal"
+    data-id="<?=$value['id_jadwal']?>"
+    data-matkul="<?=$value['nama_matkul']?>"
+    ><i class='fa fa-trash'></i> hapus</button>
   </form>
 </td>
 

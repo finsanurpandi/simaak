@@ -18,7 +18,16 @@
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title">
-
+                  Program Studi 
+                  <?php
+                  if ($this->session->kode_prodi == 'ES') {
+                    echo "Ekonomi Syariah";
+                  } elseif ($this->session->kode_prodi == 'MPI') {
+                    echo "Manajemen Pendidikan Islam";
+                  } elseif ($this->session->kode_prodi == 'PBS') {
+                    echo "Perbankan Syariah";
+                  }
+                  ?>
               </h3>
             </div>
             <!-- /.box-header -->
@@ -82,7 +91,7 @@
                   } else {
                     echo "<a href='#' class='btn btn-primary btn-xs' disabled='true'><i class='fa fa-print'></i> Cetak KRS</a>";
                   }
-                  
+
                   echo "&nbsp;<a href='".base_url()."operator/detailPerwalian/".$this->encrypt->encode($value['nim'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a>";
                   
                   echo "</td>";

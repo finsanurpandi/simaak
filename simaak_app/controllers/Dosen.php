@@ -860,7 +860,7 @@ class Dosen extends CI_Controller {
 		$alamat = $this->m_dosen->getDataUser('mhs_alamat', array('nim' => $key_nim));
 		$ortu = $this->m_dosen->getDataUser('mhs_orangtua', array('nim' => $key_nim));
 		$profil = $this->m_dosen->getDataUser('mhs_profil', array('nim' => $key_nim));
-		$nilai = $this->m_dosen->getMatkulKeseluruhan($key_nim)->result_array();
+		$nilai = $this->m_dosen->getMatkulKeseluruhan("'".$key_nim."'")->result_array();
 
 		$data['user'] = $user_akun;
 		$data['mhs'] = $mhs;

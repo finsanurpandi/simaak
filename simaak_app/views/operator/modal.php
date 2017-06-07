@@ -212,7 +212,7 @@
         
         <div class="form-group">
             <label for="nik">NIDN</label>
-            <select name="nidn" class="form-control">
+            <select name="nidn" class="form-control" id="nidnTambahDosen">
             <option></option>
               <?php
 foreach ($alldosen as $key => $value) {
@@ -238,7 +238,7 @@ foreach ($alldosen as $key => $value) {
       </div>
       <div class="modal-footer">
         <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button class="btn btn-primary" name="tambahDosen" id="btnTambahDosen">Tambah</button>
+        <button class="btn btn-primary" name="tambahDosen" id="btnTambahDosen" disabled="true">Tambah</button>
         </form>
       </div>
     </div>
@@ -762,6 +762,84 @@ foreach ($dosen_modal as $key => $value) {
                 <input type="hidden" name="id_jadwal" id="idjadwal">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <button class="btn btn-danger" name="hapusJadwal">Delete</button>
+                </form>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+<!-- Edit Data NILAI -->
+<div class="modal fade modal-success-custom" id="editNilaiModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Data Penelitian Dosen</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="">
+
+        <div class="form-group">
+            <label for="bidang_ilmu">Nama Mahasiswa</label>
+            <!-- <input class="form-control" type="text" name="mhs" id="namaEditNilai"> -->
+            <select class="form-control" name="mhs" id="namaEditNilai">
+<?php
+  foreach ($mhs as $key => $value) {
+?>
+<option value="<?=$value['nim'].'-'.$value['nama']?>"><?=$value['nim'].' - '.$value['nama']?></option>
+<?php } ?>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="lembaga">Nilai</label>
+            <select name="nilai" id="nilaiEditNilai" class="form-control">
+              <option value="4">A</option>
+              <option value="3.5">AB</option>
+              <option value="3">B</option> 
+              <option value="2.5">BC</option>
+              <option value="2">C</option>
+              <option value="1.5">CD</option>
+              <option value="1">D</option>
+              <option value="0.5">DE</option>
+              <option value="0">E</option>
+            </select>
+            
+        </div>
+        
+            
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" name="id" id="idEditNilai">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" name="editNilai">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- HAPUS DATA Nilai -->
+<div class="modal modal-danger-custom fade" id="hapusNilaiModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Hapus Data Dosen</h4>
+              </div>
+              <div class="modal-body">
+                <p>Apakah anda yakin akan menghapus data jadwal dengan matakuliah <strong><span id="namamatkul"></span></strong> ?</p>
+              </div>
+              <div class="modal-footer">
+                <form method="post">
+                <input type="hidden" name="id" id="idnilai">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger" name="hapusNilai">Delete</button>
                 </form>
               </div>
             </div>

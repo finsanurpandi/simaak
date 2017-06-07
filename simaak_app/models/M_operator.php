@@ -39,14 +39,25 @@ class M_operator extends CI_Model {
 
 	function getAllData($table, $where = null, $limit = null, $offset = null)
 	{
+		// if (($limit !== null) && ($offset !== null)) {
+		// 	$query = $this->db->get_where($table, $where, $limit, $offset);
+		// } elseif ($where !== null) {
+		// 	$query = $this->db->get_where($table, $where);	
+		// } else {
+		// 	$query = $this->db->get($table);	
+		// }
+
 		if (($limit !== null) && ($offset !== null)) {
-			$query = $this->db->get_where($table, $where, $limit, $offset);
-		} elseif ($where !== null) {
-			$query = $this->db->get_where($table, $where);	
-		} else {
-			$query = $this->db->get($table);	
+			$this->db->limit($limit, $offset);
+		} 
+
+		if ($where !== null) {
+			foreach ($where as $key => $value) {
+					$this->db->where($key, $value);
+				}	
 		}
-		
+			
+		$query = $this->db->get($table);	
 
 		return $query;
 	}
@@ -55,6 +66,29 @@ class M_operator extends CI_Model {
 	{
 		foreach ($where as $key => $value) {
 			$this->db->where($key, $value);
+		}
+
+		foreach ($orderby as $key => $value) {
+				$this->db->order_by($key, $value);
+			}
+
+		$query = $this->db->get($table);
+		
+
+		return $query;
+	}
+
+	function getAllDataOrder($table, $where = null, $orderby, $limit = null, $offset = null)
+	{
+		if (($limit !== null) && ($offset !== null)) {
+			// $query = $this->db->get_where($table, $where, $limit, $offset);
+			$this->db->limit($limit, $offset);
+		}
+
+		if ($where !== null) {
+			foreach ($where as $key => $value) {
+				$this->db->where($key, $value);
+			}
 		}
 
 		foreach ($orderby as $key => $value) {
@@ -78,8 +112,13 @@ class M_operator extends CI_Model {
 		}
 	}
 
-	function getDataWhere ($table, $where)
+	function getDataWhere ($table, $where, $order = null)
 	{
+		if ($order !== null) {
+			foreach ($order as $key => $value) {
+				$this->db->order_by($key, $value);
+			}
+		}
 		
 		$this->db->where($where);
 		$query = $this->db->get($table);
@@ -179,7 +218,7 @@ class M_operator extends CI_Model {
 		// $this->db->where($table.'.nidn IS NULL', null, false);
 
 		// $query = $this->db->get();
-		$sql = 'SELECT a.* FROM dosen a LEFT JOIN '.$table.' b ON a.nidn = b.nidn WHERE b.nidn IS null';
+		$sql = 'SELECT a.* FROM dosen a LEFT JOIN '.$table.' b ON a.nidn = b.nidn WHERE b.nidn IS null order by a.nama ASC';
 		// $sql = 'SELECT a.* FROM dosen a LEFT JOIN dosen_es b ON a.nidn = b.nidn WHERE b.nidn IS null';
 		$query = $this->db->query($sql);
 
@@ -192,6 +231,23 @@ class M_operator extends CI_Model {
 		$query = $this->db->get_where($table, $where);
 
 		$query = $query->result_array();
+
+		return $query;
+	}
+
+	function search($table, $where, $keyword)
+	{
+		foreach ($where as $key => $value) {
+			$this->db->where($key, $value);
+		}
+		
+		foreach ($keyword as $key => $value) {
+			$this->db->like($key, $value);
+		}
+		
+		$query = $this->db->get($table);
+
+		$query = $query;
 
 		return $query;
 	}

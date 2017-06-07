@@ -27,7 +27,7 @@
 
 <form method="post" class="form-inline pull-right">
   <div class="form-group form-group-sm">
-  <select class="form-control" name="search_category">
+  <select class="form-control" name="search_category[]">
         <option value="nim">NPM</option>
         <option value="nama">Nama</option>
         <option value="angkatan">Angkatan</option>
@@ -36,7 +36,18 @@
         <option value="nidn">Dosen Wali</option>
       </select>
     <div class="input-group">
-      <input type="text" name="search_key" class="form-control">
+      <input type="text" name="search_key[]" class="form-control">                
+    </div>
+  <select class="form-control" name="search_category[]">
+        <option value="nim">NPM</option>
+        <option value="nama">Nama</option>
+        <option value="angkatan">Angkatan</option>
+        <option value="kelas">Kelas</option>
+        <option value="prodi">Program Studi</option>
+        <option value="nidn">Dosen Wali</option>
+      </select>
+    <div class="input-group">
+      <input type="text" name="search_key[]" class="form-control">
       <div class="input-group-btn">
         <button type="submit" name="search" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> Search</button>
       </div><!-- /btn-group -->                  
@@ -44,6 +55,7 @@
   </div>
 </form>
 <hr/>
+<p>Total Mahasiswa : <?=$total?></p>
             </div>
             <br/>
 

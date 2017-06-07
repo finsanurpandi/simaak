@@ -56,7 +56,10 @@
 <script>
   $(function () {
      //Initialize Select2 Elements
-    $(".select2").select2();
+    $(".nilaiOpNim").select2({
+      placeholder: 'hello'
+    });
+
 
     //Datemask dd/mm/yyyy
     $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
@@ -87,6 +90,22 @@
     $('#datepicker').datepicker({
       autoclose: true
     });
+
+
+// $('.itemName').select2({
+//   placeholder: '---';
+//   ajax: {
+//     url: 'ajax/',
+//     dataType: 'json',
+//     delay: 250,
+//     processResults: function(data) {
+//       return {
+//         results: data
+//       }
+//     },
+//     cache: true
+//   }
+// });
 
 </script>
 </body>

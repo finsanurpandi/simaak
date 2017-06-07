@@ -186,25 +186,39 @@ class Operator extends CI_Controller {
 		$search = $this->input->post('search');
 
 		if (isset($search)) {
-			if ($this->input->post('search_key') == null) {
-				$mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi), $limit, $data['page'])->result_array();	
-				$data['link'] = $this->pagination->create_links();
+			if ($this->input->post('search_key')[0] == null && $this->input->post('search_key')[1] == null) {
+				$mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi), $limit, $data['page']);	
+
+				// $data['link'] = $this->pagination->create_links();
 			} else {
-				$mhs = $this->m_operator->searchData('mhs', array('kode_prodi' => $this->session->kode_prodi), $this->input->post('search_key'), $this->input->post('search_category'));
+				// $mhs = $this->m_operator->searchData('mhs', array('kode_prodi' => $this->session->kode_prodi), $this->input->post('search_key'), $this->input->post('search_category'));
+				for ($i=0; $i < count($this->input->post('search_category')); $i++) { 
+					$keyword[$this->input->post('search_category')[$i]] = $this->input->post('search_key')[$i];
+				}
+
+				$mhs = $this->m_operator->search('mhs', array('kode_prodi' => $this->session->kode_prodi), $keyword);
+				$total = $mhs->num_rows();
 			}
 		} else {
-			$mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi), $limit, $data['page'])->result_array();	
-			$data['link'] = $this->pagination->create_links();
+			$mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi), $limit, $data['page']);	
+			// $data['link'] = $this->pagination->create_links();
 		}
+
+		$data['link'] = $this->pagination->create_links();
 		
-		$dosen = $this->m_operator->getAllData('dosen', array('kode_prodi' => $this->session->kode_prodi))->result_array();
+		$kdprodi = strtolower($this->session->kode_prodi);
+		// $dosen = $this->m_operator->getAllDataOrder('dosen', array('kode_prodi' => $this->session->kode_prodi), array('nama' => 'ASC'))->result_array();
+		$dosen = $dosen = $this->m_operator->getLeftJoinDosen('dosen_'.$kdprodi, array('nama' => 'ASC'), $limit, $data['page']);	
 		$prodi = $this->m_operator->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
 
 		$data['user'] = $user_akun;
-		$data['mhs'] = $mhs;
+		$data['mhs'] = $mhs->result_array();
+		$data['total'] = $total;
 		$data['dosen'] = $dosen;
 		$data['role'] = $this->session->role;
 		$data['prodi'] = $prodi;
+
+
 		// $data['link'] = $this->pagination->create_links();
 
 		if ($session == TRUE && $this->session->role == 3) {
@@ -306,9 +320,9 @@ class Operator extends CI_Controller {
 		// $data['jenjang'] = $jenjang;
 		$data['role'] = $this->session->role;
 		$data['key'] = $key_nim;
-		$data['profil'] = $profil[0];
-		$data['dokumen'] = $dokumen[0];
-		$data['ortu'] = $ortu[0];
+		$data['profil'] = @$profil[0];
+		$data['dokumen'] = @$dokumen[0];
+		$data['ortu'] = @$ortu[0];
 
 		if ($session == TRUE && $this->session->role == 3) {
 			$this->load->view('header', $data);
@@ -413,7 +427,7 @@ class Operator extends CI_Controller {
 			}
 		}
 
-		$nilaik = $this->m_mahasiswa->getMatkulKeseluruhan($nim)->result_array();
+		$nilaik = $this->m_mahasiswa->getMatkulKeseluruhan("'".$nim."'")->result_array();
 
 
 
@@ -818,8 +832,8 @@ class Operator extends CI_Controller {
 
 		$data['user'] = $user_akun;
 		$data['role'] = $this->session->role;
-		$data['matkul_modal'] = $this->m_operator->getDataWhere('matakuliah', array('kode_prodi' => strtolower($this->session->kode_prodi), 'periode' => $ta));
-		$data['dosen_modal'] = $dosen = $this->m_operator->getLeftJoinDosen('dosen_'.$kdprodi);    
+		$data['matkul_modal'] = $this->m_operator->getDataWhere('matakuliah', array('kode_prodi' => strtolower($this->session->kode_prodi), 'periode' => $ta), array('semester' => 'ASC'));
+		$data['dosen_modal'] = $dosen = $this->m_operator->getLeftJoinDosen('dosen_'.$kdprodi, array('dosen.nama' => 'ASC'));    
 		$data['jadwal'] = $jadwal;
 		$data['semester'] = $semester;
 		$data['prodi'] = $this->m_operator->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
@@ -932,6 +946,154 @@ class Operator extends CI_Controller {
 		$data['dosen'] = $dosen;
 
 		$this->checkSession('detailMatakuliah', $data);
+	}
+
+	function nilai()
+	{
+		//pagination
+		$total = $this->m_operator->getAllData('nilai', array('kode_prodi' => $this->session->kode_prodi))->num_rows();
+		$limit = 20;
+		$url = 'operator/nilai';
+		$config = $this->configPagination($total, $limit, $url);
+		//-------
+
+		$data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;	
+
+		$kdprodi = strtolower($this->session->kode_prodi);
+
+		$user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
+		$mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi))->result_array();
+		$matkul = $this->m_operator->getAllDataOrder('matakuliah', array('kode_prodi' => $this->session->kode_prodi), array('semester' => 'ASC'))->result_array();
+		$dosen = $this->m_operator->getLeftJoinDosen('dosen_'.$kdprodi, array('status_dosen' => 'ASC'));	
+		$ta = $this->m_operator->getAllDataOrder('tahun_ajaran', null, array('tahun_ajaran' => 'DESC'))->result_array();
+		// $allnilai = $this->m_operator->getAllDataOrder('nilai', array('id' => 'DESC'), $limit, $data['page'])->result_array();
+		
+		//SEARCH 
+		$search = $this->input->post('search_nilai');
+
+		if (isset($search)) {
+			if ($this->input->post('search_key')[0] == null && $this->input->post('search_key')[1] == null && $this->input->post('search_key')[2] == null) {
+				$allnilai = $this->m_operator->getAllDataOrder('nilai', array('kode_prodi' => $this->session->kode_prodi), array('id' => 'DESC'), $limit, $data['page']);
+				$data['link'] = $this->pagination->create_links();		
+			} else {
+				//$allnilai = $this->m_operator->searchData('nilai', array('kode_prodi' => $this->session->kode_prodi), $this->input->post('search_keyword'), $this->input->post('search_category'));
+
+				for ($i=0; $i < count($this->input->post('search_category')); $i++) { 
+					$keyword[$this->input->post('search_category')[$i]] = $this->input->post('search_key')[$i];
+				}
+
+				$allnilai = $this->m_operator->search('nilai', array('kode_prodi' => $this->session->kode_prodi), $keyword);
+				$total = $allnilai->num_rows();
+			}
+		} else {
+			$allnilai = $this->m_operator->getAllDataOrder('nilai', array('kode_prodi' => $this->session->kode_prodi), array('id' => 'DESC'), $limit, $data['page']);
+			$data['link'] = $this->pagination->create_links();		
+		}
+
+		// $data['link'] = $this->pagination->create_links();		
+
+		$data['user'] = $user_akun;
+		$data['mhs'] = $mhs;
+		$data['matkul'] = $matkul;
+		$data['dosen'] = $dosen;
+		$data['ta'] = $ta;
+		$data['nilai'] = $allnilai->result_array();
+		$data['total'] = $total;
+		$data['angkatan'] = $this->m_operator->getDistinctData('mhs', 'angkatan')->result_array();
+
+		$data['role'] = $this->session->role;
+
+		$this->checkSession('nilai', $data);
+
+		// INPUT NILAI
+		$nilai = $this->input->post('submit_nilai');
+		if (isset($nilai)) {
+			$mhs = explode('-', $this->input->post('mhs'));
+			$nim = $mhs[0];
+			$nama = $mhs[1];
+			$kelas = $mhs[2];
+			// $angkatan = $mhs[3];
+
+			if (substr($this->session->tahun_ajaran, 0,4) == $mhs[3]) {
+				$angkatan = (int)substr($this->session->tahun_ajaran, 4);
+			} else {
+				$angkatan = (((int)substr($this->session->tahun_ajaran, 0,4) - $mhs[3])*2)+(int)substr($this->session->tahun_ajaran, 4);
+			}
+
+			$matkul = explode(',', $this->input->post('matkul'));
+			$kodematkul = $matkul[0];
+			$namamatkul = $matkul[1];
+			$sks = $matkul[2];
+			$semester = $matkul[3];
+
+			if ($this->input->post('dosen') == null) {
+				$data = array(
+					'nim' => $nim,
+					'nama_mhs' => $nama,
+					'kelas' => $kelas,
+					'kode_matkul' => $kodematkul,
+					'nama_matkul' => $namamatkul,
+					'sks' => $sks,
+					'nidn' => '',
+					'nama_dosen' => '',
+					'semester' => $semester,
+					'semester_mhs' => $angkatan,
+					'tahun_ajaran' => $this->input->post('tahun_ajaran'),
+					'kode_prodi' => $this->session->kode_prodi,
+					'nilai' => $this->input->post('nilai')
+				);
+			} else {
+				$dosen = explode('-', $this->input->post('dosen'));
+				$nidn = $dosen[0];
+				$namadosen = $dosen[1];
+
+				$data = array(
+					'nim' => $nim,
+					'nama_mhs' => $nama,
+					'kelas' => $kelas,
+					'kode_matkul' => $kodematkul,
+					'nama_matkul' => $namamatkul,
+					'sks' => $sks,
+					'nidn' => $nidn,
+					'nama_dosen' => $namadosen,
+					'semester' => $semester,
+					'semester_mhs' => $angkatan,
+					'tahun_ajaran' => $this->input->post('tahun_ajaran'),
+					'kode_prodi' => $this->session->kode_prodi,
+					'nilai' => $this->input->post('nilai')
+				);
+			}
+
+			
+
+			$this->m_operator->insertAllData('nilai', $data);
+			redirect($this->uri->uri_string());
+		}
+
+		// EDIT NILAI
+		$editNilai = $this->input->post('editNilai');
+
+		if (isset($editNilai)) {
+			$mhs = explode('-', $this->input->post('mhs'));
+
+			$data = array(
+				'nim' => $mhs[0],
+				'nama_mhs' => $mhs[1],
+				'nilai' => $this->input->post('nilai')
+			);
+
+			// print_r($this->input->post());
+
+			$this->m_operator->updateData('nilai', $data, array('id' => $this->input->post('id')));
+			redirect($this->uri->uri_string());
+		}
+
+		// HAPUS NILAI
+		$hapusNilai = $this->input->post('hapusNilai');
+		if (isset($hapusNilai)) {
+			$this->m_operator->deleteData('nilai', array('id' => $this->input->post('id')));
+			redirect($this->uri->uri_string());
+		}
 	}
 
 

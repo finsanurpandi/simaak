@@ -551,7 +551,7 @@ function ipk()
 		// $statusperwalian = $this->m_mahasiswa->getAllData('status_perwalian', array('nim' => $this->session->username))->result_array();
 		$tahun_ajaran = $this->m_mahasiswa->getDistinctDataOrder('nilai', array('nim' => $this->session->username), 'tahun_ajaran', array('tahun_ajaran' => 'DESC'))->result_array();
 
-		$nilai = $this->m_mahasiswa->getMatkulKeseluruhan($this->session->username)->result_array();
+		$nilai = $this->m_mahasiswa->getMatkulKeseluruhan("'".$this->session->username."'")->result_array();
 		// $nilai = $this->m_mahasiswa->getAllDataOrder('nilai', array('nim' => $this->session->username), array('kode_matkul' => 'ASC'));				
 
 

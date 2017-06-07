@@ -282,6 +282,11 @@ if (!empty($pembayaran) && $pembayaran[0]['persentase'] >= 25) {
             <i class="fa fa-file-text-o"></i> <span>laporan</span>
           </a>
         </li>
+        <li id="operatorNilai" class="">
+          <a href="<?=base_url('operator/nilai');?>">
+            <i class="fa fa-file-text-o"></i> <span>Nilai</span>
+          </a>
+        </li>
         
 
 <!-- MENU PIMPINAN -->

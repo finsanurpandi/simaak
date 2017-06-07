@@ -363,6 +363,29 @@ function checkGolongan(){
     });
 };
 
+// LOAD MAHASISWA PERANGKATAN
+$('#nilaiOpAngkatan').change(function(){
+    var angkatan = $(this).val();
+
+    $('#nilaiOpNama option').remove();
+
+    $.ajax({
+      method: "post",
+      url: baseurl+"ajax/loadNimAngkatan",
+      dataType: 'json',
+      data: { angkatan:angkatan },
+      success: function(res){
+          for (var i = 0; i < res.length; i++) {
+          		$('#nilaiOpNama').append("<option value='"+res[i]['nim']+"-"+res[i]['nama']+"-"+res[i]['kelas']+"-"+res[i]['angkatan']+"'>"+res[i]['nim']+" - "+res[i]['nama']+"</option>");
+			};
+			console.log($('#nilaiOpNama').val());
+      },
+      error: function(error){
+      	console.log(error);
+      }
+    });
+});
+
 
 // LOAD DATA KODE MATKUL
 $('#kodeMatkul').change(function(){
@@ -404,6 +427,11 @@ $('#nidnJadwal').change(function(){
 	$('#namaDosen').val(res);
 });
 
+// SET BUTTON TAMBAH DOSEN INACTIVE
+$('#nidnTambahDosen').change(function(){
+	$('#btnTambahDosen').prop('disabled', false);
+});
+
 
 // EDIT JADWAL MATKUL
 $(document).on("click", '#btn-editjadwal', function(e){
@@ -440,6 +468,30 @@ $(document).on("click", '#btn-hapusjadwal', function(e){
 
 	$('#idjadwal').val(data['id']);
 	$('#namamatkul').text(data['matkul']);
+});
+
+// EDIT NILAI
+$(document).on("click", '#btn-edit-nilai', function(e){
+	var data = $(this).data();
+
+	$('#nilaiEditNilai option').filter(function(){
+		return ($(this).val() == data['nilai']);
+	}).prop('selected', true);
+
+	$('#namaEditNilai option').filter(function(){
+		return ($(this).val() == (data['nim']+'-'+data['nama']));
+	}).prop('selected', true);
+
+	$('#idEditNilai').val(data['id']);
+
+	
+});
+
+// HAPUS DATA NILAI
+$(document).on("click", '#btn-hapus-nilai', function(e){
+	var data = $(this).data();
+
+	$('#idnilai').val(data['id']);
 });
 
 //ADD MINUTES
@@ -717,6 +769,47 @@ window.setTimeout(function() {
     });
 }, 4000);
 
+// SELECT2 INPUT NILAI OPERATOR
+// $('.itemName').select2({
+// 	placeholder: '---';
+// 	ajax: {
+// 		url: 'ajax/',
+// 		dataType: 'json',
+// 		delay: 250,
+// 		processResults: function(data) {
+// 			return {
+// 				results: data
+// 			}
+// 		},
+// 		cache: true
+// 	}
+// });
+
+// INPUT NILAI
+$('#nilaiOpNim').change(function(){
+	var nim = $(this).val();
+
+	$.ajax({
+		method: 'post',
+		url: baseurl+"ajax/loadNim",
+		dataType: 'json',
+		cache: false,
+		data: {nim:nim},
+		success: function(res){
+			// $('#semester').val(res[0]['semester']);
+			// $('#sks').val(res[0]['sks']);
+			$('#nilaiOpNama').val(res[0]['nama']);
+			$('#nilaiOpKelas').val(res[0]['kelas']);
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
+})
+
+
+
+
 //SET MENU ACTIVE MAHASISWA
 function mhsClearMenu(){
 	$('#menuMhsProfil').remove('.active');
@@ -837,6 +930,7 @@ function OperatorClearMenu(){
 	$('#operatorPerkuliahan').remove('.active');
 	$('#operatorUjian').remove('.active');
 	$('#operatorLaporan').remove('.active');
+	$('#operatorNilai').remove('.active');
 }
 
 if (role == 3) {
@@ -864,6 +958,8 @@ if (role == 3) {
 			$('#operatorUjian').addClass('active');
 		} else if (uri == 'laporan') {
 			$('#operatorLaporan').addClass('active');
+		} else if (uri == 'nilai') {
+			$('#operatorNilai').addClass('active');
 		};
 };
 	

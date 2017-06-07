@@ -51,4 +51,18 @@ class Ajax extends CI_Controller {
 
         echo json_encode($matkul);
     }
+
+    function loadNim()
+    {
+        $mhs = $this->m_operator->getAllData('mhs', array('nim' => $this->input->post('nim')))->result_array();
+
+        echo json_encode($mhs);
+    }
+
+    function loadNimAngkatan()
+    {
+        $mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi, 'angkatan' => $this->input->post('angkatan')))->result_array();
+
+        echo json_encode($mhs);
+    }
 }

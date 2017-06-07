@@ -71,7 +71,7 @@ Content Wrapper. Contains page content -->
                   echo "<td>".$i++."</td>";
                   echo "<td>".$value['nidn']."</td>";
                   echo "<td>".$value['nik']."</td>";
-                  echo "<td>".$value['gelar_depan'].''.$value['nama'].', '.$value['gelar_belakang']."</td>";
+                  echo "<td>".$value['gelar_depan'].' '.$value['nama'].', '.$value['gelar_belakang']."</td>";
                   // echo "<td>".$value['kode_prodi']."</td>";
                   echo "<td>".$value['jenis_kelamin']."</td>";
                   echo "<td>".$value['jabatan_fungsional']."</td>";

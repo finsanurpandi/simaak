@@ -21,7 +21,7 @@ Content Wrapper. Contains page content -->
 <?php
 $gelardepan = $user['gelar_depan'];
 if (!empty($gelardepan)) {
-  echo $user['gelar_depan'].'. '. $user['nama'].', '.$user['gelar_belakang'];
+  echo $user['gelar_depan'].' '. $user['nama'].', '.$user['gelar_belakang'];
 } else {
   echo $user['nama'].', '.$user['gelar_belakang'];
 }

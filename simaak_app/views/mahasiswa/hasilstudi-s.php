@@ -101,6 +101,7 @@ if ($tahun_ajaran[0]['tahun_ajaran'] !== $this->session->tahun_ajaran) {
 </form>
 
 <hr/>
+<div class="table-responsive">
 <table class="table table-hover">
   <thead>
     <tr>
@@ -221,6 +222,7 @@ $i++;
 
   </tbody>
 </table>
+</div>
 <hr/>
 <p>
   Tahun Ajaran : 

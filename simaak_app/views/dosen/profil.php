@@ -30,7 +30,15 @@ if ($error == true) {
     <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title"><?=$user['nama'].', '.$user['gelar_belakang']?></h3>
+              <h3 class="box-title">
+              <?php
+                if ($user['gelar_depan'] !== '') {
+                        echo $user['gelar_depan'].' '.$user['nama'].', '.$user['gelar_belakang'];
+                      } else {
+                        echo $user['nama'].', '.$user['gelar_belakang'];
+                      }
+              ?>
+              </h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body box-profile">
@@ -127,18 +135,28 @@ if ($error == true) {
                       <tbody>
                         <tr>
                           <td><strong>NIK</strong></td>
-                          <td><?=$user['nik']?></td>
+                          <td>
+                          <?=$user['nik']?>
+                          </td>
                         </tr>
                         <tr>
                           <td><strong>NIDN</strong></td>
-                          <td><?=$user['nidn']?></td>
+                          <td>
+                            <?php
+                            if ($user['nik'] == $user['nidn']) {
+                              echo '-';
+                            } else {
+                              echo $user['nidn'];
+                            }
+                          ?>
+                          </td>
                         </tr>
                         <tr>
                           <td><strong>Nama</strong></td>
                           <td>
 <?php
 if (!empty($user['gelar_depan'])) {
-  echo $user['gelar_depan'].'. '.$user['nama'].', '.$user['gelar_belakang'];
+  echo $user['gelar_depan'].' '.$user['nama'].', '.$user['gelar_belakang'];
 } else {
   echo $user['nama'].', '.$user['gelar_belakang'];
 }
@@ -216,6 +234,8 @@ switch ($jenis) {
 
                       </tbody>
                     </table>
+
+<a a href="<?=base_url('dosen/detaildosen')?>" class="btn btn-success btn-xs"><i class="fa fa-refresh"></i> edit</a>
 
                   </div>
 

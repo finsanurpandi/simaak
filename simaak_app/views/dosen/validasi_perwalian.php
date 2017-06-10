@@ -43,7 +43,7 @@ if (!empty($gelardepan)) {
 
 <strong>Nama</strong>
 <p class="text-muted">
-  <?=$perwalianmhs[0]['nama_mhs']?>
+  <?=$perwalianmhs[0]['nama']?>
 </p>
 
 <strong>Status Perwalian</strong>

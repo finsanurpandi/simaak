@@ -3,7 +3,19 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Selamat datang, <?=$user['nama']?>
+        Selamat datang, 
+        <?php 
+              if ($role == 2) {
+                      if ($user['gelar_depan'] !== '') {
+                        echo $user['gelar_depan'].' '.$user['nama'].', '.$user['gelar_belakang'];
+                      } else {
+                        echo $user['nama'].', '.$user['gelar_belakang'];
+                      }
+                      
+                    } else {
+                      echo $user['nama'];
+                    }
+              ?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>

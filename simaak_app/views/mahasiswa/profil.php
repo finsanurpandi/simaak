@@ -100,7 +100,7 @@ if ($error == true) {
 
               
 
-              <hr>
+<br/>
               
               <!-- CONTENT HERE -->
 
@@ -129,8 +129,23 @@ if ($this->session->mhs_profil !== false) {
                     <table class="table">
                       <tbody>
                         <tr>
+                          <td><strong>Nama</strong></td>
+                          <td><?=$user['nama']?></td>
+                        </tr>
+                        <tr>
                           <td><strong>NIK</strong></td>
                           <td><?=$profil['nik']?></td>
+                        </tr>
+                        <tr>
+                          <td><strong>Tempat Lahir</strong></td>
+                          <td><?=$user['tempat_lahir']?></td>
+                        </tr>
+                        <tr>
+                          <td><strong>Tanggal Lahir</strong></td>
+                          <td><?php
+                          $date = new DateTime($user['tanggal_lahir']);
+                          echo $date->format('d-M-Y');
+                          ?></td>
                         </tr>
                         <tr>
                           <td><strong>Alamat Lengkap</strong></td>
@@ -164,6 +179,9 @@ if ($this->session->mhs_profil !== false) {
 <button id="editProfil" class="btn btn-success btn-sm"
 data-toggle="modal"
 data-target="#editProfilModal"
+data-nama="<?=$user['nama']?>"
+data-tempat="<?=$user['tempat_lahir']?>"
+data-tanggal="<?=$user['tanggal_lahir']?>"
 data-nik="<?=$profil['nik']?>"
 data-alamat="<?=$profil['alamat_lengkap']?>"
 data-darah="<?=$profil['golongan_darah']?>"
@@ -189,6 +207,20 @@ data-nisn="<?=$profil['nomor_induk']?>"
     <label for="alamat_lengkap" class="col-sm-2 control-label">Alamat Lengkap</label>
     <div class="col-sm-6">
       <textarea name="alamat_lengkap" class="form-control" rows="3" required></textarea>
+    </div>
+  </div>
+
+  <div class="form-group required">
+    <label for="nik" class="col-sm-2 control-label">Tempat Lahir</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" name="tempat_lahir" required>
+    </div>
+  </div>
+
+  <div class="form-group required">
+    <label for="nik" class="col-sm-2 control-label">Tanggal Lahir</label>
+    <div class="col-sm-6">
+      <input type="date" class="form-control" name="tanggal_lahir" required>
     </div>
   </div>
 

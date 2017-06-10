@@ -50,6 +50,7 @@ if ($error == true) {
 
 <br/><br/>
 <h3>Histori Pembayaran</h3>
+<div class="table-responsive">
       <table class="table table-hover">
       <thead>
         <tr>
@@ -108,7 +109,7 @@ foreach ($stt_pembayaran as $key => $value) {
 <?php } ?>
       </tbody>
       </table>
-
+</div>
 
             </div>
             <!-- /.box-body -->

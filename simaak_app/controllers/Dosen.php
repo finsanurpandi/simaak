@@ -227,6 +227,45 @@ class Dosen extends CI_Controller {
 		}
 	}
 
+// DETAIL DOSEN
+	function detaildosen()
+	{
+		$user_akun = $this->m_dosen->getDosen($this->session->userdata('username'));
+		$session = $this->session->userdata('login_in');
+		$data['user'] = $user_akun;
+		// $data['alamat'] = $user_alamat;
+		// $data['pendidikan'] = $riwayat_pendidikan->result_array();
+		// $data['penelitian'] = $riwayat_penelitian->result_array();
+
+		$data['role'] = $this->session->role;
+		$data['prodi'] = $this->m_dosen->getDataUser('program_studi', array('kode_prodi' => $this->session->kode_prodi));
+
+		if ($session == TRUE && $this->session->role == 2) {
+			$this->load->view('header', $data);
+			$this->load->view('sidenav', $data);
+			$this->load->view('dosen/detaildosen', $data);
+			$this->load->view('dosen/modal', $data);
+			$this->load->view('footer');
+		} else {
+			redirect('login', 'refresh');
+		}
+
+		$editDosen = $this->input->post('submit-edit-dosen');
+		if (isset($editDosen)) {
+			$data = array(
+				'nama' => $this->input->post('nama'),
+				'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+				'tempat_lahir' => $this->input->post('tempat_lahir'),
+				'tgl_lahir' => $this->input->post('tgl_lahir'),
+				'no_hp' => $this->input->post('no_hp'),
+				'email' => $this->input->post('email')
+			);
+
+			$this->m_dosen->updateData('dosen', $data, array('nidn' => $this->input->post('nidn')));
+			redirect($this->uri->uri_string());
+		}
+	}
+
 
 // MENU PENDIDIKAN ----------------------------------
 	function pendidikan()
@@ -596,7 +635,8 @@ class Dosen extends CI_Controller {
 		$key_nim = $this->encrypt->decode($nim);
 		$user_akun = $this->m_dosen->getDosen($nidn);
 		$session = $this->session->userdata('login_in');
-		$perwalianmhs = $this->m_dosen->getAllDataOrder('perwalian', array('nim' => $key_nim), array('kode_matkul' => 'ASC'));
+		// $perwalianmhs = $this->m_dosen->getAllDataOrder('perwalian', array('nim' => $key_nim), array('kode_matkul' => 'ASC'));
+		$perwalianmhs = $this->m_dosen->getPerwalian($key_nim, array('perwalian2.tahun_ajaran' => $this->session->tahun_ajaran));
 		$statusperwalian = $this->m_dosen->getAllData('status_perwalian', array('nim' => $key_nim))->result_array();
 
 

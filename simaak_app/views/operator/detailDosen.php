@@ -248,7 +248,7 @@ $i++;
   <tbody>
 <?php
 $i = 1;
-foreach ($penelitian as $value) {
+foreach (@$penelitian as $value) {
 ?>
 <tr>
   <td><?=$i?></td>

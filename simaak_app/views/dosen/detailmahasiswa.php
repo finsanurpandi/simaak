@@ -32,7 +32,7 @@
                     };
                   } else {
                   ?>
-                    <img src="<?=base_url('assets/img/profiles/'.$mhs['image'])?>" class="profile-user-img img-responsive img-circle" alt="User Image">
+                    <img src="<?=base_url('assets/uploads/profiles/'.$mhs['image'])?>" class="profile-user-img img-responsive img-circle" alt="User Image">
                   <?php
                   } 
                  ?>

@@ -174,6 +174,23 @@ class M_mahasiswa extends CI_Model {
 		return $query;
 	}
 
+	function getPerwalian($nim, $where)
+	{
+		$this->db->select('*');
+		$this->db->from('perwalian2');
+		$this->db->join('jadwal', 'perwalian2.id_jadwal = jadwal.id_jadwal');
+
+		$this->db->where('perwalian2.nim', $nim);
+
+		foreach ($where as $key => $value) {
+			$this->db->where($key, $value);
+		}
+
+		$query = $this->db->get();
+		
+		return $query->result_array();	
+	}
+
 
 	function insertData($table, $data)
 	{
@@ -190,6 +207,15 @@ class M_mahasiswa extends CI_Model {
 		$this->db->trans_start();
 		$this->db->insert_batch($table1, $data1);
 		$this->db->insert($table2, $data2);
+		$this->db->trans_complete();
+	}
+
+	function insertBasicInfo($data1, $data2, $where)
+	{
+		$this->db->trans_start();
+		$this->db->insert('mhs_profil', $data1);
+		$this->db->where($where);
+		$this->db->update('mhs', $data2);
 		$this->db->trans_complete();
 	}
 
@@ -218,5 +244,15 @@ class M_mahasiswa extends CI_Model {
 	{
 		$this->db->where('nim', $user);
 		$this->db->update($table, $data);
+	}
+
+	function updateMultipleData($data1, $data2, $where)
+	{
+		$this->db->trans_start();
+		$this->db->where($where);
+		$this->db->update('mhs_profil', $data1);
+		$this->db->where($where);
+		$this->db->update('mhs', $data2);
+		$this->db->trans_complete();
 	}
 }

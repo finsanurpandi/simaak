@@ -25,15 +25,15 @@
 <div class="row">
         <div class="col-md-2 text-center">
                 <?php
-                  if ($user['image'] == null) {
-                    if ($user['jenis_kelamin'] == 'L') {
+                  if ($mhs['image'] == null) {
+                    if ($mhs['jenis_kelamin'] == 'L') {
                       echo "<img src='".base_url('assets/uploads/profiles/default_male.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
                     } else {
                       echo "<img src='".base_url('assets/uploads/profiles/default_female.jpg')."' class='profile-user-img img-responsive img-circle' alt='User Image'>";
                     };
                   } else {
                   ?>
-                    <img src="<?=base_url('assets/uploads/profiles/'.$user['image'])?>" class="profile-user-img img-responsive img-circle" alt="User Image">
+                    <img src="<?=base_url('assets/uploads/profiles/'.$mhs['image'])?>" class="profile-user-img img-responsive img-circle" alt="User Image">
                   <?php
                   } 
                  ?>
@@ -43,31 +43,29 @@
         </div>
 
         <div class="col-md-10">
-          <strong>NIM</strong>
+                  <strong>NIM</strong>
                   <p class="text-muted">
-                    <?=$user['nim']?>
+                    <?=$mhs['nim']?>
+                  </p>
+
+                  <strong>Nama</strong>
+                  <p class="text-muted">
+                    <?=$mhs['nama']?>
                   </p>
 
                   <strong>Program Studi</strong>
                   <p class="text-muted">
-                    <?=$user['jenjang'].' - '.$user['kode_prodi']?>
+                    <?=$mhs['jenjang'].' - '.$user['kode_prodi']?>
                   </p>
 
                   <strong>Angkatan</strong>
                   <p class="text-muted">
-                    <?=$user['angkatan']?>
+                    <?=$mhs['angkatan']?>
                   </p>
 
                   <strong>Kelas</strong>
                   <p class="text-muted">
-                    <?=$user['kelas']?>
-                  </p>
-
-                  <strong>Dosen Wali</strong>
-                  <p class="text-muted" id="mhsdosenwali">
-                    <?php
-                    echo $dosenwali[0]['gelar_depan'].' '.$dosenwali[0]['nama'].', '.$dosenwali[0]['gelar_belakang'];
-                    ?>
+                    <?=$mhs['kelas']?>
                   </p>
 
                   <!-- <strong>Dosen Wali</strong>
@@ -164,9 +162,10 @@ foreach ($semester as $value) {
 ?>
 <h3>Semester <?=$value['semester']?></h3>
 <div class="table-responsive">
-<table class="table table-hover">
+<table class="table table-hover" id="mytable">
   <thead>
     <tr>
+      <th>Pilih</th>
       <th>Kode Matakuliah</th>
       <th>Nama Matakuliah</th>
       <th>SKS</th>
@@ -176,38 +175,30 @@ foreach ($semester as $value) {
     </tr>
   </thead>
   <tbody>
-<form method="post">
+<form method="post" id="add">
 <?php
 $i = 0;
 foreach ($jadwal as $data) {
-if (($data['semester'] == $value['semester']) && ($data['kelas'] == $this->session->kelas)) {
+if (($data['semester'] == $value['semester']) && ($data['kelas'] == $kelas) && ($data['pilihan'] == 0)) {
 ?>
     <tr>
+      <td align="center"><input type="checkbox" class="case" name="idjadwal[]" value="<?=$data['id_jadwal']?>"/></td>
       <td>
-        <input type="hidden" name="nama_mhs[]" value="<?=$user['nama']?>">
-        <input type="hidden" name="kode_matkul[]" value="<?=$data['kode_matkul']?>">
         <?=$data['kode_matkul']?>
       </td>
       <td>
-        <input type="hidden" name="nama_matkul[]" value="<?=$data['nama_matkul']?>">
         <?=$data['nama_matkul']?>
       </td>
       <td>
-        <input type="hidden" name="sks[]" value="<?=$data['sks']?>">
         <?=$data['sks']?>
       </td>
       <td>
-        <input type="hidden" name="nidn[]" value="<?=$data['nidn']?>">
-        <input type="hidden" name="nama_dosen[]" value="<?=$data['nama_dosen']?>">
-        <input type="hidden" name="kelas[]" value="<?=$data['kelas']?>">
         <?=$data['nama_dosen']?>
       </td>
       <td>
-        <input type="hidden" name="id_jadwal[]" value="<?=$data['id_jadwal']?>">
         <?=ucfirst($data['hari']).', '.$data['waktu']?>
       </td>
       <td>
-        <input type="hidden" name="semester[]" value="<?=$data['semester']?>">
         <?=$data['ruangan']?>
       </td>
     </tr>
@@ -218,18 +209,61 @@ $i++;
   continue;
 }
 } ?>
+<tr>
+  <td><h3>Pilihan</h3></td>
+</tr>
+<?php
+$j = 0;
+foreach ($jadwal as $data) {
+if (($data['semester'] == $value['semester']) && ($data['kelas'] == $kelas) && ($data['pilihan'] == 1)) {
+?>
+    <tr>
+    <td align="center"><input type="checkbox" class="case" name="idjadwal[]" value="<?=$data['id_jadwal']?>"/></td>
+      <td>
+        <?=$data['kode_matkul']?>
+      </td>
+      <td>
+        <?=$data['nama_matkul']?>
+      </td>
+      <td>
+        <?=$data['sks']?>
+      </td>
+      <td>
+        <?=$data['nama_dosen']?>
+      </td>
+      <td>
+        <?=ucfirst($data['hari']).', '.$data['waktu']?>
+      </td>
+      <td>
+        <?=$data['ruangan']?>
+      </td>
+    </tr>
+
+<?php 
+$j++;
+} else {
+  continue;
+}
+} ?>
 
   </tbody>
 </table>
 </div>
 <hr/>
-<button id="btnSubmitPerwalian" class="btn btn-primary btn-xs" name="submitperwalian">Kirim</button>
-</form>
+<!-- <button id="btnSubmitPerwalian" class="btn btn-primary btn-xs" name="submitperwalian">Kirim</button>
+</form> -->
 <hr/>
 <?php
 }
+?>
+<input type="hidden" name="nim" value="<?=$mhs['nim']?>">
+<input type="hidden" name="nama" value="<?=$mhs['nama']?>">
+<button id="btn-submit-perwalian" type="submit" class="btn btn-primary btn-xs" name="submitperwalian">Kirim</button>
+<?php 
 }
 ?>
+
+</form>
 <hr/>
 
 
@@ -244,4 +278,8 @@ $i++;
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper-->
+
+  <script type="text/javascript">
+    var baseurl = "<?=base_url()?>";
+  </script>
 

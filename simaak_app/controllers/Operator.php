@@ -189,7 +189,7 @@ class Operator extends CI_Controller {
 			if ($this->input->post('search_key')[0] == null && $this->input->post('search_key')[1] == null) {
 				$mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi), $limit, $data['page']);	
 
-				// $data['link'] = $this->pagination->create_links();
+				$data['link'] = $this->pagination->create_links();
 			} else {
 				// $mhs = $this->m_operator->searchData('mhs', array('kode_prodi' => $this->session->kode_prodi), $this->input->post('search_key'), $this->input->post('search_category'));
 				for ($i=0; $i < count($this->input->post('search_category')); $i++) { 
@@ -201,10 +201,10 @@ class Operator extends CI_Controller {
 			}
 		} else {
 			$mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi), $limit, $data['page']);	
-			// $data['link'] = $this->pagination->create_links();
+			$data['link'] = $this->pagination->create_links();
 		}
 
-		$data['link'] = $this->pagination->create_links();
+		// $data['link'] = $this->pagination->create_links();
 		
 		$kdprodi = strtolower($this->session->kode_prodi);
 		// $dosen = $this->m_operator->getAllDataOrder('dosen', array('kode_prodi' => $this->session->kode_prodi), array('nama' => 'ASC'))->result_array();
@@ -868,7 +868,8 @@ class Operator extends CI_Controller {
 				'ruangan' => $this->input->post('ruangan'),
 				'semester' => $tdata[3],
 				'tahun_ajaran' => $this->session->tahun_ajaran,
-				'kode_prodi' => $this->session->kode_prodi
+				'kode_prodi' => $this->session->kode_prodi,
+				'pilihan' => $tdata[4]
 				);
 
 			$this->m_operator->insertAllData('jadwal', $jadwal);
@@ -1095,6 +1096,112 @@ class Operator extends CI_Controller {
 			redirect($this->uri->uri_string());
 		}
 	}
+
+	function input_perwalian()
+	{
+		//pagination
+		$total = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi))->num_rows();
+		$limit = 20;
+		$url = 'operator/input_perwalian';
+		$config = $this->configPagination($total, $limit, $url);
+		//-------
+
+		$data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;	
+
+		$kdprodi = strtolower($this->session->kode_prodi);
+
+		$user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
+		//$mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi))->result_array();
+		
+		
+		//SEARCH 
+		$search = $this->input->post('search_nilai');
+
+		if (isset($search)) {
+			if ($this->input->post('search_key')[0] == null && $this->input->post('search_key')[1] == null) {
+				$mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi), $limit, $data['page']);	
+
+				$data['link'] = $this->pagination->create_links();
+			} else {
+				// $mhs = $this->m_operator->searchData('mhs', array('kode_prodi' => $this->session->kode_prodi), $this->input->post('search_key'), $this->input->post('search_category'));
+				for ($i=0; $i < count($this->input->post('search_category')); $i++) { 
+					$keyword[$this->input->post('search_category')[$i]] = $this->input->post('search_key')[$i];
+				}
+
+				$mhs = $this->m_operator->search('mhs', array('kode_prodi' => $this->session->kode_prodi), $keyword);
+				$total = $mhs->num_rows();
+			}
+		} else {
+			$mhs = $this->m_operator->getAllData('mhs', array('kode_prodi' => $this->session->kode_prodi), $limit, $data['page']);	
+			$data['link'] = $this->pagination->create_links();
+		}
+
+		// $data['link'] = $this->pagination->create_links();		
+
+		$data['user'] = $user_akun;
+		$data['mhs'] = $mhs->result_array();
+		$data['role'] = $this->session->role;
+
+		$this->checkSession('inputPerwalian', $data);
+
+	}
+
+	function detailInputPerwalian($nim, $nama, $kelas)
+	{
+		$user_akun = $this->m_operator->getOperator($this->session->userdata('username'));
+		$mhs = $this->m_operator->getAllData('mhs', array('nim' => $nim))->result_array();	
+		$jadwal = $this->m_mahasiswa->getDataOrder('jadwal', array('kode_prodi' => $this->session->kode_prodi, 'tahun_ajaran' => $this->session->tahun_ajaran), array('semester' => 'ASC', 'kode_matkul' => 'ASC', 'kelas' => 'ASC'))->result_array();
+		$semester = $this->m_mahasiswa->getDistinctData('jadwal', 'semester')->result_array();
+		$statusperwalian = $this->m_mahasiswa->getAllData('status_perwalian', array('nim' => $nim, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+		$perwalian = $this->m_operator->getPerwalian($nim);
+
+
+		$data['user'] = $user_akun;
+		$data['mhs'] = $mhs[0];
+		$data['role'] = $this->session->role;
+		$data['jadwal'] = $jadwal;
+		$data['semester'] = $semester;
+		$data['statusperwalian'] = @$statusperwalian[0];
+		$data['perwalian'] = $perwalian;
+		$data['kelas'] = $kelas;
+
+		$this->checkSession('detaliInputPerwalian', $data);
+
+		$sub = $this->input->post('submitperwalian');
+
+		if (isset($sub)) {
+			print_r($this->input->post());
+			date_default_timezone_set("Asia/Bangkok");
+			$date = new DateTime();
+			$tglperwalian = $date->format('Y-m-d H:i:s');
+
+			$data = array();
+
+			for ($i = 0; $i < count($this->input->post('idjadwal')); $i++) {
+	            $data[$i] = array(
+	            	'nim' => $this->input->post('nim'),
+	            	'nama' => $this->input->post('nama'),
+	                'id_jadwal' => $this->input->post('idjadwal')[$i],
+	                'kode_prodi' => $this->session->kode_prodi,
+	                'tahun_ajaran' => $this->session->tahun_ajaran,
+	                'log' => $tglperwalian
+	            );
+	        };
+
+	        $data2 = array(
+	        	'nim' => $this->input->post('nim'),
+	        	'nidn' => $mhs[0]['nidn'],
+	        	'tahun_ajaran' => $this->session->tahun_ajaran,
+	        	'tgl_perwalian' => $tglperwalian
+	        	);
+
+	        $this->m_mahasiswa->insertMultiple('perwalian2', $data, 'status_perwalian', $data2);
+
+	        redirect($this->uri->uri_string());
+		}
+	}
+
+	
 
 
 }

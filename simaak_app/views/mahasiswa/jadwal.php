@@ -88,6 +88,7 @@ if (empty($statusperwalian)) {
 } else {
 
 ?>
+<div class="table-responsive">
 <table class="table table-hover">
 <thead>
   <tr>
@@ -119,6 +120,7 @@ foreach ($jadwal as $key => $value) {
 </tr>
 <?php } }?>
 </table>
+</div>
 <hr/>
 
             <!-- /.box-body -->

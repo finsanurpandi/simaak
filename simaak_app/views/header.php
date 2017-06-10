@@ -4,8 +4,12 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>SIMAAK</title>
+  <!-- FAVICON -->
+  <link rel="icon" href="<?=base_url('assets/img')?>/favicon.gif" type="image/gif">
+  
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <!-- Font Awesome -->
@@ -39,6 +43,7 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -80,7 +85,20 @@
               } 
              ?>
 
-              <span class="hidden-xs"><?=$user['nama']?></span>
+              <span class="hidden-xs">
+              <?php 
+              if ($role == 2) {
+                      if ($user['gelar_depan'] !== '') {
+                        echo $user['gelar_depan'].' '.$user['nama'].', '.$user['gelar_belakang'];
+                      } else {
+                        echo $user['nama'].', '.$user['gelar_belakang'];
+                      }
+                      
+                    } else {
+                      echo $user['nama'];
+                    }
+              ?>
+              </span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -108,7 +126,12 @@
                       echo $user['nama'];
                       echo "<small>Angkatan ".$user['angkatan']."</small>";
                     } else if ($role == 2) {
-                      echo $user['nama'];
+                      if ($user['gelar_depan'] !== '') {
+                        echo $user['gelar_depan'].' '.$user['nama'].', '.$user['gelar_belakang'];
+                      } else {
+                        echo $user['nama'].', '.$user['gelar_belakang'];
+                      }
+                      
                     }
                   ?>
 

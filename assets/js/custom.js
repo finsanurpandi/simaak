@@ -87,13 +87,20 @@ $(document).on("click", '#editProfil', function(e){
 
 	var data = $(this).data();
 
+	$('#editNamaMhs').val(data['nama']);
 	$('#editNikMhs').val(data['nik']);
+	$('#editTmptlahirMhs').val(data['tempat']);
+	$('#editTgllahirMhs').val(data['tanggal']);
 	$('#editAlamatMhs').val(data['alamat']);
-	$('#editDarahMhs').val(data['darah']);
+	// $('#editDarahMhs').val(data['darah']);
 	$('#editTlpMhs').val(data['tlp']);
 	$('#editEmailMhs').val(data['email']);
 	$('#editSekolahMhs').val(data['sekolah']);
 	$('#editNisnMhs').val(data['nisn']);
+
+	$('#editDarahMhs option').filter(function(){
+		return ($(this).val() == data['darah']);
+	}).prop('selected', true);
 });
 
 //EDIT IBU MAHASISWA
@@ -962,5 +969,33 @@ if (role == 3) {
 			$('#operatorNilai').addClass('active');
 		};
 };
+
+$('#btn-submit-perwalian').click(function(){
+	var values = [];
+	$('#mytable').find('tr').each(function(){
+		var row = $(this);
+		var rows = $(this).closest("tr");
+
+		if (rows.find('input[type="checkbox"]').is(':checked')) {
+			values.push({
+				['mhs'] : $(row).find("input[name=nama_mhs]").val(),
+				['kode'] : $(row).find("input[name=kode_matkul]").val(),
+				['matkul'] : $(row).find("input[name=nama_matkul]").val(),
+				['sks'] : $(row).find("input[name=sks]").val()
+			});
+		};
+	});
+
+	console.log(values);
+	
+	$.ajax({
+		url: baseurl+'operator/detailInputPerwalian',
+		type: 'POST',
+		data: {data: values},
+		success: function(res){
+			console.log('success');
+		}
+	});
+})
 	
 

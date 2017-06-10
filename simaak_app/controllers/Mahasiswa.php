@@ -171,7 +171,13 @@ class Mahasiswa extends CI_Controller {
 				'nomor_induk' => $this->input->post('nomor_induk')
 				);
 
-			$this->m_mahasiswa->insertData('mhs_profil', $data);
+			$data2 = array(
+				'tempat_lahir' => $this->input->post('tempat_lahir'),
+				'tanggal_lahir' => $this->input->post('tanggal_lahir')
+			);
+
+			// $this->m_mahasiswa->insertData('mhs_profil', $data);
+			$this->m_mahasiswa->insertBasicInfo($data, $data2, array('nim' => $this->session->username));
 			$this->session->set_flashdata('profil_success', true);
 			redirect($this->uri->uri_string());
 
@@ -191,7 +197,14 @@ class Mahasiswa extends CI_Controller {
 				'nomor_induk' => $this->input->post('nomor_induk')
 				);
 
-			$this->m_mahasiswa->updateData('mhs_profil', $data, $this->session->username);
+			$data2 = array(
+				'nama' => $this->input->post('nama'),
+				'tempat_lahir' => $this->input->post('tempat_lahir'),
+				'tanggal_lahir' => $this->input->post('tanggal_lahir')
+			);
+
+			// $this->m_mahasiswa->updateData('mhs_profil', $data, $this->session->username);
+			$this->m_mahasiswa->updateMultipleData($data, $data2, array('nim' => $this->session->username));
 			$this->session->set_flashdata('profil_success', true);
 			redirect($this->uri->uri_string());
 		}
@@ -492,7 +505,8 @@ function ips()
 			$datanilai = $this->m_mahasiswa->getAllData('nilai', array('nim' => $this->session->username, 'tahun_ajaran' => $this->input->post('tahun_ajaran')))->result_array();				
 
 			if (empty($datanilai)) {
-				$nilai = $this->m_mahasiswa->getAllData('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+				// $nilai = $this->m_mahasiswa->getAllData('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+				$nilai = $this->m_mahasiswa->getPerwalian($this->session->username, array('perwalian2.tahun_ajaran' => $this->session->tahun_ajaran));
 			} else {
 				$nilai = $datanilai;
 			}
@@ -502,7 +516,8 @@ function ips()
 			// 	$nilai = $this->m_mahasiswa->getAllData('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
 			// } 
 			if (empty($historinilai)) {
-				$nilai = $this->m_mahasiswa->getAllData('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+				// $nilai = $this->m_mahasiswa->getAllData('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+				$nilai = $this->m_mahasiswa->getPerwalian($this->session->username, array('perwalian2.tahun_ajaran' => $this->session->tahun_ajaran));
 			} else {
 				$nilai = $this->m_mahasiswa->getAllData('nilai', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();				
 			}
@@ -589,7 +604,8 @@ function perwalian()
 		$jadwal = $this->m_mahasiswa->getDataOrder('jadwal', array('kode_prodi' => $this->session->kode_prodi, 'tahun_ajaran' => $this->session->tahun_ajaran), array('semester' => 'ASC', 'kode_matkul' => 'ASC', 'kelas' => 'ASC'))->result_array();
 		$semester = $this->m_mahasiswa->getDistinctData('jadwal', 'semester')->result_array();
 		$statusperwalian = $this->m_mahasiswa->getAllData('status_perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
-		$perwalian = $this->m_mahasiswa->getAllData('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+		// $perwalian = $this->m_mahasiswa->getAllData('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran))->result_array();
+		$perwalian = $this->m_mahasiswa->getPerwalian($this->session->username, array('perwalian2.tahun_ajaran' => $this->session->tahun_ajaran));
 		// $totalSks = $this->m_mahasiswa->getTotalSks('perwalian', array('nim' => $this->session->username, 'tahun_ajaran' => $this->session->tahun_ajaran));
 
 		$data['user'] = $user_akun;
@@ -660,7 +676,8 @@ function perwalian()
 		$user_akun = $this->m_mahasiswa->getMahasiswa($this->session->userdata('username'));
 		$user_alamat = $this->m_mahasiswa->getAlamatMahasiswa($this->session->userdata('username'));
 		$session = $this->session->userdata('login_in');
-		$jadwalmhs = $this->m_mahasiswa->getJadwalMhs(array('nim' => $this->session->username, 'jadwal.tahun_ajaran' => $this->session->tahun_ajaran));
+		// $jadwalmhs = $this->m_mahasiswa->getJadwalMhs(array('nim' => $this->session->username, 'jadwal.tahun_ajaran' => $this->session->tahun_ajaran));
+		$jadwalmhs = $this->m_mahasiswa->getPerwalian($this->session->username, array('jadwal.tahun_ajaran' => $this->session->tahun_ajaran));
 		$statusperwalian = $this->m_mahasiswa->getAllData('status_perwalian', array('nim' => $this->session->username))->result_array();
 
 		$data['user'] = $user_akun;

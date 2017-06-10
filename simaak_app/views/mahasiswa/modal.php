@@ -84,8 +84,23 @@
         <form method="post">
 
   <div class="form-group">
+    <label for="nama">Nama</label>
+    <input class="form-control" type="text" name="nama" id="editNamaMhs">
+  </div>
+
+  <div class="form-group">
     <label for="nama">Nik</label>
     <input class="form-control" type="text" name="nik" id="editNikMhs">
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Tempat Lahir</label>
+    <input class="form-control" type="text" name="tempat_lahir" id="editTmptlahirMhs">
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Tanggal Lahir</label>
+    <input class="form-control" type="date" name="tanggal_lahir" id="editTgllahirMhs">
   </div>
 
    <div class="form-group">
@@ -95,7 +110,13 @@
 
    <div class="form-group">
     <label for="darah">Golongan Darah</label>
-    <input class="form-control" type="text" name="golongan_darah" id="editDarahMhs">
+    <select class="form-control" name="golongan_darah" id="editDarahMhs">
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="AB">AB</option>
+      <option value="O">O</option>
+    </select>
+    <!-- <input class="form-control" type="text" name="golongan_darah" id="editDarahMhs"> -->
   </div>
 
    <div class="form-group">

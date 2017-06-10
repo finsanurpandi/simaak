@@ -225,6 +225,19 @@ class M_operator extends CI_Model {
 		return $query->result_array();
 	}
 
+	function getPerwalian($nim)
+	{
+		$this->db->select('*');
+		$this->db->from('perwalian2');
+		$this->db->join('jadwal', 'perwalian2.id_jadwal = jadwal.id_jadwal');
+
+		$this->db->where('perwalian2.nim', $nim);
+
+		$query = $this->db->get();
+		
+		return $query->result_array();	
+	}
+
 	function searchData ($table, $where, $key, $row)
 	{
 		$this->db->like($row, $key);

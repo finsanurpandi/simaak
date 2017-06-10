@@ -572,7 +572,7 @@ foreach ($alldosen as $key => $value) {
 <?php
 foreach ($matkul_modal as $key => $value) {
 ?>
-<option value="<?=$value['kode_matkul'].','.$value['sks'].','.$value['nama_matkul'].','.$value['semester']?>"> 
+<option value="<?=$value['kode_matkul'].','.$value['sks'].','.$value['nama_matkul'].','.$value['semester'].','.$value['pilihan']?>"> 
   <?=$value['kode_matkul'].' - Semester '. $value['semester'].' - '.$value['nama_matkul']?> 
 </option>
 <?php } ?>

@@ -22,7 +22,20 @@
 
         </div>
         <div class="pull-left info">
-          <p><?=$user['nama']?></p>
+          <p>
+            <?php 
+              if ($role == 2) {
+                      if ($user['gelar_depan'] !== '') {
+                        echo $user['gelar_depan'].' '.$user['nama'].', '.$user['gelar_belakang'];
+                      } else {
+                        echo $user['nama'].', '.$user['gelar_belakang'];
+                      }
+                      
+                    } else {
+                      echo $user['nama'];
+                    }
+              ?>
+          </p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -285,6 +298,11 @@ if (!empty($pembayaran) && $pembayaran[0]['persentase'] >= 25) {
         <li id="operatorNilai" class="">
           <a href="<?=base_url('operator/nilai');?>">
             <i class="fa fa-file-text-o"></i> <span>Nilai</span>
+          </a>
+        </li>
+        <li id="operatorInputPerwalian" class="">
+          <a href="<?=base_url('operator/input_perwalian');?>">
+            <i class="fa fa-file-text-o"></i> <span>Input Perwalian</span>
           </a>
         </li>
         

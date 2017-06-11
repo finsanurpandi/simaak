@@ -79,7 +79,7 @@ if (!empty($gelardepan)) {
                   echo "<td>".$value['kelas']."</td>";
                   echo "<td>".ucfirst($value['hari']).', '.$value['waktu']."</td>";
                   echo "<td>".$value['ruangan']."</td>";
-                  echo "<td><a href='".base_url()."dosen/detailmatakuliah/".$this->encrypt->encode($value['kode_matkul'])."/".$this->encrypt->encode($value['nama_matkul'])."/".$this->encrypt->encode($value['kelas'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a></td>";
+                  echo "<td><a href='".base_url()."dosen/detailmatakuliah/".$this->encrypt->encode($value['id_jadwal'])."/".$this->encrypt->encode($value['nama_matkul'])."/".$this->encrypt->encode($value['kelas'])."' class='btn btn-success btn-xs'><i class='fa fa-pencil'></i> detail</a></td>";
                   echo "</tr>";
                 }
                 ?>

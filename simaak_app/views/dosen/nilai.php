@@ -75,7 +75,7 @@ if (!empty($gelardepan)) {
                   echo "<td>".$value['nama_matkul']."</td>";
                   echo "<td>".$value['sks']."</td>";
                   echo "<td>".$value['kelas']."</td>";
-                  echo "<td><a href='".base_url()."dosen/detailnilai/".$this->encrypt->encode($value['kode_matkul'])."/".$this->encrypt->encode($value['nama_matkul'])."/".$this->encrypt->encode($value['kelas'])."' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i> input nilai</a></td>";
+                  echo "<td><a href='".base_url()."dosen/detailnilai/".$this->encrypt->encode($value['id_jadwal'])."/".$this->encrypt->encode($value['kode_matkul'])."/".$this->encrypt->encode($value['nama_matkul'])."/".$this->encrypt->encode($value['kelas'])."' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i> input nilai</a></td>";
                   echo "</tr>";
                 }
                 ?>

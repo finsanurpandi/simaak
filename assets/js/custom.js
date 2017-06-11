@@ -949,7 +949,7 @@ if (role == 3) {
 			$('#operatorMahasiswa').addClass('active');
 		} else if (uri == 'dosen' || uri == 'detailDosen') {
 			$('#operatorDosen').addClass('active');
-		} else if (uri == 'perwalian') {
+		} else if (uri == 'perwalian' || uri == 'detailPerwalian') {
 			$('#operatorPerwalian').addClass('active');
 		} else if (uri == 'jadwal') {
 			$('#operatorJadwal').addClass('active');
@@ -970,32 +970,6 @@ if (role == 3) {
 		};
 };
 
-$('#btn-submit-perwalian').click(function(){
-	var values = [];
-	$('#mytable').find('tr').each(function(){
-		var row = $(this);
-		var rows = $(this).closest("tr");
 
-		if (rows.find('input[type="checkbox"]').is(':checked')) {
-			values.push({
-				['mhs'] : $(row).find("input[name=nama_mhs]").val(),
-				['kode'] : $(row).find("input[name=kode_matkul]").val(),
-				['matkul'] : $(row).find("input[name=nama_matkul]").val(),
-				['sks'] : $(row).find("input[name=sks]").val()
-			});
-		};
-	});
-
-	console.log(values);
-	
-	$.ajax({
-		url: baseurl+'operator/detailInputPerwalian',
-		type: 'POST',
-		data: {data: values},
-		success: function(res){
-			console.log('success');
-		}
-	});
-})
 	
 

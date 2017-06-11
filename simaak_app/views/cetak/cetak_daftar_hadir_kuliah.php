@@ -299,7 +299,7 @@ for ($i=0; $i < count($jadwal) ; $i++) {
 ?>
 <tr>
 	<td class="dhk" align="center"><?=$no++?></td>
-	<td class="dhk"><?=$jadwal[$i]['nama_mhs']?></td>
+	<td class="dhk"><?=$jadwal[$i]['nama']?></td>
 	<td class="dhk"><?=$jadwal[$i]['nim']?></td>
 	<td class="dhk"></td>
 	<td class="dhk"></td>

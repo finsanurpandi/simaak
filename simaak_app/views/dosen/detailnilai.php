@@ -49,7 +49,7 @@ foreach ($penilaian as $key => $value) {
 <tr>
   <td><?=$no++?></td>
   <td><?=$value['nim']?></td>
-  <td><?=$value['nama_mhs']?></td>
+  <td><?=$value['nama']?></td>
   <td><strong>
   <?php
   switch ($value['nilai']) {
@@ -121,12 +121,12 @@ if (!empty($jadwal)) {
                   echo "<tr>";
                   echo "<td>".$i++."</td>";
                   echo "<td>".$value['nim']."</td>";
-                  echo "<td>".$value['nama_mhs']."</td>";
+                  echo "<td>".$value['nama']."</td>";
                 ?>
 <td>
 
 <input type="hidden" name="nim[]" value="<?=$value['nim']?>">
-<input type="hidden" name="nama[]" value="<?=$value['nama_mhs']?>">
+<input type="hidden" name="nama[]" value="<?=$value['nama']?>">
 <input type="hidden" name="kode_matkul[]" value="<?=$value['kode_matkul']?>">
 <input type="hidden" name="nama_matkul[]" value="<?=$value['nama_matkul']?>">
 <input type="hidden" name="sks[]" value="<?=$value['sks']?>">
@@ -135,7 +135,7 @@ if (!empty($jadwal)) {
 <input type="hidden" name="kelas[]" value="<?=$value['kelas']?>">
 <input type="hidden" name="id_jadwal[]" value="<?=$value['id_jadwal']?>">
 <input type="hidden" name="semester[]" value="<?=$value['semester']?>">
-<input type="hidden" name="semester_mhs[]" value="<?=$value['semester_mhs']?>">
+<!-- <input type="hidden" name="semester_mhs[]" value="<?=$value['semester_mhs']?>"> -->
 <input type="hidden" name="tahun_ajaran[]" value="<?=$value['tahun_ajaran']?>">
 <input type="hidden" name="kode_prodi[]" value="<?=$value['kode_prodi']?>">
 <label class="radio-inline">

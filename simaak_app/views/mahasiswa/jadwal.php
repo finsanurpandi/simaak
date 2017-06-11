@@ -128,7 +128,7 @@ foreach ($jadwal as $key => $value) {
           <!-- /.box -->
         </div>
 
-<a href="<?=base_url('cetak/cetak_jadwal_kuliah/')?><?=$this->encrypt->encode($this->session->username)?>" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>
+<!-- <a href="<?=base_url('cetak/cetak_jadwal_kuliah/')?><?=$this->encrypt->encode($this->session->username)?>" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a> -->
       
 
     </section>

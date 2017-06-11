@@ -626,8 +626,8 @@ foreach ($dosen_modal as $key => $value) {
         </div>
 
         <div class="form-group">
-            <label for="nidn">Mulai</label>
-            <input class="form-control" type="text" name="waktu" id="waktuMulai" placeholder="hh.mm">
+            <label for="nidn">Waktu</label>
+            <input class="form-control" type="text" name="waktu" id="#waktuMulai" placeholder="hh.mm">
         </div>
 
        <!--  <div class="form-group">
@@ -638,10 +638,11 @@ foreach ($dosen_modal as $key => $value) {
         <div class="form-group">
             <label for="nidn">Ruangan</label>
             <select name="ruangan" class="form-control">
-              <option value="ruangan-1">Ruangan-1</option>
-              <option value="ruangan-2">Ruangan-2</option>
-              <option value="ruangan-3">Ruangan-3</option>
-              <option value="ruangan-4">Ruangan-4</option>
+              <option value="Ruang A">Ruang A</option>
+              <option value="Ruang B">Ruang B</option>
+              <option value="Ruang C">Ruang C</option>
+              <option value="Ruang D">Ruang D</option>
+              <option value="Aula">Aula</option>
             </select>
         </div>
         
@@ -726,10 +727,11 @@ foreach ($dosen_modal as $key => $value) {
         <div class="form-group">
             <label for="nidn">Ruangan</label>
             <select name="ruangan" class="form-control" id="editRuanganJadwal">
-              <option value="ruangan-1">Ruangan-1</option>
-              <option value="ruangan-2">Ruangan-2</option>
-              <option value="ruangan-3">Ruangan-3</option>
-              <option value="ruangan-4">Ruangan-4</option>
+              <option value="Ruang A">Ruang A</option>
+              <option value="Ruang B">Ruang B</option>
+              <option value="Ruang C">Ruang C</option>
+              <option value="Ruang D">Ruang D</option>
+              <option value="Aula">Aula</option>
             </select>
         </div>
         

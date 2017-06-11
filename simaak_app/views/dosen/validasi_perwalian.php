@@ -38,12 +38,12 @@ if (!empty($gelardepan)) {
 
 <strong>NPM</strong>
 <p class="text-muted">
-  <?=$perwalianmhs[0]['nim']?>
+  <?=$mhs[0]['nim']?>
 </p>
 
 <strong>Nama</strong>
 <p class="text-muted">
-  <?=$perwalianmhs[0]['nama']?>
+  <?=$mhs[0]['nama']?>
 </p>
 
 <strong>Status Perwalian</strong>
@@ -87,7 +87,7 @@ if (!empty($gelardepan)) {
 <?php
 if ($statusperwalian[0]['v_dosen'] == 'Menunggu') {
 ?>
-<button id="validasiPerwalianDosen" class="btn btn-success btn-xs" data-toggle="modal" data-target="#validasiModal" data-nim="<?=$perwalianmhs[0]['nim']?>"><i class="fa fa-check"></i> Validasi</button>
+<button id="validasiPerwalianDosen" class="btn btn-success btn-xs" data-toggle="modal" data-target="#validasiModal" data-nim="<?=$mhs[0]['nim']?>"><i class="fa fa-check"></i> Validasi</button>
 <?php } else { ?>
 <button class="btn btn-success btn-xs" disabled="true"><i class="fa fa-check" ></i> Validasi</button>
 <?php } ?>

@@ -46,7 +46,7 @@ Content Wrapper. Contains page content -->
                   echo "<tr>";
                   echo "<td>".$i++."</td>";
                   echo "<td>".$value['nim']."</td>";
-                  echo "<td>".$value['nama_mhs']."</td>";
+                  echo "<td>".$value['nama']."</td>";
 
                   echo "</tr>";
                 }

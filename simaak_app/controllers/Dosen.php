@@ -644,6 +644,7 @@ class Dosen extends CI_Controller {
 		$data['role'] = $this->session->role;
 		$data['perwalianmhs'] = $perwalianmhs;
 		$data['statusperwalian'] = $statusperwalian;
+		$data['mhs'] = $this->m_dosen->getAllData('mhs', array('nim' => $key_nim))->result_array();
 
 		if ($session == TRUE && $this->session->role == 2) {
 			$this->load->view('header', $data);
@@ -690,15 +691,17 @@ class Dosen extends CI_Controller {
 		}
 	}
 
-	function detailmatakuliah($kode_matkul, $nama_matkul, $kelas)
+	function detailmatakuliah($idjadwal, $nama_matkul, $kelas)
 	{
 		$nidn = $this->session->userdata('username');
-		$kode_matkul = $this->encrypt->decode($kode_matkul);
+		// $kode_matkul = $this->encrypt->decode($kode_matkul);
+		$idjadwal = $this->encrypt->decode($idjadwal);
 		$nama_matkul = $this->encrypt->decode($nama_matkul);
 		$kelas = $this->encrypt->decode($kelas);
 		$user_akun = $this->m_dosen->getDosen($nidn);
 		$session = $this->session->userdata('login_in');
-		$jadwal = $this->m_dosen->getAllDataOrder('perwalian', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('log' => 'ASC'));
+		// $jadwal = $this->m_dosen->getAllDataOrder('perwalian', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('log' => 'ASC'));
+		$jadwal = $this->m_dosen->getMhsMatkul($idjadwal);
 
 
 		$data['user'] = $user_akun;
@@ -770,16 +773,17 @@ class Dosen extends CI_Controller {
 		}
 	}
 
-	function detailnilai($kode_matkul, $nama_matkul, $kelas)
+	function detailnilai($idjadwal, $kode_matkul, $nama_matkul, $kelas)
 	{
 		$nidn = $this->session->userdata('username');
-		$kode_matkul = $this->encrypt->decode($kode_matkul);
+		$idjadwal = $this->encrypt->decode($idjadwal);
 		$nama_matkul = $this->encrypt->decode($nama_matkul);
 		$kelas = $this->encrypt->decode($kelas);
 		$user_akun = $this->m_dosen->getDosen($nidn);
 		$session = $this->session->userdata('login_in');
-		$jadwal = $this->m_dosen->getAllDataOrder('perwalian', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('log' => 'ASC'));
+		//$jadwal = $this->m_dosen->getAllDataOrder('perwalian', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('log' => 'ASC'));
 		$penilaian = $this->m_dosen->getAllDataOrder('nilai', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('nim' => 'ASC'));
+		$jadwal = $this->m_dosen->getMhsMatkul($idjadwal);
 
 		$data['user'] = $user_akun;
 		$data['role'] = $this->session->role;

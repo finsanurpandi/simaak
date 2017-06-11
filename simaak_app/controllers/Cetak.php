@@ -109,7 +109,8 @@ class Cetak extends CI_Controller {
 		$kelas = $this->encrypt->decode($e_kelas);
 		$user_akun = $this->m_operator->getDataUser('dosen', array('nidn' => $nidn));
 		$session = $this->session->userdata('login_in');
-		$jadwal = $this->m_operator->getDataOrder('perwalian', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('log' => 'ASC'))->result_array();
+		// $jadwal = $this->m_operator->getDataOrder('perwalian', array('kode_matkul' => $kode_matkul, 'kelas' => $kelas, 'tahun_ajaran' => $this->session->tahun_ajaran), array('log' => 'ASC'))->result_array();
+		$jadwal = $this->m_operator->getMhsMatkul($this->encrypt->decode($e_idjadwal));
 		$ta = substr($this->session->tahun_ajaran, 4);
 		$matkul = $this->m_operator->getDataUser('jadwal', array('id_jadwal' => $this->encrypt->decode($e_idjadwal)));
 

@@ -23,10 +23,12 @@
 <div class="login-box">
   <div class="login-logo">
     <a href="<?=base_url()?>"><b>SIMA</b>Akademik</a>
+    <h3 style="margin-top:-5px;">Fakultas Ekonomi dan Bisnis Islam</h3>
+    <h2 style="margin-top:-10px;">Universitas Suryakancana</h2>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Silahkan login</p>
+    <p class="login-box-msg"><strong>Silahkan login</strong></p>
 
     <?php
   if (@$this->session->flashdata('error') == true) {
@@ -43,7 +45,7 @@
 
     <form action="" method="post">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="User ID" name="username" required>
+        <input type="text" class="form-control" placeholder="Username" name="username" required>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
@@ -66,6 +68,7 @@
       </div>
     </form>
 
+
     <!-- <div class="social-auth-links text-center">
       <p>- OR -</p>
       <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
@@ -75,12 +78,14 @@
     </div> -->
     <!-- /.social-auth-links -->
 
-    <a href="#">Lupa password?</a><br>
+    <!-- <a href="#">Lupa password?</a><br> -->
     <!-- <a href="register.html" class="text-center">Register a new membership</a> -->
 
   </div>
   <!-- /.login-box-body -->
+
 </div>
+
 <!-- /.login-box -->
 
 <!-- jQuery 2.2.3 -->
